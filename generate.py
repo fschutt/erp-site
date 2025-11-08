@@ -466,14 +466,18 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
     
     desc_html = f'<p>{feat_desc}</p>' if feat_desc else ''
     
+    # Create accessible label with all content
+    bullets_text = ' '.join([translate(b, lang_data).replace(':', ' - ') for b in feature.get('bullets', [])])
+    aria_label = f"{feat_title}. {feat_desc} {bullets_text}".strip()
+    
     # Small items (1 column) get gradient background
     card_class = 'has-gradient' if is_small else ''
     card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
     
     return f'''
-        <article class="feature-card {card_class}"{card_style} tabindex="0">
+        <article class="feature-card {card_class}"{card_style} role="region" aria-label="{aria_label}" tabindex="0">
             {media_html}
-            <h3>{feat_title}</h3>
+            <h3 role="heading" aria-level="3">{feat_title}</h3>
             {desc_html}
             {bullets_html}
         </article>'''
@@ -577,16 +581,22 @@ def render_feature_category(category: Dict[str, Any], lang_data: Dict[str, str],
     """Render a single feature category card."""
     cat_title = translate(category['title'], lang_data)
     features_list = []
+    features_text = []
     for feature in category.get('features', []):
-        features_list.append(f'<li>{translate(feature, lang_data)}</li>')
+        feat_text = translate(feature, lang_data)
+        features_list.append(f'<li>{feat_text}</li>')
+        features_text.append(feat_text.replace(':', ' - '))
+    
+    # Create accessible label
+    aria_label = f"{cat_title}. {' '.join(features_text)}"
     
     # Small items (1 column) get gradient background
     card_class = 'has-gradient' if is_small else ''
     card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
     
     return f'''
-        <article class="feature-card {card_class}"{card_style} tabindex="0">
-            <h3>{cat_title}</h3>
+        <article class="feature-card {card_class}"{card_style} role="region" aria-label="{aria_label}" tabindex="0">
+            <h3 role="heading" aria-level="3">{cat_title}</h3>
             <ul>
                 {chr(10).join(features_list)}
             </ul>
@@ -953,6 +963,10 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     page_html = page_html.replace('{{CONTACT_INFO_LABEL}}', translate('contact_info_label', lang_data))
     page_html = page_html.replace('{{CONTACT_PHONE}}', translate('contact_phone', lang_data))
     page_html = page_html.replace('{{CONTACT_EMAIL}}', translate('contact_email', lang_data))
+    page_html = page_html.replace('{{DEMO_URL}}', config.get('demo_url', ''))
+    page_html = page_html.replace('{{CALENDLY_URL}}', config.get('calendly_url', ''))
+    page_html = page_html.replace('{{ONLINE_DEMO}}', translate('online_demo', lang_data))
+    page_html = page_html.replace('{{BOOK_DEMO}}', translate('book_demo', lang_data))
     page_html = page_html.replace('{{PHONE}}', phone)
     page_html = page_html.replace('{{EMAIL}}', email)
     page_html = page_html.replace('{{FOOTER_TEXT}}', translate('footer_text', lang_data))
@@ -1021,10 +1035,16 @@ def main():
                     page_html = page_html.replace('{{NAV_LINKS}}', nav_html)
                     page_html = page_html.replace('{{LANG_SWITCHER}}', lang_switcher_html)
                     page_html = page_html.replace('{{CONTENT}}', blog_post_html)
+                    page_html = page_html.replace('{{CONTACT_INFO_LABEL}}', translate('contact_info_label', lang_data))
+                    page_html = page_html.replace('{{CONTACT_PHONE}}', translate('contact_phone', lang_data))
+                    page_html = page_html.replace('{{CONTACT_EMAIL}}', translate('contact_email', lang_data))
+                    page_html = page_html.replace('{{DEMO_URL}}', config.get('demo_url', ''))
+                    page_html = page_html.replace('{{CALENDLY_URL}}', config.get('calendly_url', ''))
+                    page_html = page_html.replace('{{ONLINE_DEMO}}', translate('online_demo', lang_data))
+                    page_html = page_html.replace('{{BOOK_DEMO}}', translate('book_demo', lang_data))
                     page_html = page_html.replace('{{PHONE}}', phone)
                     page_html = page_html.replace('{{EMAIL}}', email)
-                    page_html = page_html.replace('{{FOOTER}}', translate('footer_text', lang_data))
-                    page_html = page_html.replace('{{CONTACT_INFO_LABEL}}', translate('contact_info_label', lang_data))
+                    page_html = page_html.replace('{{FOOTER_TEXT}}', translate('footer_text', lang_data))
                     
                     (blog_output_dir / f"{post['slug']}.html").write_text(page_html, encoding='utf-8')
     

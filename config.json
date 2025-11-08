@@ -14,7 +14,7 @@
   "google_reviews_count": 127,
   "contact_email": "info@raylay.com",
   "default_language": "en",
-  "default_gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+  "default_gradient": "linear-gradient(135deg, #3d2456 0%, #2a1a3d 100%)",
   "languages": {
     "en": {
       "name": "EN",
@@ -35,7 +35,7 @@
           "enabled": true,
           "title": "hero_title",
           "subtitle": "hero_subtitle",
-          "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "gradient": "linear-gradient(135deg, #3d2456 0%, #2a1a3d 100%)",
           "media_type": "video",
           "media": {
             "en": "/assets/hero-en.mp4",
@@ -191,7 +191,7 @@
           "title": "why_integration_title",
           "content": "why_integration_content",
           "layout": "image-left",
-          "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "background": "linear-gradient(135deg, #3d2456 0%, #2a1a3d 100%)",
           "image": {
             "default": "/assets/integration.jpg",
             "width": "1200",
@@ -216,7 +216,7 @@
           "title": "why_scalability_title",
           "content": "why_scalability_content",
           "layout": "image-left",
-          "background": "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+          "background": "linear-gradient(135deg, #2a1a3d 0%, #3d2456 100%)",
           "image": {
             "default": "/assets/scalability.jpg",
             "width": "1200",
@@ -486,7 +486,7 @@
           "title": "about_mission_title",
           "content": "about_mission_content",
           "layout": "image-left",
-          "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "background": "linear-gradient(135deg, #3d2456 0%, #2a1a3d 100%)",
           "image": {
             "default": "/assets/mission.jpg",
             "width": "1200",
