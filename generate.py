@@ -18,20 +18,22 @@ def get_image_url(section: Dict[str, Any], lang: str) -> str:
     return images if images else ''
 
 def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: str, lang: str) -> str:
+    base_url = config.get('base_url', '')
     links = []
     for page in config['pages']:
         slug = page['slug']
         title = translate(page['nav_title'], lang_data)
         active = 'active' if slug == current_page else ''
-        url = f"/{lang}/{slug}.html" if slug != 'home' else f"/{lang}/"
+        url = f"{base_url}/{lang}/{slug}.html" if slug != 'home' else f"{base_url}/{lang}/"
         links.append(f'<a href="{url}" class="{active}">{title}</a>')
     
     return ' '.join(links)
 
 def render_lang_switcher(config: Dict[str, Any], current_page: str) -> str:
+    base_url = config.get('base_url', '')
     links = []
     for l, ldata in config['languages'].items():
-        url = f"/{l}/{current_page}.html" if current_page != 'home' else f"/{l}/"
+        url = f"{base_url}/{l}/{current_page}.html" if current_page != 'home' else f"{base_url}/{l}/"
         links.append(f'<a href="{url}">{ldata["name"]}</a>')
     return ' | '.join(links)
 
@@ -40,9 +42,28 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     subtitle = translate(section.get('subtitle', ''), lang_data)
     demo_url = config['demo_url']
     phone = config['languages'][lang].get('phone', '')
-    image_url = get_image_url(section, lang)
+    base_url = config.get('base_url', '')
     
-    image_html = f'<img src="{image_url}" alt="{title}" class="hero-image">' if image_url else ''
+    image_config = section.get('image', {})
+    if isinstance(image_config, dict):
+        image_url = image_config.get(lang, image_config.get('default', ''))
+        width = image_config.get('width', '')
+        height = image_config.get('height', '')
+    else:
+        image_url = image_config if image_config else ''
+        width = ''
+        height = ''
+    
+    if image_url and not image_url.startswith('http'):
+        image_url = base_url + image_url
+    
+    size_attrs = ''
+    if width:
+        size_attrs += f' width="{width}"'
+    if height:
+        size_attrs += f' height="{height}"'
+    
+    image_html = f'<img src="{image_url}" alt="{title}" class="hero-image"{size_attrs}>' if image_url else ''
     
     return f'''
     <section class="hero">
@@ -59,13 +80,32 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
         </div>
     </section>'''
 
-def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang: str) -> str:
+def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang: str, config: Dict[str, Any]) -> str:
     title = translate(section['title'], lang_data)
     content = translate(section['content'], lang_data)
-    image_url = get_image_url(section, lang)
     layout = section.get('layout', 'text-only')
+    base_url = config.get('base_url', '')
     
-    image_html = f'<img src="{image_url}" alt="{title}">' if image_url else ''
+    image_config = section.get('image', {})
+    if isinstance(image_config, dict):
+        image_url = image_config.get(lang, image_config.get('default', ''))
+        width = image_config.get('width', '')
+        height = image_config.get('height', '')
+    else:
+        image_url = image_config if image_config else ''
+        width = ''
+        height = ''
+    
+    if image_url and not image_url.startswith('http'):
+        image_url = base_url + image_url
+    
+    size_attrs = ''
+    if width:
+        size_attrs += f' width="{width}"'
+    if height:
+        size_attrs += f' height="{height}"'
+    
+    image_html = f'<img src="{image_url}" alt="{title}"{size_attrs}>' if image_url else ''
     
     if layout == 'image-left' and image_html:
         return f'''
@@ -221,7 +261,7 @@ def render_section(section: Dict[str, Any], lang_data: Dict[str, str], config: D
     if section_type == 'hero':
         return render_hero(section, lang_data, config, lang)
     elif section_type == 'text':
-        return render_text_section(section, lang_data, lang)
+        return render_text_section(section, lang_data, lang, config)
     elif section_type == 'features_grid':
         return render_features_grid(section, lang_data)
     elif section_type == 'feature_categories':
@@ -235,6 +275,7 @@ def render_section(section: Dict[str, Any], lang_data: Dict[str, str], config: D
 
 def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, template: str) -> str:
     lang_data = load_json(f"translations/{lang}.json")
+    base_url = config.get('base_url', '')
     
     sections_html = []
     for section in page.get('sections', []):
@@ -245,6 +286,7 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     
     page_html = template.replace('{{TITLE}}', translate('site_title', lang_data))
     page_html = page_html.replace('{{LANG}}', lang)
+    page_html = page_html.replace('{{BASE_URL}}', base_url)
     page_html = page_html.replace('{{NAV_TITLE}}', translate('site_brand', lang_data))
     page_html = page_html.replace('{{NAV_LINKS}}', nav_html)
     page_html = page_html.replace('{{LANG_SWITCHER}}', lang_switcher_html)

@@ -1,4 +1,5 @@
 {
+  "base_url": "/erp-site",
   "demo_url": "https://demo.raylay.com",
   "contact_email": "info@raylay.com",
   "default_language": "en",
@@ -24,7 +25,9 @@
           "subtitle": "hero_subtitle",
           "image": {
             "en": "/assets/hero-en.jpg",
-            "de": "/assets/hero-de.jpg"
+            "de": "/assets/hero-de.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
