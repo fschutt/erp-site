@@ -108,12 +108,6 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
         url = f"{base_url}/{lang}/{slug}.html" if slug != 'home' else f"{base_url}/{lang}/"
         links.append(f'<a href="{url}" class="{active}" role="menuitem">{title}</a>')
     
-    # Add blog link (internal)
-    blog_title = translate('nav_blog', lang_data)
-    blog_active = 'active' if current_page == 'blog' else ''
-    blog_url = f"{base_url}/{lang}/blog/"
-    links.append(f'<a href="{blog_url}" class="{blog_active}" role="menuitem">{blog_title}</a>')
-    
     # Add docs link (external, language-specific)
     docs_url_config = config.get('docs_url', '#')
     if isinstance(docs_url_config, dict):
