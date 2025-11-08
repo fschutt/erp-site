@@ -1,6 +1,7 @@
 {
   "base_url": "/erp-site",
   "demo_url": "https://demo.raylay.com",
+  "calendly_url": "https://calendly.com/raylay-demo",
   "contact_email": "info@raylay.com",
   "default_language": "en",
   "languages": {
@@ -23,12 +24,23 @@
           "enabled": true,
           "title": "hero_title",
           "subtitle": "hero_subtitle",
-          "image": {
-            "en": "/assets/hero-en.jpg",
-            "de": "/assets/hero-de.jpg",
+          "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "media_type": "video",
+          "media": {
+            "en": "/assets/hero-en.mp4",
+            "de": "/assets/hero-de.mp4",
+            "default": "/assets/hero.mp4",
             "width": "1200",
             "height": "600"
           }
+        },
+        {
+          "type": "google_reviews",
+          "enabled": true,
+          "rating": 4.8,
+          "review_count": 127,
+          "review_url": "https://g.page/r/YOUR_GOOGLE_PLACE_ID/review",
+          "background": "#fafaf9"
         },
         {
           "type": "features_grid",
@@ -36,34 +48,72 @@
           "title": "home_features_title",
           "items": [
             {
-              "icon": "📊",
+              "media": "/assets/crm-feature.jpg",
+              "media_type": "image",
               "title": "feature_crm_title",
-              "description": "feature_crm_desc"
+              "description": "feature_crm_desc",
+              "bullets": [
+                "Complete customer database",
+                "Sales pipeline tracking",
+                "Quote and order management",
+                "E-commerce integration"
+              ]
             },
             {
-              "icon": "💰",
+              "media": "/assets/finance-feature.jpg",
+              "media_type": "image",
               "title": "feature_finance_title",
-              "description": "feature_finance_desc"
+              "description": "feature_finance_desc",
+              "bullets": [
+                "General ledger",
+                "AR/AP management"
+              ]
             },
             {
-              "icon": "📦",
+              "media": "/assets/inventory-feature.jpg",
+              "media_type": "image",
               "title": "feature_inventory_title",
-              "description": "feature_inventory_desc"
+              "description": "feature_inventory_desc",
+              "bullets": [
+                "Real-time stock tracking",
+                "Multi-warehouse support",
+                "Lot and serial tracking",
+                "Automated replenishment"
+              ]
             },
             {
-              "icon": "🏭",
+              "media": "/assets/manufacturing-feature.jpg",
+              "media_type": "image",
               "title": "feature_manufacturing_title",
-              "description": "feature_manufacturing_desc"
+              "description": "feature_manufacturing_desc",
+              "bullets": [
+                "Bill of materials",
+                "Work orders",
+                "Production planning"
+              ]
             },
             {
-              "icon": "👥",
+              "media": "/assets/hr-feature.jpg",
+              "media_type": "image",
               "title": "feature_hr_title",
-              "description": "feature_hr_desc"
+              "description": "feature_hr_desc",
+              "bullets": [
+                "Employee management",
+                "Recruitment tracking",
+                "Leave management",
+                "Performance reviews",
+                "Payroll processing"
+              ]
             },
             {
-              "icon": "🚚",
+              "media": "/assets/logistics-feature.jpg",
+              "media_type": "image",
               "title": "feature_logistics_title",
-              "description": "feature_logistics_desc"
+              "description": "feature_logistics_desc",
+              "bullets": [
+                "Shipment tracking",
+                "Carrier integration"
+              ]
             }
           ]
         }
