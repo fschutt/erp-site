@@ -260,6 +260,10 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     section_id = section.get('title', 'section').replace('_', '-')
     heading_id = f"{section_id}-heading"
     
+    # Check if this is the first content section
+    is_first_content = section.get('is_first_content', False)
+    first_class = ' first-content-section' if is_first_content else ''
+    
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
@@ -293,7 +297,7 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     
     if layout == 'image-left' and image_html:
         return f'''
-    <section class="text-section layout-image-left {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
+    <section class="text-section layout-image-left {bg_class}{first_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <div class="content-grid">
                 <div class="content-image">{image_html}</div>
@@ -306,7 +310,7 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     </section>'''
     elif layout == 'image-right' and image_html:
         return f'''
-    <section class="text-section layout-image-right {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
+    <section class="text-section layout-image-right {bg_class}{first_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <div class="content-grid">
                 <div class="content-text">
@@ -319,7 +323,7 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     </section>'''
     else:
         return f'''
-    <section class="text-section {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
+    <section class="text-section {bg_class}{first_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <h2 id="{heading_id}">{title}</h2>
             <div class="prose">{content}</div>
@@ -331,6 +335,10 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     title = translate(section['title'], lang_data)
     base_url = config.get('base_url', '')
     items_data = section.get('items', [])
+    
+    # Check if this is the first content section
+    is_first_content = section.get('is_first_content', False)
+    first_class = ' first-content-section' if is_first_content else ''
     
     # Get gradient from section, fallback to config default
     gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'))
@@ -423,7 +431,7 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
             items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
     
     return f'''
-    <section class="features-section {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
+    <section class="features-section {bg_class}{first_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <h2 id="{heading_id}">{title}</h2>
             <div class="features-grid {grid_class}" role="list">
@@ -640,6 +648,10 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
     title = translate(section.get('title', ''), lang_data)
     testimonials = []
     
+    # Check if this is the first content section
+    is_first_content = section.get('is_first_content', False)
+    first_class = ' first-content-section' if is_first_content else ''
+    
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
@@ -666,7 +678,7 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
     aria_label = f' aria-labelledby="testimonials-heading" aria-label="{title}"' if title else ' aria-label="Customer testimonials"'
     
     return f'''
-    <section class="testimonials-section {bg_class}"{bg_style} tabindex="0" role="region"{aria_label}>
+    <section class="testimonials-section {bg_class}{first_class}"{bg_style} tabindex="0" role="region"{aria_label}>
         <div class="container">
             {title_html}
             <div class="testimonials-grid" role="list">
@@ -767,6 +779,10 @@ def render_contact_form(section: Dict[str, Any], lang_data: Dict[str, str], conf
     phone = config['languages'][lang].get('phone', '')
     email = config.get('contact_email', '')
     
+    # Check if this is the first content section
+    is_first_content = section.get('is_first_content', False)
+    first_class = ' first-content-section' if is_first_content else ''
+    
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
@@ -777,7 +793,7 @@ def render_contact_form(section: Dict[str, Any], lang_data: Dict[str, str], conf
     subtitle_html = f'<p class="section-subtitle">{subtitle}</p>' if subtitle else ''
     
     return f'''
-    <section class="contact-section {bg_class}"{bg_style} aria-labelledby="contact-heading">
+    <section class="contact-section {bg_class}{first_class}"{bg_style} tabindex="0" role="region" aria-labelledby="contact-heading" aria-label="{title}">
         <div class="container">
             <h2 id="contact-heading">{title}</h2>
             {subtitle_html}
@@ -868,6 +884,10 @@ def render_blog_index(section: Dict[str, Any], lang_data: Dict[str, str], lang: 
     subtitle = translate(section.get('subtitle', ''), lang_data)
     base_url = config.get('base_url', '')
     
+    # Check if this is the first content section
+    is_first_content = section.get('is_first_content', False)
+    first_class = ' first-content-section' if is_first_content else ''
+    
     # Load blog posts for this language
     blog_dir = Path('blog') / lang
     posts = []
@@ -897,7 +917,7 @@ def render_blog_index(section: Dict[str, Any], lang_data: Dict[str, str], lang: 
         posts_html = '<p>No blog posts available yet.</p>'
     
     return f'''
-    <section class="blog-index-section" aria-labelledby="blog-heading">
+    <section class="blog-index-section{first_class}" tabindex="0" role="region" aria-labelledby="blog-heading" aria-label="{title}">
         <div class="container">
             <h1 id="blog-heading">{title}</h1>
             <p class="blog-subtitle">{subtitle}</p>
@@ -974,14 +994,21 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
             has_gradient = bool(first_section.get('gradient', config.get('default_gradient', '')))
     
     sections_html = []
+    first_non_hero_found = False
+    
     for idx, section in enumerate(page.get('sections', [])):
-        # Add gradient only to first non-hero section on pages WITHOUT hero
-        is_first_section = (idx == 0 and section.get('type') != 'hero')
-        if is_first_section and section.get('type') != 'hero':
-            # Clone section dict to avoid modifying original
-            section = dict(section)
-            if 'background' not in section:
+        # Clone section dict to avoid modifying original
+        section = dict(section)
+        
+        # Mark first non-hero section for CSS styling (padding-top, larger title)
+        if not first_non_hero_found and section.get('type') != 'hero':
+            first_non_hero_found = True
+            section['is_first_content'] = True
+            
+            # Add gradient only to first non-hero section if it doesn't have background
+            if 'background' not in section or not section['background']:
                 section['background'] = config.get('default_gradient', 'linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%)')
+        
         sections_html.append(render_section(section, lang_data, config, lang))
     
     nav_html = render_nav(config, lang_data, page['slug'], lang)
