@@ -305,7 +305,7 @@ def main():
     dist.mkdir()
     
     (dist / 'assets').mkdir()
-    shutil.copy('styles.css', dist / 'assets' / 'styles.css')
+    shutil.copy('assets/styles.css', dist / 'assets' / 'styles.css')
     
     for lang in config['languages'].keys():
         lang_dir = dist / lang
