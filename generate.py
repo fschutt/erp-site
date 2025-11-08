@@ -424,23 +424,46 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
     width = feature.get('width', '')
     height = feature.get('height', '')
     
+    media_html = ''
     if media_config:
         if not media_config.startswith('http'):
             media_url = base_url + media_config
         else:
             media_url = media_config
         
-        size_attrs = ''
-        if width:
-            size_attrs += f' width="{width}"'
-        if height:
-            size_attrs += f' height="{height}"'
-        
-        if media_type == 'video':
-            media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline{size_attrs} aria-label="{feat_title}"></video>'
+        # Check if image file exists (for local files)
+        if not media_config.startswith('http'):
+            # Remove leading slash and 'assets/' if present to avoid double path
+            clean_path = media_config.lstrip('/').replace('assets/', '', 1)
+            image_path = Path('assets') / clean_path
+            if not image_path.exists():
+                print(f"Warning: Image not found: {image_path} for feature '{feat_title}' - skipping image")
+                media_html = ''
+            else:
+                size_attrs = ''
+                if width:
+                    size_attrs += f' width="{width}"'
+                if height:
+                    size_attrs += f' height="{height}"'
+                
+                if media_type == 'video':
+                    media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline{size_attrs} aria-label="{feat_title}"></video>'
+                else:
+                    media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}>'
         else:
-            media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}>'
-    else:
+            # External URLs - assume they work
+            size_attrs = ''
+            if width:
+                size_attrs += f' width="{width}"'
+            if height:
+                size_attrs += f' height="{height}"'
+            
+            if media_type == 'video':
+                media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline{size_attrs} aria-label="{feat_title}"></video>'
+            else:
+                media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}>'
+    
+    if not media_html:
         icon = feature.get('icon', '●')
         media_html = f'<div class="feature-icon" aria-hidden="true">{icon}</div>'
     
