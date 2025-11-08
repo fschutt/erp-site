@@ -310,6 +310,23 @@ main {
     align-items: center;
 }
 
+.layout-image-left .content-text {
+    text-align: right;
+}
+
+.layout-image-right .content-text {
+    text-align: left;
+}
+
+.content-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
 .content-image img {
     width: 100%;
     height: auto;
@@ -357,15 +374,16 @@ main {
         row-gap: 80px;
     }
     
-    /* Brick pattern: alternate between 2-1 and 1-2 */
+    /* Create brick pattern by swapping columns on odd rows */
+    /* Row 1: Items 1-2 stay in natural positions (2fr, 1fr) */
+    /* Row 2: Items 3-4 swap positions via grid-column */
     .features-grid.grid-2-1 .feature-card:nth-child(4n+3) {
-        grid-column: 2;
-        grid-row: span 1;
+        grid-column: 2; /* Small item goes to narrow column */
+        grid-row-start: 2;
     }
-    
     .features-grid.grid-2-1 .feature-card:nth-child(4n+4) {
-        grid-column: 1;
-        grid-row: span 1;
+        grid-column: 1; /* Large item goes to wide column */
+        grid-row-start: 2;
     }
 }
 
@@ -853,7 +871,7 @@ footer {
     padding: 48px 0;
     background: white;
     border-top: 1px solid var(--color-border);
-    text-align: center;
+    text-align: left;
     color: var(--color-text-light);
     font-size: 14px;
 }

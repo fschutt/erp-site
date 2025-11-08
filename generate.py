@@ -54,6 +54,17 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
         url = f"{base_url}/{lang}/{slug}.html" if slug != 'home' else f"{base_url}/{lang}/"
         links.append(f'<a href="{url}" class="{active}" role="menuitem">{title}</a>')
     
+    # Add blog link (internal)
+    blog_title = translate('nav_blog', lang_data)
+    blog_active = 'active' if current_page == 'blog' else ''
+    blog_url = f"{base_url}/{lang}/blog/"
+    links.append(f'<a href="{blog_url}" class="{blog_active}" role="menuitem">{blog_title}</a>')
+    
+    # Add docs link (external)
+    docs_url = config.get('docs_url', '#')
+    docs_title = translate('nav_docs', lang_data)
+    links.append(f'<a href="{docs_url}" target="_blank" rel="noopener noreferrer" role="menuitem">{docs_title}</a>')
+    
     return ' '.join(links)
 
 def render_lang_switcher(config: Dict[str, Any], current_page: str) -> str:
@@ -288,13 +299,10 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     for idx, row in enumerate(brick_pattern):
         if row[1] is not None:  # We have both large and small
             large_item, small_item = row
-            # Alternate the order: even rows are large-small, odd rows are small-large
-            if idx % 2 == 0:
-                items.append(render_feature_card(large_item[0], lang_data, base_url, False, gradient))
-                items.append(render_feature_card(small_item[0], lang_data, base_url, True, gradient))
-            else:
-                items.append(render_feature_card(small_item[0], lang_data, base_url, True, gradient))
-                items.append(render_feature_card(large_item[0], lang_data, base_url, False, gradient))
+            # Always render large first, small second
+            # They will flow naturally into 2fr (left) and 1fr (right) columns
+            items.append(render_feature_card(large_item[0], lang_data, base_url, False, gradient))
+            items.append(render_feature_card(small_item[0], lang_data, base_url, True, gradient))
         else:  # Only one item
             items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
     

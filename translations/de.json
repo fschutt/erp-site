@@ -7,6 +7,8 @@
   "nav_why": "Warum Raylay",
   "nav_features": "Funktionen",
   "nav_references": "Referenzen",
+  "nav_blog": "Blog",
+  "nav_docs": "Dokumentation",
   "nav_about": "Über uns",
   "nav_contact": "Kontakt",
   
@@ -41,6 +43,27 @@
   "feature_logistics_title": "Logistik",
   "feature_logistics_desc": "Sendungsverwaltung, Carrier-Integration, Tracking und Fuhrparkverwaltung für vollständige Transparenz.",
   
+  "bullet_customer_database": "Vollständige Kundendatenbank",
+  "bullet_sales_pipeline": "Vertriebspipeline-Tracking",
+  "bullet_quote_order": "Angebots- und Auftragsverwaltung",
+  "bullet_ecommerce_integration": "E-Commerce-Integration",
+  "bullet_general_ledger": "Hauptbuch",
+  "bullet_ar_ap_management": "Debitoren-/Kreditoren-Verwaltung",
+  "bullet_stock_tracking": "Echtzeit-Bestandsverfolgung",
+  "bullet_multi_warehouse": "Multi-Lager-Unterstützung",
+  "bullet_lot_serial": "Chargen- und Seriennummern-Tracking",
+  "bullet_auto_replenishment": "Automatische Nachbestellung",
+  "bullet_bill_of_materials": "Stücklisten",
+  "bullet_work_orders": "Fertigungsaufträge",
+  "bullet_production_planning": "Produktionsplanung",
+  "bullet_employee_mgmt": "Mitarbeiterverwaltung",
+  "bullet_recruitment": "Recruiting-Tracking",
+  "bullet_leave_mgmt": "Abwesenheitsverwaltung",
+  "bullet_performance_reviews": "Performance-Bewertungen",
+  "bullet_payroll_processing": "Lohnabrechnung",
+  "bullet_shipment_tracking": "Sendungsverfolgung",
+  "bullet_carrier_integration": "Carrier-Integration",
+  
   "why_title": "Warum Raylay ERP",
   "why_content": "<p>In einem zunehmend komplexen Geschäftsumfeld benötigen Unternehmen Systeme, die Klarheit schaffen, nicht zusätzliche Komplexität. Raylay ERP wurde von Grund auf entwickelt, um die fundamentalen Herausforderungen des modernen Unternehmensmanagements zu adressieren.</p><p>Im Gegensatz zu Legacy-Systemen, die Unternehmen zwingen, ihre Prozesse an starre Software-Vorgaben anzupassen, bietet Raylay ERP die Flexibilität, Ihre individuellen Workflows zu unterstützen, während gleichzeitig die Integration und Datenkonsistenz gewährleistet wird, die Unternehmen benötigen.</p>",
   
@@ -49,6 +72,12 @@
   
   "why_customization_title": "Konfigurierbar, nicht individuell",
   "why_customization_content": "<p>Raylay ERP bietet umfangreiche Konfigurationsoptionen – benutzerdefinierte Felder, Dokumentennummerierung, UI-Profile, Workflow-Automatisierung – die es Ihnen ermöglichen, das System an Ihr Unternehmen anzupassen, ohne teure Individualentwicklung.</p><p>Konfigurationsänderungen bleiben über Updates hinweg erhalten, sodass Ihre Investition in Setup und Schulung geschützt bleibt, während sich die Plattform weiterentwickelt.</p>",
+  
+  "why_scalability_title": "Skalierbar & Zuverlässig",
+  "why_scalability_content": "<p>Raylay ERP wurde entwickelt, um mit Ihrem Unternehmen zu wachsen – von kleinen Teams bis zu multinationalen Konzernen. Unsere Architektur gewährleistet konstante Performance, auch wenn Ihr Datenvolumen und Ihre Benutzerzahl wachsen.</p><p>Mit hochverfügbaren Infrastrukturen, automatischen Backups und Disaster-Recovery-Optionen können Sie darauf vertrauen, dass Ihre Geschäftsdaten immer verfügbar und geschützt sind.</p>",
+  
+  "why_support_title": "Erstklassiger Support",
+  "why_support_content": "<p>Wir verstehen, dass ein ERP-System geschäftskritisch ist. Deshalb bieten wir umfassenden Support über mehrere Kanäle – E-Mail, Telefon und Web – mit garantierten Antwortzeiten für kritische Probleme.</p><p>Unser Support-Team besteht aus erfahrenen Experten, die nicht nur die Software kennen, sondern auch Geschäftsprozesse verstehen und Ihnen helfen können, Raylay ERP optimal für Ihre spezifischen Anforderungen zu nutzen.</p>",
   
   "features_page_title": "Vollständiger Funktionsumfang",
   "features_page_intro": "<p>Raylay ERP bietet umfassende Funktionalität über alle wichtigen Geschäftsbereiche hinweg. Jede Funktion ist darauf ausgelegt, nahtlos mit den anderen zusammenzuarbeiten und eine integrierte Plattform zu schaffen, die Datensilos und manuelle Prozesse eliminiert.</p>",
@@ -191,6 +220,13 @@
   "contact_subtitle": "Wir würden uns freuen, zu besprechen, wie Raylay ERP die spezifischen Anforderungen Ihrer Organisation unterstützen kann.",
   "contact_phone": "Telefon",
   "contact_email": "E-Mail",
+  
+  "blog_title": "Blog",
+  "blog_subtitle": "Neueste Nachrichten, Updates und Einblicke von Raylay ERP",
+  "blog_read_more": "Weiterlesen",
+  "blog_posted_on": "Veröffentlicht am",
+  "blog_by": "von",
+  "blog_back_to_index": "← Zurück zu allen Beiträgen",
   
   "faq_title": "Häufig gestellte Fragen",
   "faq_q1": "Was ist ein ERP-System?",

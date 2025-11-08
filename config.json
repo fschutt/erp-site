@@ -2,6 +2,7 @@
   "base_url": "/erp-site",
   "demo_url": "https://demo.raylay.com",
   "calendly_url": "https://calendly.com/raylay-demo",
+  "docs_url": "https://docs.raylay.com",
   "contact_email": "info@raylay.com",
   "default_language": "en",
   "default_gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -91,10 +92,10 @@
               "title": "feature_crm_title",
               "description": "feature_crm_desc",
               "bullets": [
-                "Complete customer database",
-                "Sales pipeline tracking",
-                "Quote and order management",
-                "E-commerce integration"
+                "bullet_customer_database",
+                "bullet_sales_pipeline",
+                "bullet_quote_order",
+                "bullet_ecommerce_integration"
               ]
             },
             {
@@ -105,8 +106,8 @@
               "title": "feature_finance_title",
               "description": "feature_finance_desc",
               "bullets": [
-                "General ledger",
-                "AR/AP management"
+                "bullet_general_ledger",
+                "bullet_ar_ap_management"
               ]
             },
             {
@@ -117,10 +118,10 @@
               "title": "feature_inventory_title",
               "description": "feature_inventory_desc",
               "bullets": [
-                "Real-time stock tracking",
-                "Multi-warehouse support",
-                "Lot and serial tracking",
-                "Automated replenishment"
+                "bullet_stock_tracking",
+                "bullet_multi_warehouse",
+                "bullet_lot_serial",
+                "bullet_auto_replenishment"
               ]
             },
             {
@@ -131,9 +132,9 @@
               "title": "feature_manufacturing_title",
               "description": "feature_manufacturing_desc",
               "bullets": [
-                "Bill of materials",
-                "Work orders",
-                "Production planning"
+                "bullet_bill_of_materials",
+                "bullet_work_orders",
+                "bullet_production_planning"
               ]
             },
             {
@@ -144,11 +145,11 @@
               "title": "feature_hr_title",
               "description": "feature_hr_desc",
               "bullets": [
-                "Employee management",
-                "Recruitment tracking",
-                "Leave management",
-                "Performance reviews",
-                "Payroll processing"
+                "bullet_employee_mgmt",
+                "bullet_recruitment",
+                "bullet_leave_mgmt",
+                "bullet_performance_reviews",
+                "bullet_payroll_processing"
               ]
             },
             {
@@ -159,8 +160,8 @@
               "title": "feature_logistics_title",
               "description": "feature_logistics_desc",
               "bullets": [
-                "Shipment tracking",
-                "Carrier integration"
+                "bullet_shipment_tracking",
+                "bullet_carrier_integration"
               ]
             }
           ]
@@ -176,14 +177,18 @@
           "enabled": true,
           "title": "why_title",
           "content": "why_content",
-          "layout": "text-only"
+          "layout": "image-right",
+          "image": {
+            "default": "/assets/why-intro.jpg"
+          }
         },
         {
           "type": "text",
           "enabled": true,
           "title": "why_integration_title",
           "content": "why_integration_content",
-          "layout": "image-right",
+          "layout": "image-left",
+          "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           "image": {
             "default": "/assets/integration.jpg"
           }
@@ -193,9 +198,30 @@
           "enabled": true,
           "title": "why_customization_title",
           "content": "why_customization_content",
-          "layout": "image-left",
+          "layout": "image-right",
           "image": {
             "default": "/assets/customization.jpg"
+          }
+        },
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "why_scalability_title",
+          "content": "why_scalability_content",
+          "layout": "image-left",
+          "background": "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+          "image": {
+            "default": "/assets/scalability.jpg"
+          }
+        },
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "why_support_title",
+          "content": "why_support_content",
+          "layout": "image-right",
+          "image": {
+            "default": "/assets/support.jpg"
           }
         }
       ]
@@ -412,14 +438,18 @@
           "enabled": true,
           "title": "about_title",
           "content": "about_content",
-          "layout": "text-only"
+          "layout": "image-right",
+          "image": {
+            "default": "/assets/about-intro.jpg"
+          }
         },
         {
           "type": "text",
           "enabled": true,
           "title": "about_mission_title",
           "content": "about_mission_content",
-          "layout": "image-right",
+          "layout": "image-left",
+          "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           "image": {
             "default": "/assets/mission.jpg"
           }
@@ -429,7 +459,10 @@
           "enabled": true,
           "title": "about_team_title",
           "content": "about_team_content",
-          "layout": "text-only"
+          "layout": "image-right",
+          "image": {
+            "default": "/assets/team.jpg"
+          }
         }
       ]
     },

@@ -7,6 +7,8 @@
   "nav_why": "Why Raylay",
   "nav_features": "Features",
   "nav_references": "References",
+  "nav_blog": "Blog",
+  "nav_docs": "Documentation",
   "nav_about": "About Us",
   "nav_contact": "Contact",
   
@@ -41,6 +43,27 @@
   "feature_logistics_title": "Logistics",
   "feature_logistics_desc": "Shipment management, carrier integration, tracking, and fleet management for complete visibility.",
   
+  "bullet_customer_database": "Complete customer database",
+  "bullet_sales_pipeline": "Sales pipeline tracking",
+  "bullet_quote_order": "Quote and order management",
+  "bullet_ecommerce_integration": "E-commerce integration",
+  "bullet_general_ledger": "General ledger",
+  "bullet_ar_ap_management": "AR/AP management",
+  "bullet_stock_tracking": "Real-time stock tracking",
+  "bullet_multi_warehouse": "Multi-warehouse support",
+  "bullet_lot_serial": "Lot and serial tracking",
+  "bullet_auto_replenishment": "Automated replenishment",
+  "bullet_bill_of_materials": "Bill of materials",
+  "bullet_work_orders": "Work orders",
+  "bullet_production_planning": "Production planning",
+  "bullet_employee_mgmt": "Employee management",
+  "bullet_recruitment": "Recruitment tracking",
+  "bullet_leave_mgmt": "Leave management",
+  "bullet_performance_reviews": "Performance reviews",
+  "bullet_payroll_processing": "Payroll processing",
+  "bullet_shipment_tracking": "Shipment tracking",
+  "bullet_carrier_integration": "Carrier integration",
+  
   "why_title": "Why Raylay ERP",
   "why_content": "<p>In an increasingly complex business environment, organizations need systems that provide clarity, not additional complexity. Raylay ERP was designed from the ground up to address the fundamental challenges of modern enterprise management.</p><p>Unlike legacy systems that force businesses to adapt their processes to rigid software constraints, Raylay ERP provides the flexibility to support your unique workflows while maintaining the integration and data consistency that enterprise operations demand.</p>",
   
@@ -49,6 +72,12 @@
   
   "why_customization_title": "Configurable, Not Custom",
   "why_customization_content": "<p>Raylay ERP provides extensive configuration options—custom fields, document numbering, UI profiles, workflow automation—that allow you to adapt the system to your business without expensive custom development.</p><p>Configuration changes are preserved across updates, ensuring your investment in setup and training remains protected as the platform evolves.</p>",
+  
+  "why_scalability_title": "Scalable & Reliable",
+  "why_scalability_content": "<p>Raylay ERP is designed to grow with your business—from small teams to multinational enterprises. Our architecture ensures consistent performance even as your data volume and user count increase.</p><p>With high-availability infrastructure, automatic backups, and disaster recovery options, you can trust that your business data is always accessible and protected.</p>",
+  
+  "why_support_title": "Best-in-Class Support",
+  "why_support_content": "<p>We understand that an ERP system is business-critical. That's why we provide comprehensive support across multiple channels—email, phone, and web—with guaranteed response times for critical issues.</p><p>Our support team consists of experienced experts who not only know the software but understand business processes and can help you leverage Raylay ERP optimally for your specific requirements.</p>",
   
   "features_page_title": "Complete Feature Set",
   "features_page_intro": "<p>Raylay ERP provides comprehensive functionality across all major business domains. Each feature is designed to work seamlessly with the others, creating an integrated platform that eliminates data silos and manual processes.</p>",
@@ -190,7 +219,14 @@
   "contact_title": "Contact Us",
   "contact_subtitle": "We would be pleased to discuss how Raylay ERP can support your organization's specific requirements.",
   "contact_phone": "Phone",
-  "contact_email": "Email",
+  "contact_email": "E-mail",
+  
+  "blog_title": "Blog",
+  "blog_subtitle": "Latest news, updates, and insights from Raylay ERP",
+  "blog_read_more": "Read more",
+  "blog_posted_on": "Posted on",
+  "blog_by": "by",
+  "blog_back_to_index": "← Back to all posts",
   
   "faq_title": "Frequently Asked Questions",
   "faq_q1": "What is an ERP system?",
