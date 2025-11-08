@@ -79,7 +79,7 @@ main {
 .navbar {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.8);
     position: fixed;
     top: 20px;
     left: 50%;
@@ -87,8 +87,8 @@ main {
     width: calc(100% - 80px);
     max-width: 1200px;
     z-index: 100;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(80%);
+    -webkit-backdrop-filter: blur(20px) saturate(80%);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
@@ -130,7 +130,7 @@ main {
 
 .nav-links {
     display: flex;
-    gap: 24px;
+    gap: 8px;
 }
 
 .nav-links a {
@@ -140,7 +140,7 @@ main {
     font-weight: 600;
     transition: all 0.2s ease;
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 8px 12px;
     border-radius: 8px;
 }
 
@@ -237,20 +237,7 @@ main {
     margin: 0 auto;
 }
 
-.foam-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../assets/foam.svg');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.5;
-    z-index: 0;
-    pointer-events: none;
-    transform: scale(2);
-}
+/* Foam SVG is now loaded inline with its own style attribute */
 
 .hero-image, .hero-video {
     width: 100%;
@@ -390,6 +377,14 @@ main {
     position: relative;
 }
 
+/* First section on page (when not hero) needs extra padding for floating navbar */
+main > .text-section:first-child,
+main > .features-section:first-child,
+main > .testimonials-section:first-child,
+main > .blog-index-section:first-child {
+    padding-top: 160px;
+}
+
 .section-has-background {
     border-bottom: none;
 }
@@ -489,6 +484,11 @@ main {
     position: relative;
 }
 
+/* First section on page needs extra padding for floating navbar */
+main > .features-section:first-child {
+    padding-top: 160px;
+}
+
 .features-section.has-gradient {
     color: white;
     border-bottom: none;
@@ -500,7 +500,7 @@ main {
 
 .features-section h2 {
     font-family: var(--font-serif);
-    font-size: 64px;
+    font-size: 56px;
     font-weight: bold;
     letter-spacing: -0.02em;
     margin-bottom: 64px;
@@ -591,7 +591,7 @@ main {
 
 .feature-card h3 {
     font-family: var(--font-serif);
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 600;
     margin-bottom: 16px;
     letter-spacing: -0.01em;
@@ -757,7 +757,7 @@ main {
 
 .testimonials-section h2 {
     font-family: var(--font-serif);
-    font-size: 64px;
+    font-size: 56px;
     font-weight: bold;
     letter-spacing: -0.02em;
     margin-bottom: 56px;
@@ -878,7 +878,7 @@ main {
 
 .faq-section h2 {
     font-family: var(--font-serif);
-    font-size: 64px;
+    font-size: 56px;
     font-weight: bold;
     letter-spacing: -0.02em;
     margin-bottom: 48px;
@@ -991,7 +991,7 @@ main {
 
 .cta-section h2 {
     font-family: var(--font-serif);
-    font-size: 56px;
+    font-size: 48px;
     font-weight: bold;
     letter-spacing: -0.02em;
     margin-bottom: 20px;
@@ -1091,8 +1091,8 @@ main {
     bottom: 24px;
     right: 24px;
     background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(80%);
+    -webkit-backdrop-filter: blur(20px) saturate(80%);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
     padding: 20px 24px;
@@ -1246,7 +1246,7 @@ footer {
 
 .blog-index-section h1 {
     font-family: var(--font-serif);
-    font-size: 64px;
+    font-size: 56px;
     font-weight: 700;
     margin-bottom: 16px;
 }
@@ -1335,7 +1335,7 @@ footer {
 
 .blog-post-header h1 {
     font-family: var(--font-serif);
-    font-size: 64px;
+    font-size: 56px;
     font-weight: 700;
     margin-bottom: 16px;
 }

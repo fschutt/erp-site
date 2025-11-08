@@ -10,6 +10,19 @@ def load_json(path: str) -> Dict[str, Any]:
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
+def load_foam_svg() -> str:
+    """Load foam.svg content for inline use"""
+    foam_path = Path('assets/foam.svg')
+    if foam_path.exists():
+        with open(foam_path, 'r', encoding='utf-8') as f:
+            svg_content = f.read()
+            # Remove XML declaration and adjust style for inline use
+            svg_content = svg_content.replace('<?xml version="1.0" encoding="utf-8"?>', '')
+            svg_content = svg_content.replace('style="margin: auto; background: none; display: block; z-index: 1; position: relative; shape-rendering: auto;"', 
+                                             'style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.5; transform: scale(2); pointer-events: none;"')
+            return svg_content
+    return ''
+
 def simple_markdown_to_html(md_text: str) -> str:
     """Convert basic markdown to HTML"""
     html = md_text
@@ -164,17 +177,20 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     if height:
         size_attrs += f' height="{height}"'
     
+    # Load foam SVG inline
+    foam_svg = load_foam_svg()
+    
     # Generate media HTML (image or video with foam.svg behind)
     media_html = ''
     if media_url:
         if media_type == 'video':
             media_html = f'''<div class="hero-image-wrapper">
-                <div class="foam-background"></div>
+                {foam_svg}
                 <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs} aria-label="{title}"></video>
             </div>'''
         else:
             media_html = f'''<div class="hero-image-wrapper">
-                <div class="foam-background"></div>
+                {foam_svg}
                 <img src="{media_url}" alt="{title}" class="hero-image"{size_attrs}>
             </div>'''
     
@@ -463,9 +479,7 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
             else:
                 media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}>'
     
-    if not media_html:
-        icon = feature.get('icon', '●')
-        media_html = f'<div class="feature-icon" aria-hidden="true">{icon}</div>'
+    # Don't show icon fallback - just leave empty if no media
     
     # Render bullets if present
     bullet_count = len(feature.get('bullets', []))
@@ -956,7 +970,15 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
             has_gradient = bool(first_section.get('gradient', config.get('default_gradient', '')))
     
     sections_html = []
-    for section in page.get('sections', []):
+    for idx, section in enumerate(page.get('sections', [])):
+        # Add gradient to first non-hero section
+        is_first_section = (idx == 0 and section.get('type') != 'hero') or \
+                          (idx == 1 and page.get('sections', [])[0].get('type') == 'hero')
+        if is_first_section and section.get('type') != 'hero':
+            # Clone section dict to avoid modifying original
+            section = dict(section)
+            if 'background' not in section:
+                section['background'] = config.get('default_gradient', 'linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%)')
         sections_html.append(render_section(section, lang_data, config, lang))
     
     nav_html = render_nav(config, lang_data, page['slug'], lang)
