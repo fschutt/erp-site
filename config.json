@@ -2,7 +2,10 @@
   "base_url": "/erp-site",
   "demo_url": "https://demo.raylay.com",
   "calendly_url": "https://calendly.com/raylay-demo",
-  "docs_url": "https://docs.raylay.com",
+  "docs_url": {
+    "en": "https://docs.raylay.com/en",
+    "de": "https://docs.raylay.com/de"
+  },
   "contact_email": "info@raylay.com",
   "default_language": "en",
   "default_gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -43,41 +46,6 @@
           "review_count": 127,
           "review_url": "https://g.page/r/YOUR_GOOGLE_PLACE_ID/review",
           "background": "#fafaf9"
-        },
-        {
-          "type": "faq",
-          "enabled": true,
-          "title": "faq_title",
-          "items": [
-            {
-              "question": "faq_q1",
-              "answer": "faq_a1"
-            },
-            {
-              "question": "faq_q2",
-              "answer": "faq_a2"
-            },
-            {
-              "question": "faq_q3",
-              "answer": "faq_a3"
-            },
-            {
-              "question": "faq_q4",
-              "answer": "faq_a4"
-            },
-            {
-              "question": "faq_q5",
-              "answer": "faq_a5"
-            },
-            {
-              "question": "faq_q6",
-              "answer": "faq_a6"
-            },
-            {
-              "question": "faq_q7",
-              "answer": "faq_a7"
-            }
-          ]
         },
         {
           "type": "features_grid",
@@ -163,6 +131,41 @@
                 "bullet_shipment_tracking",
                 "bullet_carrier_integration"
               ]
+            }
+          ]
+        },
+        {
+          "type": "faq",
+          "enabled": true,
+          "title": "faq_title",
+          "items": [
+            {
+              "question": "faq_q1",
+              "answer": "faq_a1"
+            },
+            {
+              "question": "faq_q2",
+              "answer": "faq_a2"
+            },
+            {
+              "question": "faq_q3",
+              "answer": "faq_a3"
+            },
+            {
+              "question": "faq_q4",
+              "answer": "faq_a4"
+            },
+            {
+              "question": "faq_q5",
+              "answer": "faq_a5"
+            },
+            {
+              "question": "faq_q6",
+              "answer": "faq_a6"
+            },
+            {
+              "question": "faq_q7",
+              "answer": "faq_a7"
             }
           ]
         }
@@ -434,6 +437,12 @@
       "nav_title": "nav_about",
       "sections": [
         {
+          "type": "contact",
+          "enabled": true,
+          "title": "contact_title",
+          "subtitle": "contact_subtitle"
+        },
+        {
           "type": "text",
           "enabled": true,
           "title": "about_title",
@@ -463,18 +472,6 @@
           "image": {
             "default": "/assets/team.jpg"
           }
-        }
-      ]
-    },
-    {
-      "slug": "contact",
-      "nav_title": "nav_contact",
-      "sections": [
-        {
-          "type": "contact",
-          "enabled": true,
-          "title": "contact_title",
-          "subtitle": "contact_subtitle"
         }
       ]
     }

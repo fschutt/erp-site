@@ -49,6 +49,9 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
     links = []
     for page in config['pages']:
         slug = page['slug']
+        # Skip "home" nav item when we're on the home page
+        if slug == 'home' and current_page == 'home':
+            continue
         title = translate(page['nav_title'], lang_data)
         active = 'active' if slug == current_page else ''
         url = f"{base_url}/{lang}/{slug}.html" if slug != 'home' else f"{base_url}/{lang}/"
@@ -60,8 +63,12 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
     blog_url = f"{base_url}/{lang}/blog/"
     links.append(f'<a href="{blog_url}" class="{blog_active}" role="menuitem">{blog_title}</a>')
     
-    # Add docs link (external)
-    docs_url = config.get('docs_url', '#')
+    # Add docs link (external, language-specific)
+    docs_url_config = config.get('docs_url', '#')
+    if isinstance(docs_url_config, dict):
+        docs_url = docs_url_config.get(lang, docs_url_config.get('en', '#'))
+    else:
+        docs_url = docs_url_config
     docs_title = translate('nav_docs', lang_data)
     links.append(f'<a href="{docs_url}" target="_blank" rel="noopener noreferrer" role="menuitem">{docs_title}</a>')
     
@@ -117,16 +124,18 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     if style_attrs:
         style_attrs = f' style="{style_attrs}"'
     
-    # Generate media HTML (image or video with foam.svg background)
+    # Generate media HTML (image or video with foam.svg overlay)
     media_html = ''
     if media_url:
         if media_type == 'video':
             media_html = f'''<div class="hero-image-wrapper"{style_attrs}>
                 <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs} aria-label="{title}"></video>
+                <div class="foam-overlay"></div>
             </div>'''
         else:
             media_html = f'''<div class="hero-image-wrapper"{style_attrs}>
                 <img src="{media_url}" alt="{title}" class="hero-image"{size_attrs}>
+                <div class="foam-overlay"></div>
             </div>'''
     
     # Generate CTA buttons
@@ -134,8 +143,6 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     
     if calendly_url:
         cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
-    
-    cta_buttons += f'<a href="tel:{phone}" class="btn btn-secondary">{translate("contact_sales", lang_data)}</a>'
     
     return f'''
     <section class="hero{gradient_class}"{gradient_style} aria-label="Hero section">
