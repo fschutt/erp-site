@@ -288,14 +288,17 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     
     image_html = f'<img src="{image_url}" alt="{title}"{size_attrs}>' if image_url else ''
     
+    # Create aria-describedby from content preview (first 200 chars)
+    content_preview = content.replace('<p>', '').replace('</p>', ' ').strip()[:200]
+    
     if layout == 'image-left' and image_html:
         return f'''
-    <section class="text-section layout-image-left {bg_class}"{bg_style} aria-labelledby="{heading_id}">
+    <section class="text-section layout-image-left {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <div class="content-grid">
                 <div class="content-image">{image_html}</div>
                 <div class="content-text">
-                    <h2 id="{heading_id}" tabindex="0" role="heading" aria-level="2">{title}</h2>
+                    <h2 id="{heading_id}">{title}</h2>
                     <div class="prose">{content}</div>
                 </div>
             </div>
@@ -303,11 +306,11 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     </section>'''
     elif layout == 'image-right' and image_html:
         return f'''
-    <section class="text-section layout-image-right {bg_class}"{bg_style} aria-labelledby="{heading_id}">
+    <section class="text-section layout-image-right {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <div class="content-grid">
                 <div class="content-text">
-                    <h2 id="{heading_id}" tabindex="0" role="heading" aria-level="2">{title}</h2>
+                    <h2 id="{heading_id}">{title}</h2>
                     <div class="prose">{content}</div>
                 </div>
                 <div class="content-image">{image_html}</div>
@@ -316,9 +319,9 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     </section>'''
     else:
         return f'''
-    <section class="text-section {bg_class}"{bg_style} aria-labelledby="{heading_id}">
+    <section class="text-section {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
-            <h2 id="{heading_id}" tabindex="0" role="heading" aria-level="2">{title}</h2>
+            <h2 id="{heading_id}">{title}</h2>
             <div class="prose">{content}</div>
             {f'<div class="section-image">{image_html}</div>' if image_html else ''}
         </div>
@@ -420,10 +423,10 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
             items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
     
     return f'''
-    <section class="features-section {bg_class}"{bg_style} aria-labelledby="{heading_id}">
+    <section class="features-section {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <h2 id="{heading_id}">{title}</h2>
-            <div class="features-grid {grid_class}">
+            <div class="features-grid {grid_class}" role="list">
                 {chr(10).join(items)}
             </div>
         </div>
@@ -650,8 +653,9 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
         company = translate(testimonial.get('company', ''), lang_data)
         
         author_line = f"{author}, {company}" if company else author
+        # Add tabindex and aria-label for each testimonial
         testimonials.append(f'''
-        <article class="testimonial-card">
+        <article class="testimonial-card" tabindex="0" role="article" aria-label="Testimonial from {author_line}">
             <blockquote>
                 <p>"{quote}"</p>
                 <footer> -  {author_line}</footer>
@@ -659,13 +663,13 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
         </article>''')
     
     title_html = f'<h2 id="testimonials-heading">{title}</h2>' if title else ''
-    aria_label = ' aria-labelledby="testimonials-heading"' if title else ' aria-label="Customer testimonials"'
+    aria_label = f' aria-labelledby="testimonials-heading" aria-label="{title}"' if title else ' aria-label="Customer testimonials"'
     
     return f'''
-    <section class="testimonials-section {bg_class}"{bg_style}{aria_label}>
+    <section class="testimonials-section {bg_class}"{bg_style} tabindex="0" role="region"{aria_label}>
         <div class="container">
             {title_html}
-            <div class="testimonials-grid">
+            <div class="testimonials-grid" role="list">
                 {chr(10).join(testimonials)}
             </div>
         </div>
@@ -736,22 +740,22 @@ def render_faq(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
         answer_id = f"faq-answer-{idx}"
         
         faq_items.append(f'''
-        <div class="faq-item" id="{item_id}">
+        <div class="faq-item" id="{item_id}" tabindex="0" role="article">
             <h3>
-                <button class="faq-question" onclick="this.parentElement.parentElement.classList.toggle('active'); this.setAttribute('aria-expanded', this.parentElement.parentElement.classList.contains('active'));" aria-expanded="false" aria-controls="{answer_id}">
+                <button class="faq-question" onclick="this.parentElement.parentElement.classList.toggle('active'); this.setAttribute('aria-expanded', this.parentElement.parentElement.classList.contains('active'));" aria-expanded="false" aria-controls="{answer_id}" aria-label="{question}">
                     {question}
                 </button>
             </h3>
-            <div class="faq-answer" id="{answer_id}">
+            <div class="faq-answer" id="{answer_id}" role="region" aria-label="Answer to {question}">
                 <p>{answer}</p>
             </div>
         </div>''')
     
     return f'''
-    <section class="faq-section {bg_class}"{bg_style} aria-labelledby="faq-heading">
+    <section class="faq-section {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="faq-heading" aria-label="{title}">
         <div class="container">
             <h2 id="faq-heading">{title}</h2>
-            <div class="faq-list">
+            <div class="faq-list" role="list">
                 {chr(10).join(faq_items)}
             </div>
         </div>
@@ -810,7 +814,7 @@ def render_cta_section(section: Dict[str, Any], lang_data: Dict[str, str], confi
         cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
     
     return f'''
-    <section class="cta-section {bg_class}"{bg_style} aria-labelledby="cta-heading">
+    <section class="cta-section {bg_class}"{bg_style} tabindex="0" role="region" aria-labelledby="cta-heading" aria-label="{title}">
         <div class="container">
             <h2 id="cta-heading">{title}</h2>
             {subtitle_html}
@@ -971,9 +975,8 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     
     sections_html = []
     for idx, section in enumerate(page.get('sections', [])):
-        # Add gradient to first non-hero section
-        is_first_section = (idx == 0 and section.get('type') != 'hero') or \
-                          (idx == 1 and page.get('sections', [])[0].get('type') == 'hero')
+        # Add gradient only to first non-hero section on pages WITHOUT hero
+        is_first_section = (idx == 0 and section.get('type') != 'hero')
         if is_first_section and section.get('type') != 'hero':
             # Clone section dict to avoid modifying original
             section = dict(section)

@@ -53,6 +53,20 @@ button:focus {
     outline-offset: 2px;
 }
 
+/* Section focus for keyboard navigation */
+section:focus {
+    outline: 3px solid var(--focus-color);
+    outline-offset: -3px;
+}
+
+/* Card focus for keyboard navigation */
+.feature-card:focus,
+.testimonial-card:focus,
+.faq-item:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
 body {
     font-family: var(--font-sans);
     font-size: 16px;
@@ -97,8 +111,8 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
 .nav-brand-link {
@@ -162,20 +176,31 @@ main {
 
 .lang-switcher {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     border-left: 1px solid var(--color-border);
-    padding-left: 24px;
+    padding-left: 16px;
+    display: flex;
+    gap: 8px;
 }
 
 .lang-switcher a {
     color: var(--color-text-light);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
     cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
 }
 
 .lang-switcher a:hover {
     color: var(--color-accent);
+    background: rgba(61, 36, 86, 0.05);
+    transform: translateY(-2px);
+}
+
+.lang-switcher a:active {
+    transform: translateY(0);
+    background: rgba(61, 36, 86, 0.1);
 }
 
 /* Hero */
@@ -382,7 +407,14 @@ main > .text-section:first-child,
 main > .features-section:first-child,
 main > .testimonials-section:first-child,
 main > .blog-index-section:first-child {
-    padding-top: 160px;
+    padding-top: 200px;
+}
+
+/* First section title should be larger than other sections */
+main > .text-section:first-child h2,
+main > .features-section:first-child h2,
+main > .testimonials-section:first-child h2 {
+    font-size: 64px;
 }
 
 .section-has-background {
@@ -486,7 +518,7 @@ main > .blog-index-section:first-child {
 
 /* First section on page needs extra padding for floating navbar */
 main > .features-section:first-child {
-    padding-top: 160px;
+    padding-top: 200px;
 }
 
 .features-section.has-gradient {
@@ -753,6 +785,7 @@ main > .features-section:first-child {
     background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
     position: relative;
+    perspective: 1000px;
 }
 
 .testimonials-section h2 {
@@ -765,31 +798,54 @@ main > .features-section:first-child {
 }
 
 .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 48px;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .testimonial-card {
-    background: white;
-    padding: 40px;
-    border: 1px solid var(--color-border);
-    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px) saturate(80%);
+    -webkit-backdrop-filter: blur(20px) saturate(80%);
+    padding: 32px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    min-width: 400px;
+    max-width: 500px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    transform: rotateY(-2deg) rotateX(1deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:nth-child(even) {
+    transform: rotateY(2deg) rotateX(-1deg);
+}
+
+.testimonial-card:hover {
+    transform: rotateY(0deg) rotateX(0deg) translateY(-4px);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
 }
 
 .testimonial-card blockquote p {
-    font-family: var(--font-serif);
-    font-size: 20px;
+    font-family: var(--font-sans);
+    font-size: 17px;
     line-height: 1.6;
     color: var(--color-text);
     margin-bottom: 20px;
-    font-style: italic;
+    font-style: normal;
     text-align: left;
 }
 
 .testimonial-card footer {
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--color-text-light);
     font-style: normal;
     text-align: left;
