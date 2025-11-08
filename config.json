@@ -1,0 +1,348 @@
+{
+  "demo_url": "https://demo.raylay.com",
+  "contact_email": "info@raylay.com",
+  "default_language": "en",
+  "languages": {
+    "en": {
+      "name": "EN",
+      "phone": "+1-555-0123"
+    },
+    "de": {
+      "name": "DE",
+      "phone": "+49-621-123456"
+    }
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "nav_title": "nav_home",
+      "sections": [
+        {
+          "type": "hero",
+          "enabled": true,
+          "title": "hero_title",
+          "subtitle": "hero_subtitle",
+          "image": {
+            "en": "/assets/hero-en.jpg",
+            "de": "/assets/hero-de.jpg"
+          }
+        },
+        {
+          "type": "features_grid",
+          "enabled": true,
+          "title": "home_features_title",
+          "items": [
+            {
+              "icon": "📊",
+              "title": "feature_crm_title",
+              "description": "feature_crm_desc"
+            },
+            {
+              "icon": "💰",
+              "title": "feature_finance_title",
+              "description": "feature_finance_desc"
+            },
+            {
+              "icon": "📦",
+              "title": "feature_inventory_title",
+              "description": "feature_inventory_desc"
+            },
+            {
+              "icon": "🏭",
+              "title": "feature_manufacturing_title",
+              "description": "feature_manufacturing_desc"
+            },
+            {
+              "icon": "👥",
+              "title": "feature_hr_title",
+              "description": "feature_hr_desc"
+            },
+            {
+              "icon": "🚚",
+              "title": "feature_logistics_title",
+              "description": "feature_logistics_desc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "why",
+      "nav_title": "nav_why",
+      "sections": [
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "why_title",
+          "content": "why_content",
+          "layout": "text-only"
+        },
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "why_integration_title",
+          "content": "why_integration_content",
+          "layout": "image-right",
+          "image": {
+            "default": "/assets/integration.jpg"
+          }
+        },
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "why_customization_title",
+          "content": "why_customization_content",
+          "layout": "image-left",
+          "image": {
+            "default": "/assets/customization.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "features",
+      "nav_title": "nav_features",
+      "sections": [
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "features_page_title",
+          "content": "features_page_intro",
+          "layout": "text-only"
+        },
+        {
+          "type": "feature_categories",
+          "enabled": true,
+          "title": "features_comprehensive_title",
+          "categories": [
+            {
+              "title": "cat_sales_crm",
+              "features": [
+                "feat_customer_lead_mgmt",
+                "feat_contact_address",
+                "feat_sales_pipeline",
+                "feat_quotes_proposals",
+                "feat_order_management",
+                "feat_customer_invoicing",
+                "feat_discounts_promotions",
+                "feat_activity_tracking",
+                "feat_ecommerce_integration",
+                "feat_point_of_sale",
+                "feat_warranty_asset"
+              ]
+            },
+            {
+              "title": "cat_financial_accounting",
+              "features": [
+                "feat_general_ledger",
+                "feat_accounts_receivable",
+                "feat_customer_payments",
+                "feat_credit_notes",
+                "feat_dunning_collections",
+                "feat_ar_aging",
+                "feat_accounts_payable",
+                "feat_supplier_invoices",
+                "feat_payment_processing",
+                "feat_ap_aging",
+                "feat_financial_reporting",
+                "feat_budgeting",
+                "feat_tax_management",
+                "feat_multi_company",
+                "feat_banking_reconciliation"
+              ]
+            },
+            {
+              "title": "cat_fixed_asset",
+              "features": [
+                "feat_asset_registry",
+                "feat_depreciation",
+                "feat_asset_maintenance"
+              ]
+            },
+            {
+              "title": "cat_inventory_warehouse",
+              "features": [
+                "feat_product_catalog",
+                "feat_stock_level_tracking",
+                "feat_warehouse_operations",
+                "feat_lot_serial_tracking",
+                "feat_stocktaking",
+                "feat_landed_costs"
+              ]
+            },
+            {
+              "title": "cat_procurement",
+              "features": [
+                "feat_supplier_database",
+                "feat_purchase_orders",
+                "feat_purchase_requisitions"
+              ]
+            },
+            {
+              "title": "cat_manufacturing",
+              "features": [
+                "feat_bill_of_materials",
+                "feat_work_orders",
+                "feat_production_control",
+                "feat_mrp",
+                "feat_work_centers_routings"
+              ]
+            },
+            {
+              "title": "cat_human_resources",
+              "features": [
+                "feat_employee_directory",
+                "feat_org_management",
+                "feat_contract_management",
+                "feat_absence_leave",
+                "feat_recruitment_ats",
+                "feat_performance_management",
+                "feat_payroll",
+                "feat_employee_self_service"
+              ]
+            },
+            {
+              "title": "cat_project_management",
+              "features": [
+                "feat_project_planning",
+                "feat_task_management",
+                "feat_time_tracking"
+              ]
+            },
+            {
+              "title": "cat_logistics_supply",
+              "features": [
+                "feat_carrier_management",
+                "feat_shipment_management",
+                "feat_shipment_tracking",
+                "feat_fleet_field_service"
+              ]
+            },
+            {
+              "title": "cat_quality_returns",
+              "features": [
+                "feat_quality_control",
+                "feat_return_management"
+              ]
+            },
+            {
+              "title": "cat_subscription_billing",
+              "features": [
+                "feat_subscription_plan_mgmt",
+                "feat_recurring_billing",
+                "feat_usage_based_billing",
+                "feat_revenue_reporting"
+              ]
+            },
+            {
+              "title": "cat_collaboration",
+              "features": [
+                "feat_unified_inbox",
+                "feat_notifications"
+              ]
+            },
+            {
+              "title": "cat_support_helpdesk",
+              "features": [
+                "feat_ticket_management",
+                "feat_sla"
+              ]
+            },
+            {
+              "title": "cat_system_admin",
+              "features": [
+                "feat_user_role_management",
+                "feat_security",
+                "feat_ui_customization",
+                "feat_customization",
+                "feat_document_templates",
+                "feat_data_import",
+                "feat_document_management",
+                "feat_global_search",
+                "feat_integrations",
+                "feat_audit_trail"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "references",
+      "nav_title": "nav_references",
+      "sections": [
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "references_title",
+          "content": "references_intro",
+          "layout": "text-only"
+        },
+        {
+          "type": "testimonials",
+          "enabled": true,
+          "title": "testimonials_title",
+          "items": [
+            {
+              "quote": "testimonial_1_quote",
+              "author": "testimonial_1_author",
+              "company": "testimonial_1_company"
+            },
+            {
+              "quote": "testimonial_2_quote",
+              "author": "testimonial_2_author",
+              "company": "testimonial_2_company"
+            },
+            {
+              "quote": "testimonial_3_quote",
+              "author": "testimonial_3_author",
+              "company": "testimonial_3_company"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "about",
+      "nav_title": "nav_about",
+      "sections": [
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "about_title",
+          "content": "about_content",
+          "layout": "text-only"
+        },
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "about_mission_title",
+          "content": "about_mission_content",
+          "layout": "image-right",
+          "image": {
+            "default": "/assets/mission.jpg"
+          }
+        },
+        {
+          "type": "text",
+          "enabled": true,
+          "title": "about_team_title",
+          "content": "about_team_content",
+          "layout": "text-only"
+        }
+      ]
+    },
+    {
+      "slug": "contact",
+      "nav_title": "nav_contact",
+      "sections": [
+        {
+          "type": "contact",
+          "enabled": true,
+          "title": "contact_title",
+          "subtitle": "contact_subtitle"
+        }
+      ]
+    }
+  ]
+}
