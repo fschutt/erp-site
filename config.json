@@ -6,6 +6,12 @@
     "en": "https://docs.raylay.com/en",
     "de": "https://docs.raylay.com/de"
   },
+  "google_reviews_url": {
+    "en": "https://g.page/r/YOUR_GOOGLE_PLACE_ID_EN/review",
+    "de": "https://g.page/r/YOUR_GOOGLE_PLACE_ID_DE/review"
+  },
+  "google_reviews_rating": 4.8,
+  "google_reviews_count": 127,
   "contact_email": "info@raylay.com",
   "default_language": "en",
   "default_gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -38,14 +44,6 @@
             "width": "1200",
             "height": "600"
           }
-        },
-        {
-          "type": "google_reviews",
-          "enabled": true,
-          "rating": 4.8,
-          "review_count": 127,
-          "review_url": "https://g.page/r/YOUR_GOOGLE_PLACE_ID/review",
-          "background": "#fafaf9"
         },
         {
           "type": "features_grid",

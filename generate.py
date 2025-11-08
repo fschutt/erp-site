@@ -121,7 +121,8 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
     else:
         docs_url = docs_url_config
     docs_title = translate('nav_docs', lang_data)
-    links.append(f'<a href="{docs_url}" target="_blank" rel="noopener noreferrer" role="menuitem">{docs_title}</a>')
+    docs_label = translate('nav_docs_label', lang_data)
+    links.append(f'<a href="{docs_url}" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="{docs_label}">{docs_title}</a>')
     
     return ' '.join(links)
 
@@ -169,18 +170,16 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     if height:
         size_attrs += f' height="{height}"'
     
-    # Generate media HTML (image or video with foam.svg overlay)
+    # Generate media HTML (image or video with foam.svg as background)
     media_html = ''
     if media_url:
         if media_type == 'video':
             media_html = f'''<div class="hero-image-wrapper">
                 <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs} aria-label="{title}"></video>
-                <div class="foam-overlay"></div>
             </div>'''
         else:
             media_html = f'''<div class="hero-image-wrapper">
                 <img src="{media_url}" alt="{title}" class="hero-image"{size_attrs}>
-                <div class="foam-overlay"></div>
             </div>'''
     
     # Generate CTA buttons
@@ -188,6 +187,40 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     
     if calendly_url:
         cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
+    
+    # Generate Google Reviews section (inline in hero)
+    google_reviews_html = ''
+    if config.get('google_reviews_rating'):
+        rating = config.get('google_reviews_rating', 5.0)
+        review_count = config.get('google_reviews_count', 0)
+        
+        reviews_url_config = config.get('google_reviews_url', '')
+        if isinstance(reviews_url_config, dict):
+            reviews_url = reviews_url_config.get(lang, reviews_url_config.get('en', ''))
+        else:
+            reviews_url = reviews_url_config
+        
+        # Generate stars
+        full_stars = int(rating)
+        half_star = (rating - full_stars) >= 0.5
+        stars_html = '★' * full_stars
+        if half_star:
+            stars_html += '⯨'
+        empty_stars = 5 - full_stars - (1 if half_star else 0)
+        stars_html += '☆' * empty_stars
+        
+        rating_text = f"{rating} {translate('google_reviews_text', lang_data)}"
+        if review_count > 0:
+            rating_text += f" ({review_count} {translate('reviews', lang_data)})"
+        
+        google_reviews_html = f'''
+                <div class="hero-google-reviews">
+                    <div class="hero-google-reviews-stars">
+                        <span class="stars" aria-label="{rating} stars">{stars_html}</span>
+                        <span class="rating-text">{rating_text}</span>
+                    </div>
+                    <a href="{reviews_url}" target="_blank" rel="noopener" class="hero-reviews-link">{translate('see_all_reviews', lang_data)} →</a>
+                </div>'''
     
     return f'''
     <section class="hero{gradient_class}"{gradient_style} aria-labelledby="hero-heading">
@@ -197,7 +230,7 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
                 <p class="hero-subtitle">{subtitle}</p>
                 <div class="cta-buttons">
                     {cta_buttons}
-                </div>
+                </div>{google_reviews_html}
             </div>
             {media_html}
         </div>
@@ -432,7 +465,7 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
     card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
     
     return f'''
-        <article class="feature-card {card_class}"{card_style}>
+        <article class="feature-card {card_class}"{card_style} tabindex="0">
             {media_html}
             <h3>{feat_title}</h3>
             {desc_html}
@@ -544,7 +577,7 @@ def render_feature_category(category: Dict[str, Any], lang_data: Dict[str, str],
     card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
     
     return f'''
-        <article class="feature-card {card_class}"{card_style}>
+        <article class="feature-card {card_class}"{card_style} tabindex="0">
             <h3>{cat_title}</h3>
             <ul>
                 {chr(10).join(features_list)}
@@ -752,6 +785,9 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     lang_switcher_html = render_lang_switcher(config, page['slug'])
     nav_logo_html = render_nav_logo(config, lang_data, has_gradient)
     
+    phone = config['languages'][lang].get('phone', '')
+    email = config.get('contact_email', '')
+    
     page_html = template.replace('{{TITLE}}', translate('site_title', lang_data))
     page_html = page_html.replace('{{META_DESCRIPTION}}', translate('site_description', lang_data))
     page_html = page_html.replace('{{LANG}}', lang)
@@ -763,6 +799,11 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     page_html = page_html.replace('{{NAV_LINKS}}', nav_html)
     page_html = page_html.replace('{{LANG_SWITCHER}}', lang_switcher_html)
     page_html = page_html.replace('{{CONTENT}}', '\n'.join(sections_html))
+    page_html = page_html.replace('{{CONTACT_INFO_LABEL}}', translate('contact_info_label', lang_data))
+    page_html = page_html.replace('{{CONTACT_PHONE}}', translate('contact_phone', lang_data))
+    page_html = page_html.replace('{{CONTACT_EMAIL}}', translate('contact_email', lang_data))
+    page_html = page_html.replace('{{PHONE}}', phone)
+    page_html = page_html.replace('{{EMAIL}}', email)
     page_html = page_html.replace('{{FOOTER_TEXT}}', translate('footer_text', lang_data))
     
     return page_html

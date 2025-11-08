@@ -10,9 +10,12 @@
   "nav_features": "Funktionen",
   "nav_references": "Referenzen",
   "nav_blog": "Blog",
-  "nav_docs": "Dokumentation",
+  "nav_docs": "Docs",
+  "nav_docs_label": "Raylay ERP Dokumentation lesen",
   "nav_about": "Über uns",
   "nav_contact": "Kontakt",
+  
+  "contact_info_label": "Kontaktinformationen",
   
   "hero_title": "Management für moderne Unternehmen",
   "hero_subtitle": "Raylay ERP integriert jeden Aspekt Ihrer Organisation – von Kundenbeziehungen und Finanzbuchhaltung bis hin zu Fertigung und Logistik – in eine einheitliche, intelligente Plattform.",

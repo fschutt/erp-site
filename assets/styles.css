@@ -154,75 +154,66 @@ main {
 
 /* Hero */
 .hero {
-    padding: 120px 0 100px;
-    background: white;
-    border-bottom: 1px solid var(--color-border);
+    padding: 100px 0 80px;
+    background: #2a2d35;
+    background-image: 
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0);
+    background-size: 32px 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-}
-
-.hero.has-gradient {
     color: white;
-    border-bottom: none;
 }
 
-.hero.has-gradient h1,
-.hero.has-gradient .hero-subtitle {
+.hero h1,
+.hero .hero-subtitle {
     color: white;
 }
 
 .hero .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 64px;
+    gap: 48px;
     align-items: center;
     position: relative;
     z-index: 1;
 }
 
 .hero-content {
-    max-width: 650px;
+    max-width: 580px;
 }
 
 .hero h1 {
     font-family: var(--font-display);
-    font-size: 72px;
+    font-size: 56px;
     font-weight: 900;
     line-height: 1.1;
-    letter-spacing: -0.04em;
-    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
     font-stretch: ultra-condensed;
 }
 
 .hero-subtitle {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6;
-    color: var(--color-text-light);
-    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 32px;
     font-weight: 400;
-    max-width: 580px;
+    max-width: 520px;
 }
 
 .hero-image-wrapper {
     position: relative;
     width: 100%;
+    max-width: 500px;
     border-radius: 8px;
     overflow: hidden;
     order: 2;
+    margin: 0 auto;
     background: white; /* Fallback background for images/videos */
-}
-
-.foam-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-image: url('../assets/foam.svg');
     background-size: cover;
     background-position: center;
-    opacity: 0.15;
-    z-index: 1;
-    pointer-events: none;
+    background-blend-mode: overlay;
 }
 
 .hero-image, .hero-video {
@@ -230,12 +221,14 @@ main {
     height: auto;
     display: block;
     border-radius: 8px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
     background: white; /* Fallback for loading */
+    position: relative;
+    z-index: 2;
 }
 
 .hero-video {
-    max-height: 600px;
+    max-height: 500px;
     object-fit: cover;
 }
 
@@ -279,6 +272,46 @@ main {
     color: white;
 }
 
+/* Hero Google Reviews - inline */
+.hero-google-reviews {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-google-reviews-stars {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.hero-google-reviews-stars .stars {
+    color: #fbbc04;
+    letter-spacing: 2px;
+    font-size: 20px;
+}
+
+.hero-google-reviews-stars .rating-text {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.hero-reviews-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+    display: inline-block;
+}
+
+.hero-reviews-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
 /* Text Sections */
 .text-section {
     padding: 80px 0;
@@ -319,6 +352,7 @@ main {
     line-height: 1.8;
     color: var(--color-text-light);
     max-width: 800px;
+    text-align: justify;
 }
 
 .text-section .prose p {
@@ -931,6 +965,47 @@ main {
     color: var(--color-accent-hover);
 }
 
+/* Contact Glass Box - Bottom Left */
+.contact-glass-box {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 220px;
+}
+
+.contact-glass-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.contact-glass-icon {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.contact-glass-item a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.contact-glass-item a:hover {
+    color: var(--color-accent);
+}
+
 /* Footer */
 footer {
     padding: 48px 0;
@@ -1002,6 +1077,22 @@ footer {
     
     .categories-grid.grid-2-1 {
         grid-template-columns: 1fr;
+    }
+    
+    .contact-glass-box {
+        bottom: 12px;
+        left: 12px;
+        padding: 12px 16px;
+        min-width: 180px;
+        font-size: 13px;
+    }
+    
+    .contact-glass-item {
+        gap: 6px;
+    }
+    
+    .contact-glass-icon {
+        font-size: 14px;
     }
     
     .testimonials-grid {

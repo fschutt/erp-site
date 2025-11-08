@@ -28,6 +28,17 @@
         {{CONTENT}}
     </main>
 
+    <div class="contact-glass-box" aria-label="{{CONTACT_INFO_LABEL}}">
+        <div class="contact-glass-item">
+            <span class="contact-glass-icon">📞</span>
+            <a href="tel:{{PHONE}}" aria-label="{{CONTACT_PHONE}}: {{PHONE}}">{{PHONE}}</a>
+        </div>
+        <div class="contact-glass-item">
+            <span class="contact-glass-icon">✉️</span>
+            <a href="mailto:{{EMAIL}}" aria-label="{{CONTACT_EMAIL}}: {{EMAIL}}">{{EMAIL}}</a>
+        </div>
+    </div>
+
     <footer role="contentinfo">
         <div class="container">
             <p>{{FOOTER_TEXT}}</p>
