@@ -17,18 +17,24 @@
     box-sizing: border-box;
 }
 
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 /* Skip to Content Link - Accessibility */
 .skip-to-content {
     position: absolute;
-    top: -40px;
+    top: -100px;
     left: 0;
     background: var(--focus-color);
     color: white;
-    padding: 8px 16px;
+    padding: 12px 24px;
     text-decoration: none;
     font-weight: 600;
-    z-index: 1000;
+    z-index: 1001;
     border-radius: 0 0 4px 0;
+    transition: top 0.2s ease;
 }
 
 .skip-to-content:focus {
@@ -209,11 +215,20 @@ main {
     overflow: hidden;
     order: 2;
     margin: 0 auto;
-    background: white; /* Fallback background for images/videos */
+}
+
+.foam-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image: url('../assets/foam.svg');
     background-size: cover;
     background-position: center;
-    background-blend-mode: overlay;
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .hero-image, .hero-video {
@@ -272,11 +287,45 @@ main {
     color: white;
 }
 
+/* Hero-specific button styles */
+.btn-hero-primary {
+    background: white;
+    color: #667eea;
+    border: 2px solid transparent;
+    background-image: 
+        linear-gradient(white, white),
+        linear-gradient(135deg, #ff6b6b 0%, #ff8e53 25%, #667eea 75%, #764ba2 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    font-weight: 600;
+}
+
+.btn-hero-primary:hover {
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+        linear-gradient(135deg, #ff6b6b 0%, #ff8e53 25%, #667eea 75%, #764ba2 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-hero-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
 /* Hero Google Reviews - inline */
 .hero-google-reviews {
     margin-top: 32px;
     padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .hero-google-reviews-stars {
@@ -348,11 +397,14 @@ main {
 }
 
 .text-section .prose {
+    font-family: 'Rubik', var(--font-sans);
     font-size: 17px;
+    font-weight: 500;
     line-height: 1.8;
     color: var(--color-text-light);
-    max-width: 800px;
+    max-width: 700px;
     text-align: justify;
+    text-wrap: balance;
 }
 
 .text-section .prose p {
@@ -526,9 +578,13 @@ main {
 }
 
 .feature-card p {
+    font-family: 'Rubik', var(--font-sans);
     color: var(--color-text-light);
     font-size: 17px;
+    font-weight: 500;
     line-height: 1.7;
+    text-align: justify;
+    text-wrap: balance;
 }
 
 .feature-card ul {
@@ -900,6 +956,52 @@ main {
     color: rgba(255, 255, 255, 0.9);
 }
 
+/* CTA Section */
+.cta-section {
+    padding: 80px 0;
+    background: white;
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.cta-section.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.cta-section h2 {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cta-section.has-gradient h2,
+.cta-section.has-gradient .section-subtitle {
+    color: white;
+}
+
+.cta-section .section-subtitle {
+    font-size: 19px;
+    color: var(--color-text-light);
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-section .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Contact */
+
 /* Contact */
 .contact-section {
     padding: 80px 0;
@@ -1118,7 +1220,146 @@ footer {
     }
 }
 
-@media (min-width: 769px) and (max-width: 1023px) {
+/* Blog Styles */
+.blog-index-section {
+    padding: 80px 0;
+}
+
+.blog-subtitle {
+    font-size: 20px;
+    color: var(--color-text-secondary);
+    margin-bottom: 48px;
+    max-width: 800px;
+}
+
+.blog-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: 900px;
+}
+
+.blog-post-preview {
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.blog-post-preview:last-child {
+    border-bottom: none;
+}
+
+.blog-post-preview h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.blog-post-preview h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.blog-post-preview h3 a:hover {
+    color: var(--color-accent);
+}
+
+.blog-post-meta {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+}
+
+.blog-post-excerpt {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+}
+
+.blog-read-more {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.blog-read-more:hover {
+    color: var(--color-accent-hover);
+}
+
+/* Individual Blog Post */
+.blog-post-section {
+    padding: 80px 0;
+}
+
+.blog-post {
+    max-width: 800px;
+}
+
+.blog-post-header {
+    margin-bottom: 48px;
+}
+
+.blog-post-header h1 {
+    font-size: 42px;
+    margin-bottom: 16px;
+}
+
+.blog-post-content {
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.blog-post-content h1 {
+    font-size: 36px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+}
+
+.blog-post-content h2 {
+    font-size: 28px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.blog-post-content h3 {
+    font-size: 22px;
+    margin-top: 32px;
+    margin-bottom: 16px;
+}
+
+.blog-post-content p {
+    margin-bottom: 24px;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+    margin-bottom: 24px;
+    padding-left: 32px;
+}
+
+.blog-post-content li {
+    margin-bottom: 12px;
+}
+
+.blog-post-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+}
+
+.blog-back-link {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.blog-back-link:hover {
+    color: var(--color-accent-hover);
+}
+
+@media (max-width: 768px) {
     .hero .container {
         grid-template-columns: 1fr;
     }

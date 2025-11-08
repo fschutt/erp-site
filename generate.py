@@ -170,23 +170,25 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     if height:
         size_attrs += f' height="{height}"'
     
-    # Generate media HTML (image or video with foam.svg as background)
+    # Generate media HTML (image or video with foam.svg behind)
     media_html = ''
     if media_url:
         if media_type == 'video':
             media_html = f'''<div class="hero-image-wrapper">
+                <div class="foam-background"></div>
                 <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs} aria-label="{title}"></video>
             </div>'''
         else:
             media_html = f'''<div class="hero-image-wrapper">
+                <div class="foam-background"></div>
                 <img src="{media_url}" alt="{title}" class="hero-image"{size_attrs}>
             </div>'''
     
     # Generate CTA buttons
-    cta_buttons = f'<a href="{demo_url}" class="btn btn-primary">{translate("view_demo", lang_data)}</a>'
+    cta_buttons = f'<a href="{demo_url}" class="btn btn-primary btn-hero-primary">{translate("online_demo", lang_data)}</a>'
     
     if calendly_url:
-        cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
+        cta_buttons += f'<a href="{calendly_url}" class="btn btn-secondary btn-hero-secondary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
     
     # Generate Google Reviews section (inline in hero)
     google_reviews_html = ''
@@ -200,24 +202,26 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
         else:
             reviews_url = reviews_url_config
         
-        # Generate stars
+        # Generate stars (round down to avoid half-star rendering issues)
         full_stars = int(rating)
-        half_star = (rating - full_stars) >= 0.5
         stars_html = '★' * full_stars
-        if half_star:
-            stars_html += '⯨'
-        empty_stars = 5 - full_stars - (1 if half_star else 0)
+        empty_stars = 5 - full_stars
         stars_html += '☆' * empty_stars
         
         rating_text = f"{rating} {translate('google_reviews_text', lang_data)}"
         if review_count > 0:
             rating_text += f" ({review_count} {translate('reviews', lang_data)})"
         
+        # Full text for screen readers
+        stars_aria = f"{rating} {translate('google_reviews_text', lang_data)}"
+        if review_count > 0:
+            stars_aria += f", {review_count} {translate('reviews', lang_data)}"
+        
         google_reviews_html = f'''
                 <div class="hero-google-reviews">
-                    <div class="hero-google-reviews-stars">
-                        <span class="stars" aria-label="{rating} stars">{stars_html}</span>
-                        <span class="rating-text">{rating_text}</span>
+                    <div class="hero-google-reviews-stars" role="img" aria-label="{stars_aria}">
+                        <span class="stars" aria-hidden="true">{stars_html}</span>
+                        <span class="rating-text" aria-hidden="true">{rating_text}</span>
                     </div>
                     <a href="{reviews_url}" target="_blank" rel="noopener" class="hero-reviews-link">{translate('see_all_reviews', lang_data)} →</a>
                 </div>'''
@@ -226,8 +230,8 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     <section class="hero{gradient_class}"{gradient_style} aria-labelledby="hero-heading">
         <div class="container">
             <div class="hero-content">
-                <h1 id="hero-heading">{title}</h1>
-                <p class="hero-subtitle">{subtitle}</p>
+                <h1 id="hero-heading" role="heading" aria-level="1">{title}</h1>
+                <p class="hero-subtitle" role="text">{subtitle}</p>
                 <div class="cta-buttons">
                     {cta_buttons}
                 </div>{google_reviews_html}
@@ -281,7 +285,7 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
             <div class="content-grid">
                 <div class="content-image">{image_html}</div>
                 <div class="content-text">
-                    <h2 id="{heading_id}">{title}</h2>
+                    <h2 id="{heading_id}" tabindex="0" role="heading" aria-level="2">{title}</h2>
                     <div class="prose">{content}</div>
                 </div>
             </div>
@@ -293,7 +297,7 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
         <div class="container">
             <div class="content-grid">
                 <div class="content-text">
-                    <h2 id="{heading_id}">{title}</h2>
+                    <h2 id="{heading_id}" tabindex="0" role="heading" aria-level="2">{title}</h2>
                     <div class="prose">{content}</div>
                 </div>
                 <div class="content-image">{image_html}</div>
@@ -304,7 +308,7 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
         return f'''
     <section class="text-section {bg_class}"{bg_style} aria-labelledby="{heading_id}">
         <div class="container">
-            <h2 id="{heading_id}">{title}</h2>
+            <h2 id="{heading_id}" tabindex="0" role="heading" aria-level="2">{title}</h2>
             <div class="prose">{content}</div>
             {f'<div class="section-image">{image_html}</div>' if image_html else ''}
         </div>
@@ -398,8 +402,10 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
             large_item, small_item = row
             # Always render large first, small second
             # They will flow naturally into 2fr (left) and 1fr (right) columns
-            items.append(render_feature_card(large_item[0], lang_data, base_url, False, gradient))
-            items.append(render_feature_card(small_item[0], lang_data, base_url, True, gradient))
+            # Alternate gradient: odd rows = right column (small), even rows = left column (large)
+            is_odd_row = idx % 2 == 1
+            items.append(render_feature_card(large_item[0], lang_data, base_url, not is_odd_row, gradient))
+            items.append(render_feature_card(small_item[0], lang_data, base_url, is_odd_row, gradient))
         else:  # Only one item
             items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
     
@@ -550,8 +556,10 @@ def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]
         if row[1] is not None:  # We have both large and small
             large_item, small_item = row
             # Always render large first, small second for consistent layout
-            categories.append(render_feature_category(large_item[0], lang_data, False, gradient))
-            categories.append(render_feature_category(small_item[0], lang_data, True, gradient))
+            # Alternate gradient: odd rows = right column (small), even rows = left column (large)
+            is_odd_row = idx % 2 == 1
+            categories.append(render_feature_category(large_item[0], lang_data, not is_odd_row, gradient))
+            categories.append(render_feature_category(small_item[0], lang_data, is_odd_row, gradient))
         else:  # Only one item
             categories.append(render_feature_category(row[0][0], lang_data, False, gradient))
     
@@ -605,7 +613,7 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
         <article class="testimonial-card">
             <blockquote>
                 <p>"{quote}"</p>
-                <footer>— {author_line}</footer>
+                <footer> -  {author_line}</footer>
             </blockquote>
         </article>''')
     
@@ -741,6 +749,145 @@ def render_contact_form(section: Dict[str, Any], lang_data: Dict[str, str], conf
         </div>
     </section>'''
 
+def render_cta_section(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any]) -> str:
+    title = translate(section['title'], lang_data)
+    subtitle = translate(section.get('subtitle', ''), lang_data)
+    demo_url = config['demo_url']
+    calendly_url = config.get('calendly_url', '')
+    
+    # Handle section background
+    background = section.get('background', '')
+    bg_class = 'section-has-background' if background else ''
+    if background:
+        bg_class += ' has-gradient'
+    bg_style = f' style="background: {background};"' if background else ''
+    
+    subtitle_html = f'<p class="section-subtitle">{subtitle}</p>' if subtitle else ''
+    
+    cta_buttons = f'<a href="{demo_url}" class="btn btn-primary">{translate("view_demo", lang_data)}</a>'
+    if calendly_url:
+        cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
+    
+    return f'''
+    <section class="cta-section {bg_class}"{bg_style} aria-labelledby="cta-heading">
+        <div class="container">
+            <h2 id="cta-heading">{title}</h2>
+            {subtitle_html}
+            <div class="cta-buttons">
+                {cta_buttons}
+            </div>
+        </div>
+    </section>'''
+
+def parse_blog_post(file_path: Path) -> Optional[Dict[str, Any]]:
+    """Parse a markdown blog post with frontmatter."""
+    try:
+        content = file_path.read_text(encoding='utf-8')
+        
+        # Parse frontmatter
+        if not content.startswith('---'):
+            return None
+        
+        parts = content.split('---', 2)
+        if len(parts) < 3:
+            return None
+        
+        # Parse YAML-like frontmatter
+        frontmatter = {}
+        for line in parts[1].strip().split('\n'):
+            if ':' in line:
+                key, value = line.split(':', 1)
+                frontmatter[key.strip()] = value.strip()
+        
+        # Get markdown content
+        markdown_content = parts[2].strip()
+        
+        # Convert to HTML
+        html_content = simple_markdown_to_html(markdown_content)
+        
+        return {
+            'title': frontmatter.get('title', ''),
+            'date': frontmatter.get('date', ''),
+            'author': frontmatter.get('author', ''),
+            'excerpt': frontmatter.get('excerpt', ''),
+            'content': html_content,
+            'slug': file_path.stem
+        }
+    except Exception as e:
+        print(f"Error parsing blog post {file_path}: {e}")
+        return None
+
+def render_blog_index(section: Dict[str, Any], lang_data: Dict[str, str], lang: str, config: Dict[str, Any]) -> str:
+    """Render the blog index page with list of posts."""
+    title = translate(section['title'], lang_data)
+    subtitle = translate(section.get('subtitle', ''), lang_data)
+    base_url = config.get('base_url', '')
+    
+    # Load blog posts for this language
+    blog_dir = Path('blog') / lang
+    posts = []
+    
+    if blog_dir.exists():
+        for md_file in sorted(blog_dir.glob('*.md'), reverse=True):
+            post = parse_blog_post(md_file)
+            if post:
+                posts.append(post)
+    
+    # Generate post list HTML
+    posts_html = ''
+    for post in posts:
+        post_url = f"{base_url}/{lang}/blog/{post['slug']}.html"
+        posts_html += f'''
+        <article class="blog-post-preview">
+            <h3><a href="{post_url}">{post['title']}</a></h3>
+            <div class="blog-post-meta">
+                <span class="blog-post-date">{translate('blog_posted_on', lang_data)} {post['date']}</span>
+                {f" {translate('blog_by', lang_data)} {post['author']}" if post['author'] else ''}
+            </div>
+            <p class="blog-post-excerpt">{post['excerpt']}</p>
+            <a href="{post_url}" class="blog-read-more">{translate('blog_read_more', lang_data)} →</a>
+        </article>'''
+    
+    if not posts_html:
+        posts_html = '<p>No blog posts available yet.</p>'
+    
+    return f'''
+    <section class="blog-index-section" aria-labelledby="blog-heading">
+        <div class="container">
+            <h1 id="blog-heading">{title}</h1>
+            <p class="blog-subtitle">{subtitle}</p>
+            <div class="blog-posts">
+                {posts_html}
+            </div>
+        </div>
+    </section>'''
+
+def render_blog_post(post: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any], lang: str) -> str:
+    """Render a single blog post."""
+    base_url = config.get('base_url', '')
+    blog_index_url = f"{base_url}/{lang}/blog.html"
+    
+    return f'''
+    <section class="blog-post-section" aria-labelledby="post-heading">
+        <div class="container">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <h1 id="post-heading">{post['title']}</h1>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">{translate('blog_posted_on', lang_data)} {post['date']}</span>
+                        {f" {translate('blog_by', lang_data)} {post['author']}" if post['author'] else ''}
+                    </div>
+                </div>
+                <div class="blog-post-content prose">
+                    {post['content']}
+                </div>
+                <div class="blog-post-footer">
+                    <a href="{blog_index_url}" class="blog-back-link">{translate('blog_back_to_index', lang_data)}</a>
+                </div>
+            </article>
+        </div>
+    </section>'''
+
 def render_section(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any], lang: str) -> str:
     if not section.get('enabled', True):
         return ""
@@ -763,6 +910,10 @@ def render_section(section: Dict[str, Any], lang_data: Dict[str, str], config: D
         return render_faq(section, lang_data)
     elif section_type == 'contact':
         return render_contact_form(section, lang_data, config, lang)
+    elif section_type == 'cta':
+        return render_cta_section(section, lang_data, config)
+    elif section_type == 'blog_index':
+        return render_blog_index(section, lang_data, lang, config)
     
     return ""
 
@@ -836,6 +987,46 @@ def main():
                 (lang_dir / 'index.html').write_text(html, encoding='utf-8')
             else:
                 (lang_dir / f"{page['slug']}.html").write_text(html, encoding='utf-8')
+        
+        # Generate individual blog post pages
+        blog_dir = Path('blog') / lang
+        if blog_dir.exists():
+            blog_output_dir = lang_dir / 'blog'
+            blog_output_dir.mkdir(exist_ok=True)
+            
+            lang_data = load_json(f'translations/{lang}.json')
+            
+            for md_file in blog_dir.glob('*.md'):
+                post = parse_blog_post(md_file)
+                if post:
+                    # Create a minimal page structure for blog posts
+                    blog_post_html = render_blog_post(post, lang_data, config, lang)
+                    
+                    nav_html = render_nav(config, lang_data, 'blog', lang)
+                    lang_switcher_html = render_lang_switcher(config, 'blog')
+                    nav_logo_html = render_nav_logo(config, lang_data, False)
+                    
+                    phone = config['languages'][lang].get('phone', '')
+                    email = config.get('contact_email', '')
+                    base_url = config.get('base_url', '')
+                    
+                    page_html = template.replace('{{TITLE}}', f"{post['title']} - {translate('site_title', lang_data)}")
+                    page_html = page_html.replace('{{META_DESCRIPTION}}', post['excerpt'])
+                    page_html = page_html.replace('{{LANG}}', lang)
+                    page_html = page_html.replace('{{BASE_URL}}', base_url)
+                    page_html = page_html.replace('{{SKIP_TO_CONTENT}}', translate('skip_to_content', lang_data))
+                    page_html = page_html.replace('{{NAV_HOME_LABEL}}', translate('nav_home_label', lang_data))
+                    page_html = page_html.replace('{{NAV_LOGO}}', nav_logo_html)
+                    page_html = page_html.replace('{{NAV_TITLE}}', translate('site_brand', lang_data))
+                    page_html = page_html.replace('{{NAV_LINKS}}', nav_html)
+                    page_html = page_html.replace('{{LANG_SWITCHER}}', lang_switcher_html)
+                    page_html = page_html.replace('{{CONTENT}}', blog_post_html)
+                    page_html = page_html.replace('{{PHONE}}', phone)
+                    page_html = page_html.replace('{{EMAIL}}', email)
+                    page_html = page_html.replace('{{FOOTER}}', translate('footer_text', lang_data))
+                    page_html = page_html.replace('{{CONTACT_INFO_LABEL}}', translate('contact_info_label', lang_data))
+                    
+                    (blog_output_dir / f"{post['slug']}.html").write_text(page_html, encoding='utf-8')
     
     default_lang = config.get('default_language', list(config['languages'].keys())[0])
     base_url = config.get('base_url', '')

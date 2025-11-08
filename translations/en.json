@@ -18,11 +18,15 @@
   "contact_info_label": "Contact information",
   
   "hero_title": "Management for the modern enterprise",
-  "hero_subtitle": "Raylay ERP integrates every aspect of your organization—from customer relationships and financial accounting to manufacturing and logistics—into a unified, intelligent platform.",
+  "hero_subtitle": "Raylay ERP integrates every aspect of your organization - from customer relationships and financial accounting to manufacturing and logistics - into a unified, intelligent platform.",
   
   "view_demo": "View Demo",
+  "online_demo": "Online Demo ↗",
   "contact_sales": "Contact Sales",
   "book_demo": "Book a Demo",
+  
+  "convinced_title": "Convinced?",
+  "convinced_subtitle": "Experience Raylay ERP firsthand or schedule a personalized demonstration.",
   
   "google_reviews_text": "stars on Google",
   "reviews": "reviews",
@@ -76,13 +80,13 @@
   "why_integration_content": "<p>Every module in Raylay ERP is built on a unified data model. When a sales order is created, inventory is automatically reserved. When goods are shipped, accounting entries are automatically generated. When an invoice is paid, cash flow forecasts are immediately updated.</p><p>This level of integration eliminates the manual data entry, reconciliation, and error correction that plague organizations using disconnected systems.</p>",
   
   "why_customization_title": "Configurable, Not Custom",
-  "why_customization_content": "<p>Raylay ERP provides extensive configuration options—custom fields, document numbering, UI profiles, workflow automation—that allow you to adapt the system to your business without expensive custom development.</p><p>Configuration changes are preserved across updates, ensuring your investment in setup and training remains protected as the platform evolves.</p>",
+  "why_customization_content": "<p>Raylay ERP provides extensive configuration options - custom fields, document numbering, UI profiles, workflow automation - that allow you to adapt the system to your business without expensive custom development.</p><p>Configuration changes are preserved across updates, ensuring your investment in setup and training remains protected as the platform evolves.</p>",
   
   "why_scalability_title": "Scalable & Reliable",
-  "why_scalability_content": "<p>Raylay ERP is designed to grow with your business—from small teams to multinational enterprises. Our architecture ensures consistent performance even as your data volume and user count increase.</p><p>With high-availability infrastructure, automatic backups, and disaster recovery options, you can trust that your business data is always accessible and protected.</p>",
+  "why_scalability_content": "<p>Raylay ERP is designed to grow with your business - from small teams to multinational enterprises. Our architecture ensures consistent performance even as your data volume and user count increase.</p><p>With high-availability infrastructure, automatic backups, and disaster recovery options, you can trust that your business data is always accessible and protected.</p>",
   
   "why_support_title": "Best-in-Class Support",
-  "why_support_content": "<p>We understand that an ERP system is business-critical. That's why we provide comprehensive support across multiple channels—email, phone, and web—with guaranteed response times for critical issues.</p><p>Our support team consists of experienced experts who not only know the software but understand business processes and can help you leverage Raylay ERP optimally for your specific requirements.</p>",
+  "why_support_content": "<p>We understand that an ERP system is business-critical. That's why we provide comprehensive support across multiple channels - email, phone, and web - with guaranteed response times for critical issues.</p><p>Our support team consists of experienced experts who not only know the software but understand business processes and can help you leverage Raylay ERP optimally for your specific requirements.</p>",
   
   "features_page_title": "Complete Feature Set",
   "features_page_intro": "<p>Raylay ERP provides comprehensive functionality across all major business domains. Each feature is designed to work seamlessly with the others, creating an integrated platform that eliminates data silos and manual processes.</p>",
@@ -196,7 +200,7 @@
   "feat_audit_trail": "Audit Trail: Track changes and actions for security and compliance",
   
   "references_title": "Customer References",
-  "references_intro": "<p>Raylay ERP serves organizations across diverse industries—from manufacturing and distribution to professional services and technology companies. Our customers value the system's comprehensiveness, flexibility, and the clarity it brings to complex operations.</p>",
+  "references_intro": "<p>Raylay ERP serves organizations across diverse industries - from manufacturing and distribution to professional services and technology companies. Our customers value the system's comprehensiveness, flexibility, and the clarity it brings to complex operations.</p>",
   
   "testimonials_title": "What Our Customers Say",
   
@@ -213,7 +217,7 @@
   "testimonial_3_company": "IT Director, Global Distribution Services",
   
   "about_title": "About Raylay ERP",
-  "about_content": "<p>Raylay ERP was created to address a fundamental challenge in enterprise software: the gap between comprehensive functionality and practical usability. Too often, organizations must choose between powerful but unwieldy systems and simple but limited solutions.</p><p>We believe this is a false choice. Modern businesses deserve systems that are both comprehensive and intelligently designed—platforms that provide the depth required for complex operations while remaining clear and accessible to the people who use them daily.</p>",
+  "about_content": "<p>Raylay ERP was created to address a fundamental challenge in enterprise software: the gap between comprehensive functionality and practical usability. Too often, organizations must choose between powerful but unwieldy systems and simple but limited solutions.</p><p>We believe this is a false choice. Modern businesses deserve systems that are both comprehensive and intelligently designed - platforms that provide the depth required for complex operations while remaining clear and accessible to the people who use them daily.</p>",
   
   "about_mission_title": "Our Mission",
   "about_mission_content": "<p>We are building enterprise software that respects both the complexity of modern business and the intelligence of the people running those businesses.</p><p>This means creating systems that integrate deeply across business domains, provide powerful configuration options, maintain data integrity, and present information with clarity and precision.</p>",
@@ -235,9 +239,9 @@
   
   "faq_title": "Frequently Asked Questions",
   "faq_q1": "What is an ERP system?",
-  "faq_a1": "An ERP (Enterprise Resource Planning) system is comprehensive business management software that integrates all core business processes into a single unified platform. Raylay ERP connects sales, finance, inventory, manufacturing, HR, and logistics—eliminating data silos and manual processes while providing real-time visibility across your entire organization.",
+  "faq_a1": "An ERP (Enterprise Resource Planning) system is comprehensive business management software that integrates all core business processes into a single unified platform. Raylay ERP connects sales, finance, inventory, manufacturing, HR, and logistics - eliminating data silos and manual processes while providing real-time visibility across your entire organization.",
   "faq_q2": "How does Raylay ERP differ from other solutions?",
-  "faq_a2": "Raylay ERP offers a uniquely comprehensive feature set spanning CRM, financial accounting, manufacturing, HR, project management, and subscription billing—all built on a unified data model. Unlike modular systems that require expensive integrations, every feature in Raylay ERP works seamlessly together. Our platform is also highly configurable without custom development, and we provide enterprise-grade capabilities at a fraction of traditional ERP costs.",
+  "faq_a2": "Raylay ERP offers a uniquely comprehensive feature set spanning CRM, financial accounting, manufacturing, HR, project management, and subscription billing - all built on a unified data model. Unlike modular systems that require expensive integrations, every feature in Raylay ERP works seamlessly together. Our platform is also highly configurable without custom development, and we provide enterprise-grade capabilities at a fraction of traditional ERP costs.",
   "faq_q3": "Is an ERP system right for my business?",
   "faq_a3": "If you're managing multiple business processes (sales, inventory, accounting, production, etc.) across different systems or spreadsheets, an ERP system can dramatically improve efficiency and data accuracy. Companies typically benefit from an ERP when they experience growth challenges, need better financial visibility, struggle with inventory management, or require integrated reporting across departments.",
   "faq_q4": "What are the costs associated with implementing Raylay ERP?",

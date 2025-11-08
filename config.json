@@ -180,7 +180,9 @@
           "content": "why_content",
           "layout": "image-right",
           "image": {
-            "default": "/assets/why-intro.jpg"
+            "default": "/assets/why-intro.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
@@ -191,7 +193,9 @@
           "layout": "image-left",
           "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           "image": {
-            "default": "/assets/integration.jpg"
+            "default": "/assets/integration.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
@@ -201,7 +205,9 @@
           "content": "why_customization_content",
           "layout": "image-right",
           "image": {
-            "default": "/assets/customization.jpg"
+            "default": "/assets/customization.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
@@ -212,7 +218,9 @@
           "layout": "image-left",
           "background": "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
           "image": {
-            "default": "/assets/scalability.jpg"
+            "default": "/assets/scalability.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
@@ -222,8 +230,16 @@
           "content": "why_support_content",
           "layout": "image-right",
           "image": {
-            "default": "/assets/support.jpg"
+            "default": "/assets/support.jpg",
+            "width": "1200",
+            "height": "600"
           }
+        },
+        {
+          "type": "cta",
+          "enabled": true,
+          "title": "convinced_title",
+          "subtitle": "convinced_subtitle"
         }
       ]
     },
@@ -431,6 +447,18 @@
       ]
     },
     {
+      "slug": "blog",
+      "nav_title": "nav_blog",
+      "sections": [
+        {
+          "type": "blog_index",
+          "enabled": true,
+          "title": "blog_title",
+          "subtitle": "blog_subtitle"
+        }
+      ]
+    },
+    {
       "slug": "about",
       "nav_title": "nav_about",
       "sections": [
@@ -447,7 +475,9 @@
           "content": "about_content",
           "layout": "image-right",
           "image": {
-            "default": "/assets/about-intro.jpg"
+            "default": "/assets/about-intro.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
@@ -458,7 +488,9 @@
           "layout": "image-left",
           "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           "image": {
-            "default": "/assets/mission.jpg"
+            "default": "/assets/mission.jpg",
+            "width": "1200",
+            "height": "600"
           }
         },
         {
@@ -468,7 +500,9 @@
           "content": "about_team_content",
           "layout": "image-right",
           "image": {
-            "default": "/assets/team.jpg"
+            "default": "/assets/team.jpg",
+            "width": "1200",
+            "height": "600"
           }
         }
       ]
