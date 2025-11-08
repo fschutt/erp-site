@@ -229,6 +229,7 @@ main {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     color: white;
+    padding-top: 160px;
 }
 
 .hero h1,
@@ -273,7 +274,7 @@ main {
     width: 100%;
     max-width: 500px;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible;
     order: 2;
     margin: 0 auto;
 }
@@ -289,6 +290,7 @@ main {
     background: white; /* Fallback for loading */
     position: relative;
     z-index: 2;
+    overflow: hidden;
 }
 
 .hero-video {
@@ -339,11 +341,11 @@ main {
 /* Hero-specific button styles */
 .btn-hero-primary {
     background: white;
-    color: #667eea;
+    color: #3d2456;
     border: 2px solid transparent;
     background-image: 
         linear-gradient(white, white),
-        linear-gradient(135deg, #ff6b6b 0%, #ff8e53 25%, #667eea 75%, #764ba2 100%);
+        linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     font-weight: 600;
@@ -352,7 +354,7 @@ main {
 .btn-hero-primary:hover {
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
-        linear-gradient(135deg, #ff6b6b 0%, #ff8e53 25%, #667eea 75%, #764ba2 100%);
+        linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -419,6 +421,12 @@ main {
 }
 
 /* First section on page (when not hero) needs extra padding for floating navbar */
+/* First content section after hero should have less padding */
+.hero + .first-content-section {
+    padding-top: 80px !important;
+}
+
+/* First content section without hero needs more padding for navbar */
 .first-content-section {
     padding-top: 200px !important;
 }
@@ -592,7 +600,7 @@ main {
 }
 
 .feature-card.has-gradient {
-    background: var(--card-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    background: var(--card-gradient, linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%));
     border-radius: 12px;
     color: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -744,7 +752,7 @@ main {
 }
 
 .feature-category.has-gradient {
-    background: var(--card-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    background: var(--card-gradient, linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%));
     border-radius: 12px;
     color: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -1450,7 +1458,7 @@ footer {
 
 /* Individual Blog Post */
 .blog-post-section {
-    padding: 80px 0;
+    padding: 140px 0 80px;
 }
 
 .blog-post {

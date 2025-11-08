@@ -19,7 +19,7 @@ def load_foam_svg() -> str:
             # Remove XML declaration and adjust style for inline use
             svg_content = svg_content.replace('<?xml version="1.0" encoding="utf-8"?>', '')
             svg_content = svg_content.replace('style="margin: auto; background: none; display: block; z-index: 1; position: relative; shape-rendering: auto;"', 
-                                             'style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.5; transform: scale(2); pointer-events: none;"')
+                                             'style="position: absolute; top: 50%; left: 50%; width: 150%; height: 150%; z-index: 1; opacity: 0.3; transform: translate(-50%, -50%) scale(1.5); pointer-events: none;"')
             return svg_content
     return ''
 
@@ -343,7 +343,7 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     first_class = ' first-content-section' if is_first_content else ''
     
     # Get gradient from section, fallback to config default
-    gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'))
+    gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%)'))
     
     # Handle section background
     background = section.get('background', '')
@@ -462,7 +462,7 @@ def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]
     categories_data = section.get('categories', [])
     
     # Get gradient from section or config
-    gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'))
+    gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%)'))
     has_section_gradient = bool(section.get('background', ''))
     
     # Handle section background
@@ -685,13 +685,13 @@ def render_faq(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
         answer_id = f"faq-answer-{idx}"
         
         faq_items.append(f'''
-        <div class="faq-item" id="{item_id}" tabindex="0" role="article">
+        <div class="faq-item" id="{item_id}" role="article">
             <h3>
-                <button class="faq-question" onclick="this.parentElement.parentElement.classList.toggle('active'); this.setAttribute('aria-expanded', this.parentElement.parentElement.classList.contains('active'));" aria-expanded="false" aria-controls="{answer_id}" aria-label="{question}">
+                <button class="faq-question" onclick="this.parentElement.parentElement.classList.toggle('active'); this.setAttribute('aria-expanded', this.parentElement.parentElement.classList.contains('active'));" onkeydown="if(event.key === 'Enter' || event.key === ' ') {{ event.preventDefault(); this.click(); }}" aria-expanded="false" aria-controls="{answer_id}" aria-label="{question}">
                     {question}
                 </button>
             </h3>
-            <div class="faq-answer" id="{answer_id}" role="region" aria-label="Answer to {question}">
+            <div class="faq-answer" id="{answer_id}" role="region" aria-labelledby="{item_id}-question" tabindex="0">
                 <p>{answer}</p>
             </div>
         </div>''')
@@ -795,6 +795,9 @@ def parse_blog_post(file_path: Path) -> Optional[Dict[str, Any]]:
         
         # Get markdown content
         markdown_content = parts[2].strip()
+        
+        # Remove first h1 if it exists (since we render it in the header)
+        markdown_content = re.sub(r'^#\s+.*?$', '', markdown_content, count=1, flags=re.MULTILINE).strip()
         
         # Convert to HTML
         html_content = simple_markdown_to_html(markdown_content)
@@ -1068,7 +1071,7 @@ def main():
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%);
             color: white;
         }}
         .container {{
@@ -1094,7 +1097,7 @@ def main():
             display: inline-block;
             padding: 14px 32px;
             background: white;
-            color: #667eea;
+            color: #3d2456;
             text-decoration: none;
             border-radius: 6px;
             font-weight: 600;
