@@ -1,0 +1,190 @@
+{
+  "site_title": "Raylay ERP - Enterprise Resource Planning",
+  "site_brand": "Raylay ERP",
+  
+  "nav_home": "Home",
+  "nav_why": "Why Raylay",
+  "nav_features": "Features",
+  "nav_references": "References",
+  "nav_about": "About Us",
+  "nav_contact": "Contact",
+  
+  "hero_title": "Comprehensive business management for the modern enterprise",
+  "hero_subtitle": "Raylay ERP integrates every aspect of your organization—from customer relationships and financial accounting to manufacturing and logistics—into a unified, intelligent platform.",
+  
+  "view_demo": "View Demo",
+  "contact_sales": "Contact Sales",
+  
+  "home_features_title": "Core Capabilities",
+  
+  "feature_crm_title": "Sales & CRM",
+  "feature_crm_desc": "Complete customer relationship management with pipeline tracking, quotes, orders, and integrated e-commerce.",
+  
+  "feature_finance_title": "Financial Accounting",
+  "feature_finance_desc": "Full general ledger, AR/AP, financial reporting, budgeting, and multi-company consolidation.",
+  
+  "feature_inventory_title": "Inventory Management",
+  "feature_inventory_desc": "Real-time stock tracking, warehouse operations, lot/serial traceability, and landed cost calculation.",
+  
+  "feature_manufacturing_title": "Manufacturing",
+  "feature_manufacturing_desc": "Bills of materials, work orders, production control, and material requirements planning (MRP).",
+  
+  "feature_hr_title": "Human Resources",
+  "feature_hr_desc": "Complete HR suite including recruitment, performance management, leave tracking, and payroll.",
+  
+  "feature_logistics_title": "Logistics",
+  "feature_logistics_desc": "Shipment management, carrier integration, tracking, and fleet management for complete visibility.",
+  
+  "why_title": "Why Raylay ERP",
+  "why_content": "<p>In an increasingly complex business environment, organizations need systems that provide clarity, not additional complexity. Raylay ERP was designed from the ground up to address the fundamental challenges of modern enterprise management.</p><p>Unlike legacy systems that force businesses to adapt their processes to rigid software constraints, Raylay ERP provides the flexibility to support your unique workflows while maintaining the integration and data consistency that enterprise operations demand.</p>",
+  
+  "why_integration_title": "True Integration",
+  "why_integration_content": "<p>Every module in Raylay ERP is built on a unified data model. When a sales order is created, inventory is automatically reserved. When goods are shipped, accounting entries are automatically generated. When an invoice is paid, cash flow forecasts are immediately updated.</p><p>This level of integration eliminates the manual data entry, reconciliation, and error correction that plague organizations using disconnected systems.</p>",
+  
+  "why_customization_title": "Configurable, Not Custom",
+  "why_customization_content": "<p>Raylay ERP provides extensive configuration options—custom fields, document numbering, UI profiles, workflow automation—that allow you to adapt the system to your business without expensive custom development.</p><p>Configuration changes are preserved across updates, ensuring your investment in setup and training remains protected as the platform evolves.</p>",
+  
+  "features_page_title": "Complete Feature Set",
+  "features_page_intro": "<p>Raylay ERP provides comprehensive functionality across all major business domains. Each feature is designed to work seamlessly with the others, creating an integrated platform that eliminates data silos and manual processes.</p>",
+  
+  "features_comprehensive_title": "All Features",
+  
+  "cat_sales_crm": "Sales & Customer Relationship Management",
+  "feat_customer_lead_mgmt": "Customer & Lead Management: Centralized database for customers, leads, and suppliers",
+  "feat_contact_address": "Contact & Address Books: Multiple contacts and addresses per company with automatic map links",
+  "feat_sales_pipeline": "Sales Pipeline Management: Visual Kanban board for tracking opportunities from lead to closure",
+  "feat_quotes_proposals": "Quotes & Proposals: Create, send, and manage sales quotes; convert to orders with one click",
+  "feat_order_management": "Order Management: Process sales orders with complete fulfillment tracking",
+  "feat_customer_invoicing": "Customer Invoicing: Generate invoices from orders or from scratch with PDF generation",
+  "feat_discounts_promotions": "Discounts & Promotions: Complex, multi-conditional discount rules automatically applied",
+  "feat_activity_tracking": "Activity Tracking: Log all customer interactions (calls, meetings, tasks) for complete history",
+  "feat_ecommerce_integration": "E-commerce Integration: Sync products, stock levels, and import orders automatically",
+  "feat_point_of_sale": "Point of Sale (POS): Process in-person transactions with atomic record creation",
+  "feat_warranty_asset": "Warranty & Asset Tracking: Track serialized products sold and manage warranty information",
+  
+  "cat_financial_accounting": "Financial Accounting",
+  "feat_general_ledger": "General Ledger: Complete Chart of Accounts with manual journal entry support",
+  "feat_accounts_receivable": "Accounts Receivable: Full AR management including payments and credit notes",
+  "feat_customer_payments": "Customer Payments: Record and allocate payments from customers",
+  "feat_credit_notes": "Credit Notes: Issue and apply credit notes to customer accounts",
+  "feat_dunning_collections": "Dunning & Collections: Automatically identify and manage overdue invoices",
+  "feat_ar_aging": "AR Aging Reports: Analyze outstanding receivables by age",
+  "feat_accounts_payable": "Accounts Payable: Complete AP management including invoice processing",
+  "feat_supplier_invoices": "Supplier Invoices: Record and manage invoices from suppliers",
+  "feat_payment_processing": "Payment Processing: Individual or bulk payment runs with SEPA file generation",
+  "feat_ap_aging": "AP Aging Reports: Monitor outstanding debts to suppliers",
+  "feat_financial_reporting": "Financial Reporting: P&L, Balance Sheets, and Cash Flow Forecasts",
+  "feat_budgeting": "Budgeting: Create budgets and compare against actual performance",
+  "feat_tax_management": "Tax Management: Configure rates and generate tax reports (VAT, etc.) with authority-compliant export",
+  "feat_multi_company": "Multi-Company Consolidation: Financial consolidation across business entities",
+  "feat_banking_reconciliation": "Banking & Reconciliation: Manage accounts, import statements, reconcile transactions",
+  
+  "cat_fixed_asset": "Fixed Asset Management",
+  "feat_asset_registry": "Asset Registry: Complete register of company fixed assets (vehicles, machinery, etc.)",
+  "feat_depreciation": "Depreciation: Automatic calculation using various methods (Straight-Line, etc.)",
+  "feat_asset_maintenance": "Asset Maintenance: Schedule and log all maintenance activities",
+  
+  "cat_inventory_warehouse": "Inventory & Warehouse Management",
+  "feat_product_catalog": "Product Catalog: Detailed catalog organized by categories",
+  "feat_stock_level_tracking": "Stock Level Tracking: Real-time inventory levels across all warehouses",
+  "feat_warehouse_operations": "Warehouse Operations: Multiple warehouses, stock adjustments, inventory movements",
+  "feat_lot_serial_tracking": "Lot & Serial Number Tracking: Complete product lifecycle traceability",
+  "feat_stocktaking": "Stocktaking: Physical inventory counts with automatic variance reports and adjustments",
+  "feat_landed_costs": "Landed Costs: Accurate inventory valuation with freight, duties, and insurance",
+  
+  "cat_procurement": "Procurement & Purchasing",
+  "feat_supplier_database": "Supplier Database: Comprehensive directory of suppliers",
+  "feat_purchase_orders": "Purchase Orders: Create, send, and track purchase orders",
+  "feat_purchase_requisitions": "Purchase Requisitions: Internal purchase requests with approval workflow",
+  
+  "cat_manufacturing": "Manufacturing",
+  "feat_bill_of_materials": "Bill of Materials (BOMs): Multi-level BOMs for manufactured products",
+  "feat_work_orders": "Work Orders: Create, manage, and track complete production process",
+  "feat_production_control": "Production Control: Issue components, consume materials, receive finished goods",
+  "feat_mrp": "Material Requirements Planning (MRP): Automatic calculation of material demands with purchase/work order suggestions",
+  "feat_work_centers_routings": "Work Centers & Routings: Define production lines and operation sequences",
+  
+  "cat_human_resources": "Human Resources",
+  "feat_employee_directory": "Employee Directory: Central, secure record of all employee information",
+  "feat_org_management": "Organizational Management: Define company structure (departments, positions)",
+  "feat_contract_management": "Contract Management: Store and manage employee work contracts",
+  "feat_absence_leave": "Absence & Leave Management: Manage all leave types from request to approval",
+  "feat_recruitment_ats": "Recruitment & Applicant Tracking: Job requisitions and hiring pipeline (Kanban board)",
+  "feat_performance_management": "Performance Management: Track performance, conduct reviews, manage improvement plans",
+  "feat_payroll": "Payroll: Initiate and manage payroll runs",
+  "feat_employee_self_service": "Employee Self-Service: Employees access their own information (payslips, etc.)",
+  
+  "cat_project_management": "Project Management",
+  "feat_project_planning": "Project Planning & Tracking: Create projects, track progress, monitor KPIs",
+  "feat_task_management": "Task Management: Assign and track tasks within projects",
+  "feat_time_tracking": "Time Tracking & Timesheets: Log time for accurate costing and billing",
+  
+  "cat_logistics_supply": "Logistics & Supply Chain",
+  "feat_carrier_management": "Carrier Management: Configure and manage shipping carriers",
+  "feat_shipment_management": "Shipment Management: Create outbound shipments linked to sales orders",
+  "feat_shipment_tracking": "Shipment Tracking: Real-time tracking with carrier system integration",
+  "feat_fleet_field_service": "Fleet & Field Service Management: Manage vehicles, schedule service appointments, create reports",
+  
+  "cat_quality_returns": "Quality & Returns Management",
+  "feat_quality_control": "Quality Control: Inspection plans and quality checks on goods",
+  "feat_return_management": "Return Management (RMA): Complete return process from RMA creation to credit notes",
+  
+  "cat_subscription_billing": "Subscription Billing",
+  "feat_subscription_plan_mgmt": "Subscription & Plan Management: Create and manage subscription plans",
+  "feat_recurring_billing": "Recurring Billing: Automatic generation of recurring invoices",
+  "feat_usage_based_billing": "Usage-Based Billing: Report and bill for metered usage",
+  "feat_revenue_reporting": "Revenue Reporting: Track key metrics like Monthly Recurring Revenue (MRR)",
+  
+  "cat_collaboration": "Collaboration & Communication",
+  "feat_unified_inbox": "Unified Inbox: Manage communications from various channels in one inbox",
+  "feat_notifications": "Notifications: In-app notifications for important events (task assignments, approvals, etc.)",
+  
+  "cat_support_helpdesk": "Support & Helpdesk",
+  "feat_ticket_management": "Ticket Management: Complete ticketing system with status, priority, and assignment tracking",
+  "feat_sla": "Service Level Agreements (SLAs): Define and monitor SLA policies",
+  
+  "cat_system_admin": "System Administration & Customization",
+  "feat_user_role_management": "User & Role Management: Role-based permission system",
+  "feat_security": "Security: Multi-Factor Authentication (MFA) and strong security features",
+  "feat_ui_customization": "UI Customization: UI profiles to show/hide fields and elements by role",
+  "feat_customization": "Customization: Custom fields, document numbering sequences, UI themes",
+  "feat_document_templates": "Document Templates: Custom templates for invoices, quotes, etc.",
+  "feat_data_import": "Data Import: Guided imports with templates and validation",
+  "feat_document_management": "Document Management: Upload, store, and link files to any record",
+  "feat_global_search": "Global Search: Find any record from a single search bar",
+  "feat_integrations": "Integrations: Connect via API keys and webhooks",
+  "feat_audit_trail": "Audit Trail: Track changes and actions for security and compliance",
+  
+  "references_title": "Customer References",
+  "references_intro": "<p>Raylay ERP serves organizations across diverse industries—from manufacturing and distribution to professional services and technology companies. Our customers value the system's comprehensiveness, flexibility, and the clarity it brings to complex operations.</p>",
+  
+  "testimonials_title": "What Our Customers Say",
+  
+  "testimonial_1_quote": "Raylay ERP transformed our operations. Having all our data in one integrated system eliminated countless hours of manual reconciliation and gave us real-time visibility into our business.",
+  "testimonial_1_author": "Sarah Chen",
+  "testimonial_1_company": "Director of Operations, Precision Manufacturing Ltd.",
+  
+  "testimonial_2_quote": "The financial reporting capabilities are exceptional. We can now generate consolidated statements across our three subsidiaries in minutes instead of days.",
+  "testimonial_2_author": "Michael Weber",
+  "testimonial_2_company": "CFO, European Industrial Group",
+  
+  "testimonial_3_quote": "What impressed us most was the configurability. We were able to adapt Raylay ERP to our specific workflow requirements without any custom development.",
+  "testimonial_3_author": "James Patterson",
+  "testimonial_3_company": "IT Director, Global Distribution Services",
+  
+  "about_title": "About Raylay ERP",
+  "about_content": "<p>Raylay ERP was created to address a fundamental challenge in enterprise software: the gap between comprehensive functionality and practical usability. Too often, organizations must choose between powerful but unwieldy systems and simple but limited solutions.</p><p>We believe this is a false choice. Modern businesses deserve systems that are both comprehensive and intelligently designed—platforms that provide the depth required for complex operations while remaining clear and accessible to the people who use them daily.</p>",
+  
+  "about_mission_title": "Our Mission",
+  "about_mission_content": "<p>We are building enterprise software that respects both the complexity of modern business and the intelligence of the people running those businesses.</p><p>This means creating systems that integrate deeply across business domains, provide powerful configuration options, maintain data integrity, and present information with clarity and precision.</p>",
+  
+  "about_team_title": "Our Team",
+  "about_team_content": "<p>Raylay ERP is developed by a team of software engineers, business analysts, and domain experts who have spent years working with enterprise systems across industries.</p><p>We understand the challenges because we have experienced them firsthand. Every feature, every interface decision, every integration point reflects our commitment to building software that makes complex business operations more manageable.</p>",
+  
+  "contact_title": "Contact Us",
+  "contact_subtitle": "We would be pleased to discuss how Raylay ERP can support your organization's specific requirements.",
+  "contact_phone": "Phone",
+  "contact_email": "Email",
+  
+  "footer_text": "© 2025 Raylay ERP. All rights reserved."
+}
