@@ -133,13 +133,15 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
     
     return ' '.join(links)
 
-def render_lang_switcher(config: Dict[str, Any], current_page: str) -> str:
+def render_lang_switcher(config: Dict[str, Any], current_page: str, current_lang: str) -> str:
     base_url = config.get('base_url', '')
     links = []
     for l, ldata in config['languages'].items():
-        url = f"{base_url}/{l}/{current_page}.html" if current_page != 'home' else f"{base_url}/{l}/"
-        links.append(f'<a href="{url}" role="menuitem" lang="{l}">{ldata["name"]}</a>')
-    return ' | '.join(links)
+        # Only show languages that are NOT the current language
+        if l != current_lang:
+            url = f"{base_url}/{l}/{current_page}.html" if current_page != 'home' else f"{base_url}/{l}/"
+            links.append(f'<a href="{url}" role="menuitem" lang="{l}">{ldata["name"]}</a>')
+    return ' '.join(links)  # Join without divider
 
 def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any], lang: str) -> str:
     title = translate(section['title'], lang_data)
@@ -240,8 +242,8 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     <section class="hero{gradient_class}"{gradient_style} aria-labelledby="hero-heading">
         <div class="container">
             <div class="hero-content">
-                <h1 id="hero-heading" role="heading" aria-level="1">{title}</h1>
-                <p class="hero-subtitle" role="text">{subtitle}</p>
+                <h1 id="hero-heading" tabindex="0" role="heading" aria-level="1">{title}</h1>
+                <p class="hero-subtitle" tabindex="0" role="text">{subtitle}</p>
                 <div class="cta-buttons">
                     {cta_buttons}
                 </div>{google_reviews_html}
@@ -342,105 +344,36 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     
     # Get gradient from section, fallback to config default
     gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'))
-    has_gradient = bool(section.get('background', ''))
     
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
-    if has_gradient:
+    if background:
         bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
-    
-    # For desktop 2/1 layout: group features by bullet count
-    # Determine threshold based on median bullet count
-    items_with_counts = []
-    bullet_counts = []
-    for feature in items_data:
-        bullet_count = len(feature.get('bullets', []))
-        items_with_counts.append((feature, bullet_count))
-        bullet_counts.append(bullet_count)
-    
-    # Calculate median bullet count as threshold
-    if bullet_counts:
-        sorted_counts = sorted(bullet_counts)
-        median = sorted_counts[len(sorted_counts) // 2]
-        # Small items have bullet count <= median, large items have > median
-        threshold = median
-    else:
-        threshold = 0
-    
-    # Create brick pattern: pair large items with small items
-    brick_pattern = []
-    used_indices = set()
-    
-    i = 0
-    while i < len(items_with_counts):
-        if i in used_indices:
-            i += 1
-            continue
-            
-        # Find next large and small items
-        large = None
-        small = None
-        
-        # Get two items for a row
-        for j in range(i, len(items_with_counts)):
-            if j in used_indices:
-                continue
-                
-            item, count = items_with_counts[j]
-            if count > threshold and large is None:
-                large = (item, count, j)
-            elif count <= threshold and small is None:
-                small = (item, count, j)
-            
-            if large and small:
-                break
-        
-        # If we found both, use them
-        if large and small:
-            brick_pattern.append((large, small))
-            used_indices.add(large[2])
-            used_indices.add(small[2])
-        # Otherwise just add what we have left
-        elif i not in used_indices:
-            brick_pattern.append(((items_with_counts[i][0], items_with_counts[i][1], i), None))
-            used_indices.add(i)
-        
-        i += 1
-    
-    # Determine if we should use 2/1 grid
-    use_2_1_grid = len(items_data) > 2 and any(len(f.get('bullets', [])) > 0 for f in items_data)
-    grid_class = 'grid-2-1' if use_2_1_grid else ''
     
     # Generate unique section ID for aria-labelledby
     section_id = section.get('title', 'features').replace('_', '-')
     heading_id = f"{section_id}-heading"
     
+    # Simple 2x2 grid with checkerboard gradient pattern
     items = []
-    for idx, row in enumerate(brick_pattern):
-        if row[1] is not None:  # We have both large and small
-            large_item, small_item = row
-            # Always render large first, small second
-            # They will flow naturally into 2fr (left) and 1fr (right) columns
-            # Alternate gradient: odd rows = right column (small), even rows = left column (large)
-            is_odd_row = idx % 2 == 1
-            items.append(render_feature_card(large_item[0], lang_data, base_url, not is_odd_row, gradient))
-            items.append(render_feature_card(small_item[0], lang_data, base_url, is_odd_row, gradient))
-        else:  # Only one item
-            items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
+    for idx, feature in enumerate(items_data):
+        # Checkerboard: apply gradient to positions 0 and 3 (top-left and bottom-right)
+        apply_gradient = (idx % 4 == 0 or idx % 4 == 3)
+        items.append(render_feature_card(feature, lang_data, base_url, apply_gradient, gradient))
     
     return f'''
     <section class="features-section {bg_class}{first_class}"{bg_style} tabindex="0" role="region" aria-labelledby="{heading_id}" aria-label="{title}">
         <div class="container">
             <h2 id="{heading_id}">{title}</h2>
-            <div class="features-grid {grid_class}" role="list">
+            <div class="features-grid grid-2x2" role="list">
                 {chr(10).join(items)}
             </div>
         </div>
     </section>'''
 
-def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base_url: str, is_small: bool, gradient: str) -> str:
+def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base_url: str, apply_gradient: bool, gradient: str) -> str:
     """Render a single feature card."""
     feat_title = translate(feature['title'], lang_data)
     feat_desc = translate(feature.get('description', ''), lang_data)
@@ -512,9 +445,9 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
     bullets_text = ' '.join([translate(b, lang_data).replace(':', ' - ') for b in feature.get('bullets', [])])
     aria_label = f"{feat_title}. {feat_desc} {bullets_text}".strip()
     
-    # Small items (1 column) get gradient background
-    card_class = 'has-gradient' if is_small else ''
-    card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
+    # Apply gradient background based on checkerboard pattern
+    card_class = 'has-gradient' if apply_gradient else ''
+    card_style = f' style="--card-gradient: {gradient};"' if apply_gradient else ''
     
     return f'''
         <article class="feature-card {card_class}"{card_style} role="region" aria-label="{aria_label}" tabindex="0">
@@ -1005,14 +938,12 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
             first_non_hero_found = True
             section['is_first_content'] = True
             
-            # Add gradient only to first non-hero section if it doesn't have background
-            if 'background' not in section or not section['background']:
-                section['background'] = config.get('default_gradient', 'linear-gradient(135deg, #3d2456 0%, #8b3a62 50%, #c2185b 100%)')
+            # Do NOT add gradient automatically - let sections specify their own backgrounds
         
         sections_html.append(render_section(section, lang_data, config, lang))
     
     nav_html = render_nav(config, lang_data, page['slug'], lang)
-    lang_switcher_html = render_lang_switcher(config, page['slug'])
+    lang_switcher_html = render_lang_switcher(config, page['slug'], lang)
     nav_logo_html = render_nav_logo(config, lang_data, has_gradient)
     
     phone = config['languages'][lang].get('phone', '')
@@ -1086,7 +1017,7 @@ def main():
                     blog_post_html = render_blog_post(post, lang_data, config, lang)
                     
                     nav_html = render_nav(config, lang_data, 'blog', lang)
-                    lang_switcher_html = render_lang_switcher(config, 'blog')
+                    lang_switcher_html = render_lang_switcher(config, 'blog', lang)
                     nav_logo_html = render_nav_logo(config, lang_data, False)
                     
                     phone = config['languages'][lang].get('phone', '')
