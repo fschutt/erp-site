@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}}</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">{{NAV_TITLE}}</div>
+            <div class="nav-right">
+                <div class="nav-links">{{NAV_LINKS}}</div>
+                <div class="lang-switcher">{{LANG_SWITCHER}}</div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {{CONTENT}}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>{{FOOTER_TEXT}}</p>
+        </div>
+    </footer>
+</body>
+</html>
