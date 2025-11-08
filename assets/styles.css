@@ -55,6 +55,13 @@ body {
     font-size: 22px;
     font-weight: 600;
     letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+}
+
+.nav-brand img {
+    height: 32px;
+    width: auto;
 }
 
 .nav-right {
@@ -105,10 +112,21 @@ body {
     position: relative;
 }
 
+.hero.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.hero.has-gradient h1,
+.hero.has-gradient .hero-subtitle {
+    color: white;
+}
+
 .hero .container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 64px;
+    align-items: center;
     position: relative;
     z-index: 1;
 }
@@ -141,6 +159,7 @@ body {
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
+    order: 2;
 }
 
 .hero-image-wrapper::before {
@@ -222,6 +241,11 @@ body {
     border-bottom: none;
 }
 
+.section-image img,
+.content-image img {
+    background-color: #f0f0f0; /* Fallback while loading */
+}
+
 .text-section h2 {
     font-family: var(--font-serif);
     font-size: 38px;
@@ -281,37 +305,82 @@ body {
     position: relative;
 }
 
+.features-section.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.features-section.has-gradient h2 {
+    color: white;
+}
+
 .features-section h2 {
     font-family: var(--font-serif);
     font-size: 38px;
     font-weight: 600;
     letter-spacing: -0.02em;
-    margin-bottom: 56px;
+    margin-bottom: 64px;
     text-align: center;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 48px;
+    gap: 64px;
 }
 
-/* Desktop 2/1 grid layout for features */
+/* Desktop 2/1 brick pattern layout for features */
 @media (min-width: 1024px) {
     .features-grid.grid-2-1 {
         grid-template-columns: 2fr 1fr;
-        gap: 56px;
+        gap: 64px;
+        row-gap: 80px;
+    }
+    
+    /* Brick pattern: alternate between 2-1 and 1-2 */
+    .features-grid.grid-2-1 .feature-card:nth-child(4n+3) {
+        grid-column: 2;
+        grid-row: span 1;
+    }
+    
+    .features-grid.grid-2-1 .feature-card:nth-child(4n+4) {
+        grid-column: 1;
+        grid-row: span 1;
     }
 }
 
 .feature-card {
-    padding: 24px 0;
+    padding: 32px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card.has-gradient {
+    background: var(--card-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.feature-card.has-gradient:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.feature-card.has-gradient h3,
+.feature-card.has-gradient p,
+.feature-card.has-gradient ul li {
+    color: white;
 }
 
 .feature-icon {
     font-size: 32px;
     margin-bottom: 16px;
     color: var(--color-accent);
+}
+
+.feature-card.has-gradient .feature-icon {
+    color: white;
+    opacity: 0.9;
 }
 
 .feature-image {
@@ -334,38 +403,44 @@ body {
 
 .feature-card h3 {
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     letter-spacing: -0.01em;
+    line-height: 1.3;
 }
 
 .feature-card p {
     color: var(--color-text-light);
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.7;
 }
 
 .feature-card ul {
     list-style: none;
-    margin-top: 16px;
+    margin-top: 20px;
 }
 
 .feature-card ul li {
-    padding: 6px 0;
-    padding-left: 24px;
+    padding: 8px 0;
+    padding-left: 28px;
     position: relative;
     color: var(--color-text-light);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
 }
 
 .feature-card ul li:before {
     content: "•";
     position: absolute;
-    left: 8px;
+    left: 10px;
     color: var(--color-accent);
     font-weight: bold;
+    font-size: 18px;
+}
+
+.feature-card.has-gradient ul li:before {
+    color: white;
 }
 
 /* Feature Categories */
@@ -597,6 +672,19 @@ footer {
         padding-left: 0;
     }
     
+    .hero .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .hero-image-wrapper {
+        order: 1;
+    }
+    
+    .hero-content {
+        order: 2;
+    }
+    
     .hero h1 {
         font-size: 42px;
     }
@@ -614,6 +702,10 @@ footer {
     .features-grid.grid-2-1 {
         grid-template-columns: 1fr;
         gap: 40px;
+    }
+    
+    .feature-card h3 {
+        font-size: 22px;
     }
     
     .categories-grid {
@@ -645,7 +737,15 @@ footer {
 }
 
 @media (min-width: 769px) and (max-width: 1023px) {
+    .hero .container {
+        grid-template-columns: 1fr;
+    }
+    
     .hero h1 {
         font-size: 56px;
+    }
+    
+    .features-grid.grid-2-1 {
+        grid-template-columns: 1fr;
     }
 }

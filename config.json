@@ -4,6 +4,7 @@
   "calendly_url": "https://calendly.com/raylay-demo",
   "contact_email": "info@raylay.com",
   "default_language": "en",
+  "default_gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
   "languages": {
     "en": {
       "name": "EN",
@@ -50,6 +51,8 @@
             {
               "media": "/assets/crm-feature.jpg",
               "media_type": "image",
+              "width": "600",
+              "height": "400",
               "title": "feature_crm_title",
               "description": "feature_crm_desc",
               "bullets": [
@@ -62,6 +65,8 @@
             {
               "media": "/assets/finance-feature.jpg",
               "media_type": "image",
+              "width": "600",
+              "height": "400",
               "title": "feature_finance_title",
               "description": "feature_finance_desc",
               "bullets": [
@@ -72,6 +77,8 @@
             {
               "media": "/assets/inventory-feature.jpg",
               "media_type": "image",
+              "width": "600",
+              "height": "400",
               "title": "feature_inventory_title",
               "description": "feature_inventory_desc",
               "bullets": [
@@ -84,6 +91,8 @@
             {
               "media": "/assets/manufacturing-feature.jpg",
               "media_type": "image",
+              "width": "600",
+              "height": "400",
               "title": "feature_manufacturing_title",
               "description": "feature_manufacturing_desc",
               "bullets": [
@@ -95,6 +104,8 @@
             {
               "media": "/assets/hr-feature.jpg",
               "media_type": "image",
+              "width": "600",
+              "height": "400",
               "title": "feature_hr_title",
               "description": "feature_hr_desc",
               "bullets": [
@@ -108,6 +119,8 @@
             {
               "media": "/assets/logistics-feature.jpg",
               "media_type": "image",
+              "width": "600",
+              "height": "400",
               "title": "feature_logistics_title",
               "description": "feature_logistics_desc",
               "bullets": [

@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
 import json
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import shutil
+import base64
 
 def load_json(path: str) -> Dict[str, Any]:
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
+
+def load_svg_as_base64(path: str) -> Optional[str]:
+    """Load an SVG file and return it as a base64 data URI."""
+    try:
+        svg_path = Path(path)
+        if svg_path.exists():
+            with open(svg_path, 'rb') as f:
+                svg_data = f.read()
+                b64_data = base64.b64encode(svg_data).decode('utf-8')
+                return f"data:image/svg+xml;base64,{b64_data}"
+    except Exception as e:
+        print(f"Warning: Could not load SVG {path}: {e}")
+    return None
 
 def translate(key: str, lang_data: Dict[str, str]) -> str:
     return lang_data.get(key, key)
@@ -17,6 +31,19 @@ def get_image_url(section: Dict[str, Any], lang: str) -> str:
         return images.get(lang, images.get('default', ''))
     return images if images else ''
 
+def render_nav_logo(config: Dict[str, Any], lang_data: Dict[str, str], has_gradient: bool) -> str:
+    """Render the navigation logo, trying SVG first, then falling back to text."""
+    # Determine which logo to use based on background
+    logo_file = 'assets/logo-dark.svg' if has_gradient else 'assets/logo-light.svg'
+    logo_data = load_svg_as_base64(logo_file)
+    
+    if logo_data:
+        brand_text = translate('site_brand', lang_data)
+        return f'<img src="{logo_data}" alt="{brand_text}" aria-label="{brand_text}">'
+    else:
+        # Fallback to text
+        return translate('site_brand', lang_data)
+
 def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: str, lang: str) -> str:
     base_url = config.get('base_url', '')
     links = []
@@ -25,7 +52,7 @@ def render_nav(config: Dict[str, Any], lang_data: Dict[str, str], current_page: 
         title = translate(page['nav_title'], lang_data)
         active = 'active' if slug == current_page else ''
         url = f"{base_url}/{lang}/{slug}.html" if slug != 'home' else f"{base_url}/{lang}/"
-        links.append(f'<a href="{url}" class="{active}">{title}</a>')
+        links.append(f'<a href="{url}" class="{active}" role="menuitem">{title}</a>')
     
     return ' '.join(links)
 
@@ -34,7 +61,7 @@ def render_lang_switcher(config: Dict[str, Any], current_page: str) -> str:
     links = []
     for l, ldata in config['languages'].items():
         url = f"{base_url}/{l}/{current_page}.html" if current_page != 'home' else f"{base_url}/{l}/"
-        links.append(f'<a href="{url}">{ldata["name"]}</a>')
+        links.append(f'<a href="{url}" role="menuitem" lang="{l}">{ldata["name"]}</a>')
     return ' | '.join(links)
 
 def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any], lang: str) -> str:
@@ -46,8 +73,10 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
     base_url = config.get('base_url', '')
     
     # Handle gradient background
-    gradient = section.get('gradient', '')
+    gradient = section.get('gradient', config.get('default_gradient', ''))
+    has_gradient = bool(gradient)
     gradient_style = f' style="background: {gradient};"' if gradient else ''
+    gradient_class = ' has-gradient' if has_gradient else ''
     
     # Handle media (image or video)
     media_config = section.get('media', section.get('image', {}))
@@ -66,32 +95,39 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
         media_url = base_url + media_url
     
     size_attrs = ''
+    style_attrs = ''
     if width:
         size_attrs += f' width="{width}"'
+        style_attrs += f'width: {width}px; '
     if height:
         size_attrs += f' height="{height}"'
+        style_attrs += f'height: {height}px; '
+    
+    if style_attrs:
+        style_attrs = f' style="{style_attrs}"'
     
     # Generate media HTML (image or video with foam.svg background)
     media_html = ''
     if media_url:
         if media_type == 'video':
-            media_html = f'''<div class="hero-image-wrapper">
-                <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs}></video>
+            media_html = f'''<div class="hero-image-wrapper"{style_attrs}>
+                <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs} aria-label="{title}"></video>
             </div>'''
         else:
-            media_html = f'''<div class="hero-image-wrapper">
+            media_html = f'''<div class="hero-image-wrapper"{style_attrs}>
                 <img src="{media_url}" alt="{title}" class="hero-image"{size_attrs}>
             </div>'''
     
     # Generate CTA buttons
     cta_buttons = f'<a href="{demo_url}" class="btn btn-primary">{translate("view_demo", lang_data)}</a>'
-    cta_buttons += f'<a href="tel:{phone}" class="btn btn-secondary">{translate("contact_sales", lang_data)}</a>'
     
     if calendly_url:
-        cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary">{translate("book_demo", lang_data)}</a>'
+        cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
+    
+    cta_buttons += f'<a href="tel:{phone}" class="btn btn-secondary">{translate("contact_sales", lang_data)}</a>'
     
     return f'''
-    <section class="hero"{gradient_style}>
+    <section class="hero{gradient_class}"{gradient_style} aria-label="Hero section">
         <div class="container">
             <div class="hero-content">
                 <h1>{title}</h1>
@@ -129,12 +165,18 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
         image_url = base_url + image_url
     
     size_attrs = ''
+    style_attrs = ''
     if width:
         size_attrs += f' width="{width}"'
+        style_attrs += f'width: {width}px; '
     if height:
         size_attrs += f' height="{height}"'
+        style_attrs += f'height: {height}px; '
     
-    image_html = f'<img src="{image_url}" alt="{title}"{size_attrs}>' if image_url else ''
+    if style_attrs:
+        style_attrs = f' style="{style_attrs}"'
+    
+    image_html = f'<img src="{image_url}" alt="{title}"{size_attrs}{style_attrs}>' if image_url else ''
     
     if layout == 'image-left' and image_html:
         return f'''
@@ -177,9 +219,15 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     base_url = config.get('base_url', '')
     items_data = section.get('items', [])
     
+    # Get gradient from section, fallback to config default
+    gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'))
+    has_gradient = bool(section.get('background', ''))
+    
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
+    if has_gradient:
+        bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
     # For desktop 2/1 layout: group features by bullet count
@@ -189,51 +237,57 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
         bullet_count = len(feature.get('bullets', []))
         items_with_counts.append((feature, bullet_count))
     
-    # Sort by bullet count (descending) for better layout
-    items_with_counts.sort(key=lambda x: x[1], reverse=True)
+    # Create brick pattern: alternate large-small with small-large
+    # Items with fewer bullets (1-column) get gradient background
+    brick_pattern = []
+    i = 0
+    while i < len(items_with_counts):
+        # Find next large and small items
+        large = None
+        small = None
+        
+        # Get two items for a row
+        for j in range(i, min(i + 4, len(items_with_counts))):
+            item, count = items_with_counts[j]
+            if count >= 3 and large is None:
+                large = (item, count, j)
+            elif count < 3 and small is None:
+                small = (item, count, j)
+            
+            if large and small:
+                break
+        
+        # If we found both, use them
+        if large and small:
+            brick_pattern.append((large, small))
+            items_with_counts[large[2]] = None
+            items_with_counts[small[2]] = None
+        # Otherwise just add what we have left
+        elif i < len(items_with_counts) and items_with_counts[i] is not None:
+            brick_pattern.append(((items_with_counts[i][0], items_with_counts[i][1], i), None))
+        
+        i += 1
+        # Skip items we've already added
+        while i < len(items_with_counts) and items_with_counts[i] is None:
+            i += 1
     
-    # Determine if we should use 2/1 grid (only if we have mixed bullet counts)
-    use_2_1_grid = len(items_with_counts) > 0 and max(x[1] for x in items_with_counts) > 0
+    # Determine if we should use 2/1 grid
+    use_2_1_grid = len(items_data) > 2 and any(len(f.get('bullets', [])) > 0 for f in items_data)
     grid_class = 'grid-2-1' if use_2_1_grid else ''
     
     items = []
-    for feature, bullet_count in items_with_counts:
-        feat_title = translate(feature['title'], lang_data)
-        feat_desc = translate(feature.get('description', ''), lang_data)
-        
-        # Handle media (image or video)
-        media_config = feature.get('media', feature.get('image', ''))
-        media_type = feature.get('media_type', 'image')
-        
-        if media_config:
-            if not media_config.startswith('http'):
-                media_url = base_url + media_config
+    for idx, row in enumerate(brick_pattern):
+        if row[1] is not None:  # We have both large and small
+            large_item, small_item = row
+            # Alternate the order: even rows are large-small, odd rows are small-large
+            if idx % 2 == 0:
+                items.append(render_feature_card(large_item[0], lang_data, base_url, False, gradient))
+                items.append(render_feature_card(small_item[0], lang_data, base_url, True, gradient))
             else:
-                media_url = media_config
-            
-            if media_type == 'video':
-                media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline></video>'
-            else:
-                media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image">'
-        else:
-            icon = feature.get('icon', '●')
-            media_html = f'<div class="feature-icon">{icon}</div>'
-        
-        # Render bullets if present
-        bullets_html = ''
-        if bullet_count > 0:
-            bullet_items = [f'<li>{translate(b, lang_data)}</li>' for b in feature.get('bullets', [])]
-            bullets_html = f'<ul>{chr(10).join(bullet_items)}</ul>'
-        
-        desc_html = f'<p>{feat_desc}</p>' if feat_desc else ''
-        
-        items.append(f'''
-        <div class="feature-card">
-            {media_html}
-            <h3>{feat_title}</h3>
-            {desc_html}
-            {bullets_html}
-        </div>''')
+                items.append(render_feature_card(small_item[0], lang_data, base_url, True, gradient))
+                items.append(render_feature_card(large_item[0], lang_data, base_url, False, gradient))
+        else:  # Only one item
+            items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
     
     return f'''
     <section class="features-section {bg_class}"{bg_style}>
@@ -244,6 +298,64 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
             </div>
         </div>
     </section>'''
+
+def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base_url: str, is_small: bool, gradient: str) -> str:
+    """Render a single feature card."""
+    feat_title = translate(feature['title'], lang_data)
+    feat_desc = translate(feature.get('description', ''), lang_data)
+    
+    # Handle media (image or video)
+    media_config = feature.get('media', feature.get('image', ''))
+    media_type = feature.get('media_type', 'image')
+    width = feature.get('width', '')
+    height = feature.get('height', '')
+    
+    if media_config:
+        if not media_config.startswith('http'):
+            media_url = base_url + media_config
+        else:
+            media_url = media_config
+        
+        size_attrs = ''
+        style_attrs = ''
+        if width:
+            size_attrs += f' width="{width}"'
+            style_attrs += f'width: {width}px; '
+        if height:
+            size_attrs += f' height="{height}"'
+            style_attrs += f'height: {height}px; '
+        
+        if style_attrs:
+            style_attrs = f' style="{style_attrs}"'
+        
+        if media_type == 'video':
+            media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline{size_attrs}{style_attrs} aria-label="{feat_title}"></video>'
+        else:
+            media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}{style_attrs}>'
+    else:
+        icon = feature.get('icon', '●')
+        media_html = f'<div class="feature-icon" aria-hidden="true">{icon}</div>'
+    
+    # Render bullets if present
+    bullet_count = len(feature.get('bullets', []))
+    bullets_html = ''
+    if bullet_count > 0:
+        bullet_items = [f'<li>{translate(b, lang_data)}</li>' for b in feature.get('bullets', [])]
+        bullets_html = f'<ul>{chr(10).join(bullet_items)}</ul>'
+    
+    desc_html = f'<p>{feat_desc}</p>' if feat_desc else ''
+    
+    # Small items (1 column) get gradient background
+    card_class = 'has-gradient' if is_small else ''
+    card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
+    
+    return f'''
+        <div class="feature-card {card_class}"{card_style}>
+            {media_html}
+            <h3>{feat_title}</h3>
+            {desc_html}
+            {bullets_html}
+        </div>'''
 
 def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
     title = translate(section['title'], lang_data)
@@ -414,16 +526,26 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     lang_data = load_json(f"translations/{lang}.json")
     base_url = config.get('base_url', '')
     
+    # Check if first section has gradient to determine logo color
+    has_gradient = False
+    if page.get('sections') and len(page['sections']) > 0:
+        first_section = page['sections'][0]
+        if first_section.get('type') == 'hero':
+            has_gradient = bool(first_section.get('gradient', config.get('default_gradient', '')))
+    
     sections_html = []
     for section in page.get('sections', []):
         sections_html.append(render_section(section, lang_data, config, lang))
     
     nav_html = render_nav(config, lang_data, page['slug'], lang)
     lang_switcher_html = render_lang_switcher(config, page['slug'])
+    nav_logo_html = render_nav_logo(config, lang_data, has_gradient)
     
     page_html = template.replace('{{TITLE}}', translate('site_title', lang_data))
+    page_html = page_html.replace('{{META_DESCRIPTION}}', translate('site_description', lang_data))
     page_html = page_html.replace('{{LANG}}', lang)
     page_html = page_html.replace('{{BASE_URL}}', base_url)
+    page_html = page_html.replace('{{NAV_LOGO}}', nav_logo_html)
     page_html = page_html.replace('{{NAV_TITLE}}', translate('site_brand', lang_data))
     page_html = page_html.replace('{{NAV_LINKS}}', nav_html)
     page_html = page_html.replace('{{LANG_SWITCHER}}', lang_switcher_html)
@@ -443,6 +565,11 @@ def main():
     
     (dist / 'assets').mkdir()
     shutil.copy('assets/styles.css', dist / 'assets' / 'styles.css')
+    
+    # Copy foam.svg if it exists
+    foam_svg = Path('assets/foam.svg')
+    if foam_svg.exists():
+        shutil.copy(foam_svg, dist / 'assets' / 'foam.svg')
     
     for lang in config['languages'].keys():
         lang_dir = dist / lang
