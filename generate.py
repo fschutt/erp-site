@@ -4,10 +4,61 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 import shutil
 import base64
+import re
 
 def load_json(path: str) -> Dict[str, Any]:
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
+
+def simple_markdown_to_html(md_text: str) -> str:
+    """Convert basic markdown to HTML"""
+    html = md_text
+    
+    # Headers
+    html = re.sub(r'^### (.*?)$', r'<h3>\1</h3>', html, flags=re.MULTILINE)
+    html = re.sub(r'^## (.*?)$', r'<h2>\1</h2>', html, flags=re.MULTILINE)
+    html = re.sub(r'^# (.*?)$', r'<h1>\1</h1>', html, flags=re.MULTILINE)
+    
+    # Bold and italic
+    html = re.sub(r'\*\*\*(.*?)\*\*\*', r'<strong><em>\1</em></strong>', html)
+    html = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html)
+    html = re.sub(r'\*(.*?)\*', r'<em>\1</em>', html)
+    
+    # Links
+    html = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', html)
+    
+    # Lists
+    lines = html.split('\n')
+    in_list = False
+    result = []
+    for line in lines:
+        if line.strip().startswith('- '):
+            if not in_list:
+                result.append('<ul>')
+                in_list = True
+            result.append(f'<li>{line.strip()[2:]}</li>')
+        else:
+            if in_list:
+                result.append('</ul>')
+                in_list = False
+            result.append(line)
+    if in_list:
+        result.append('</ul>')
+    html = '\n'.join(result)
+    
+    # Paragraphs
+    html = re.sub(r'\n\n+', '</p><p>', html)
+    html = f'<p>{html}</p>'
+    
+    # Clean up empty paragraphs and extra tags
+    html = re.sub(r'<p>\s*</p>', '', html)
+    html = re.sub(r'<p>\s*(<h[1-6]>)', r'\1', html)
+    html = re.sub(r'(</h[1-6]>)\s*</p>', r'\1', html)
+    html = re.sub(r'<p>\s*(<ul>)', r'\1', html)
+    html = re.sub(r'(</ul>)\s*</p>', r'\1', html)
+    
+    return html
+
 
 def load_svg_as_base64(path: str) -> Optional[str]:
     """Load an SVG file and return it as a base64 data URI."""
@@ -113,27 +164,21 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
         media_url = base_url + media_url
     
     size_attrs = ''
-    style_attrs = ''
     if width:
         size_attrs += f' width="{width}"'
-        style_attrs += f'width: {width}px; '
     if height:
         size_attrs += f' height="{height}"'
-        style_attrs += f'height: {height}px; '
-    
-    if style_attrs:
-        style_attrs = f' style="{style_attrs}"'
     
     # Generate media HTML (image or video with foam.svg overlay)
     media_html = ''
     if media_url:
         if media_type == 'video':
-            media_html = f'''<div class="hero-image-wrapper"{style_attrs}>
+            media_html = f'''<div class="hero-image-wrapper">
                 <video src="{media_url}" class="hero-video" autoplay loop muted playsinline{size_attrs} aria-label="{title}"></video>
                 <div class="foam-overlay"></div>
             </div>'''
         else:
-            media_html = f'''<div class="hero-image-wrapper"{style_attrs}>
+            media_html = f'''<div class="hero-image-wrapper">
                 <img src="{media_url}" alt="{title}" class="hero-image"{size_attrs}>
                 <div class="foam-overlay"></div>
             </div>'''
@@ -145,10 +190,10 @@ def render_hero(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict
         cta_buttons += f'<a href="{calendly_url}" class="btn btn-primary" target="_blank" rel="noopener">{translate("book_demo", lang_data)}</a>'
     
     return f'''
-    <section class="hero{gradient_class}"{gradient_style} aria-label="Hero section">
+    <section class="hero{gradient_class}"{gradient_style} aria-labelledby="hero-heading">
         <div class="container">
             <div class="hero-content">
-                <h1>{title}</h1>
+                <h1 id="hero-heading">{title}</h1>
                 <p class="hero-subtitle">{subtitle}</p>
                 <div class="cta-buttons">
                     {cta_buttons}
@@ -163,6 +208,10 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     content = translate(section['content'], lang_data)
     layout = section.get('layout', 'text-only')
     base_url = config.get('base_url', '')
+    
+    # Generate unique section ID from title for aria-labelledby
+    section_id = section.get('title', 'section').replace('_', '-')
+    heading_id = f"{section_id}-heading"
     
     # Handle section background
     background = section.get('background', '')
@@ -185,27 +234,21 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
         image_url = base_url + image_url
     
     size_attrs = ''
-    style_attrs = ''
     if width:
         size_attrs += f' width="{width}"'
-        style_attrs += f'width: {width}px; '
     if height:
         size_attrs += f' height="{height}"'
-        style_attrs += f'height: {height}px; '
     
-    if style_attrs:
-        style_attrs = f' style="{style_attrs}"'
-    
-    image_html = f'<img src="{image_url}" alt="{title}"{size_attrs}{style_attrs}>' if image_url else ''
+    image_html = f'<img src="{image_url}" alt="{title}"{size_attrs}>' if image_url else ''
     
     if layout == 'image-left' and image_html:
         return f'''
-    <section class="text-section layout-image-left {bg_class}"{bg_style}>
+    <section class="text-section layout-image-left {bg_class}"{bg_style} aria-labelledby="{heading_id}">
         <div class="container">
             <div class="content-grid">
                 <div class="content-image">{image_html}</div>
                 <div class="content-text">
-                    <h2>{title}</h2>
+                    <h2 id="{heading_id}">{title}</h2>
                     <div class="prose">{content}</div>
                 </div>
             </div>
@@ -213,11 +256,11 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     </section>'''
     elif layout == 'image-right' and image_html:
         return f'''
-    <section class="text-section layout-image-right {bg_class}"{bg_style}>
+    <section class="text-section layout-image-right {bg_class}"{bg_style} aria-labelledby="{heading_id}">
         <div class="container">
             <div class="content-grid">
                 <div class="content-text">
-                    <h2>{title}</h2>
+                    <h2 id="{heading_id}">{title}</h2>
                     <div class="prose">{content}</div>
                 </div>
                 <div class="content-image">{image_html}</div>
@@ -226,9 +269,9 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     </section>'''
     else:
         return f'''
-    <section class="text-section {bg_class}"{bg_style}>
+    <section class="text-section {bg_class}"{bg_style} aria-labelledby="{heading_id}">
         <div class="container">
-            <h2>{title}</h2>
+            <h2 id="{heading_id}">{title}</h2>
             <div class="prose">{content}</div>
             {f'<div class="section-image">{image_html}</div>' if image_html else ''}
         </div>
@@ -251,14 +294,24 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     bg_style = f' style="background: {background};"' if background else ''
     
     # For desktop 2/1 layout: group features by bullet count
-    # Features with more bullets go in 2-column span, fewer in 1-column span
+    # Determine threshold based on median bullet count
     items_with_counts = []
+    bullet_counts = []
     for feature in items_data:
         bullet_count = len(feature.get('bullets', []))
         items_with_counts.append((feature, bullet_count))
+        bullet_counts.append(bullet_count)
     
-    # Create brick pattern: alternate large-small with small-large
-    # Items with fewer bullets (1-column) get gradient background
+    # Calculate median bullet count as threshold
+    if bullet_counts:
+        sorted_counts = sorted(bullet_counts)
+        median = sorted_counts[len(sorted_counts) // 2]
+        # Small items have bullet count <= median, large items have > median
+        threshold = median
+    else:
+        threshold = 0
+    
+    # Create brick pattern: pair large items with small items
     brick_pattern = []
     used_indices = set()
     
@@ -278,9 +331,9 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
                 continue
                 
             item, count = items_with_counts[j]
-            if count >= 3 and large is None:
+            if count > threshold and large is None:
                 large = (item, count, j)
-            elif count < 3 and small is None:
+            elif count <= threshold and small is None:
                 small = (item, count, j)
             
             if large and small:
@@ -302,6 +355,10 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     use_2_1_grid = len(items_data) > 2 and any(len(f.get('bullets', [])) > 0 for f in items_data)
     grid_class = 'grid-2-1' if use_2_1_grid else ''
     
+    # Generate unique section ID for aria-labelledby
+    section_id = section.get('title', 'features').replace('_', '-')
+    heading_id = f"{section_id}-heading"
+    
     items = []
     for idx, row in enumerate(brick_pattern):
         if row[1] is not None:  # We have both large and small
@@ -314,9 +371,9 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
             items.append(render_feature_card(row[0][0], lang_data, base_url, False, gradient))
     
     return f'''
-    <section class="features-section {bg_class}"{bg_style}>
+    <section class="features-section {bg_class}"{bg_style} aria-labelledby="{heading_id}">
         <div class="container">
-            <h2>{title}</h2>
+            <h2 id="{heading_id}">{title}</h2>
             <div class="features-grid {grid_class}">
                 {chr(10).join(items)}
             </div>
@@ -341,21 +398,15 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
             media_url = media_config
         
         size_attrs = ''
-        style_attrs = ''
         if width:
             size_attrs += f' width="{width}"'
-            style_attrs += f'width: {width}px; '
         if height:
             size_attrs += f' height="{height}"'
-            style_attrs += f'height: {height}px; '
-        
-        if style_attrs:
-            style_attrs = f' style="{style_attrs}"'
         
         if media_type == 'video':
-            media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline{size_attrs}{style_attrs} aria-label="{feat_title}"></video>'
+            media_html = f'<video src="{media_url}" class="feature-video" autoplay loop muted playsinline{size_attrs} aria-label="{feat_title}"></video>'
         else:
-            media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}{style_attrs}>'
+            media_html = f'<img src="{media_url}" alt="{feat_title}" class="feature-image"{size_attrs}>'
     else:
         icon = feature.get('icon', '●')
         media_html = f'<div class="feature-icon" aria-hidden="true">{icon}</div>'
@@ -364,7 +415,14 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
     bullet_count = len(feature.get('bullets', []))
     bullets_html = ''
     if bullet_count > 0:
-        bullet_items = [f'<li>{translate(b, lang_data)}</li>' for b in feature.get('bullets', [])]
+        bullet_items = []
+        for b in feature.get('bullets', []):
+            bullet_text = translate(b, lang_data)
+            # Make text before ":" bold
+            if ':' in bullet_text:
+                parts = bullet_text.split(':', 1)
+                bullet_text = f'<strong>{parts[0]}</strong>:{parts[1]}'
+            bullet_items.append(f'<li>{bullet_text}</li>')
         bullets_html = f'<ul>{chr(10).join(bullet_items)}</ul>'
     
     desc_html = f'<p>{feat_desc}</p>' if feat_desc else ''
@@ -374,12 +432,12 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
     card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
     
     return f'''
-        <div class="feature-card {card_class}"{card_style}>
+        <article class="feature-card {card_class}"{card_style}>
             {media_html}
             <h3>{feat_title}</h3>
             {desc_html}
             {bullets_html}
-        </div>'''
+        </article>'''
 
 def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any]) -> str:
     title = translate(section['title'], lang_data)
@@ -396,13 +454,23 @@ def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]
         bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
-    # For desktop 2/1 layout: group categories by feature count
+    # For desktop 2/1 layout: determine threshold based on median
     items_with_counts = []
+    feature_counts = []
     for category in categories_data:
         feature_count = len(category.get('features', []))
         items_with_counts.append((category, feature_count))
+        feature_counts.append(feature_count)
     
-    # Create brick pattern: alternate large-small with small-large
+    # Calculate median feature count as threshold
+    if feature_counts:
+        sorted_counts = sorted(feature_counts)
+        median = sorted_counts[len(sorted_counts) // 2]
+        threshold = median
+    else:
+        threshold = 0
+    
+    # Create brick pattern: pair large items with small items
     brick_pattern = []
     used_indices = set()
     
@@ -421,9 +489,9 @@ def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]
                 continue
                 
             item, count = items_with_counts[j]
-            if count >= 6 and large is None:
+            if count > threshold and large is None:
                 large = (item, count, j)
-            elif count < 6 and small is None:
+            elif count <= threshold and small is None:
                 small = (item, count, j)
             
             if large and small:
@@ -448,20 +516,16 @@ def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]
     for idx, row in enumerate(brick_pattern):
         if row[1] is not None:  # We have both large and small
             large_item, small_item = row
-            # Alternate the order: even rows are large-small, odd rows are small-large
-            if idx % 2 == 0:
-                categories.append(render_feature_category(large_item[0], lang_data, False, gradient))
-                categories.append(render_feature_category(small_item[0], lang_data, True, gradient))
-            else:
-                categories.append(render_feature_category(small_item[0], lang_data, True, gradient))
-                categories.append(render_feature_category(large_item[0], lang_data, False, gradient))
+            # Always render large first, small second for consistent layout
+            categories.append(render_feature_category(large_item[0], lang_data, False, gradient))
+            categories.append(render_feature_category(small_item[0], lang_data, True, gradient))
         else:  # Only one item
             categories.append(render_feature_category(row[0][0], lang_data, False, gradient))
     
     return f'''
-    <section class="feature-categories-section {bg_class}"{bg_style}>
+    <section class="feature-categories-section {bg_class}"{bg_style} aria-labelledby="feature-categories-heading">
         <div class="container">
-            <h2>{title}</h2>
+            <h2 id="feature-categories-heading">{title}</h2>
             <div class="categories-grid {grid_class}">
                 {chr(10).join(categories)}
             </div>
@@ -480,12 +544,12 @@ def render_feature_category(category: Dict[str, Any], lang_data: Dict[str, str],
     card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
     
     return f'''
-        <div class="feature-category {card_class}"{card_style}>
+        <article class="feature-card {card_class}"{card_style}>
             <h3>{cat_title}</h3>
             <ul>
                 {chr(10).join(features_list)}
             </ul>
-        </div>'''
+        </article>'''
 
 def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
     title = translate(section.get('title', ''), lang_data)
@@ -505,17 +569,18 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
         
         author_line = f"{author}, {company}" if company else author
         testimonials.append(f'''
-        <div class="testimonial-card">
+        <article class="testimonial-card">
             <blockquote>
                 <p>"{quote}"</p>
                 <footer>— {author_line}</footer>
             </blockquote>
-        </div>''')
+        </article>''')
     
-    title_html = f'<h2>{title}</h2>' if title else ''
+    title_html = f'<h2 id="testimonials-heading">{title}</h2>' if title else ''
+    aria_label = ' aria-labelledby="testimonials-heading"' if title else ' aria-label="Customer testimonials"'
     
     return f'''
-    <section class="testimonials-section {bg_class}"{bg_style}>
+    <section class="testimonials-section {bg_class}"{bg_style}{aria_label}>
         <div class="container">
             {title_html}
             <div class="testimonials-grid">
@@ -557,7 +622,7 @@ def render_google_reviews(section: Dict[str, Any], lang_data: Dict[str, str]) ->
             </div>'''
     
     return f'''
-    <section class="google-reviews-section {bg_class}"{bg_style}>
+    <section class="google-reviews-section {bg_class}"{bg_style} aria-label="Google reviews">
         <div class="container">
             <div class="google-reviews-content">
                 <div class="google-reviews-stars">
@@ -584,20 +649,26 @@ def render_faq(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
         question = translate(item['question'], lang_data)
         answer = translate(item['answer'], lang_data)
         
+        # Generate unique IDs for aria-controls
+        item_id = f"faq-item-{idx}"
+        answer_id = f"faq-answer-{idx}"
+        
         faq_items.append(f'''
-        <div class="faq-item">
-            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')" aria-expanded="false">
-                {question}
-            </button>
-            <div class="faq-answer">
+        <div class="faq-item" id="{item_id}">
+            <h3>
+                <button class="faq-question" onclick="this.parentElement.parentElement.classList.toggle('active'); this.setAttribute('aria-expanded', this.parentElement.parentElement.classList.contains('active'));" aria-expanded="false" aria-controls="{answer_id}">
+                    {question}
+                </button>
+            </h3>
+            <div class="faq-answer" id="{answer_id}">
                 <p>{answer}</p>
             </div>
         </div>''')
     
     return f'''
-    <section class="faq-section {bg_class}"{bg_style}>
+    <section class="faq-section {bg_class}"{bg_style} aria-labelledby="faq-heading">
         <div class="container">
-            <h2>{title}</h2>
+            <h2 id="faq-heading">{title}</h2>
             <div class="faq-list">
                 {chr(10).join(faq_items)}
             </div>
@@ -620,18 +691,18 @@ def render_contact_form(section: Dict[str, Any], lang_data: Dict[str, str], conf
     subtitle_html = f'<p class="section-subtitle">{subtitle}</p>' if subtitle else ''
     
     return f'''
-    <section class="contact-section {bg_class}"{bg_style}>
+    <section class="contact-section {bg_class}"{bg_style} aria-labelledby="contact-heading">
         <div class="container">
-            <h2>{title}</h2>
+            <h2 id="contact-heading">{title}</h2>
             {subtitle_html}
             <div class="contact-info">
                 <div class="contact-item">
                     <strong>{translate("contact_phone", lang_data)}:</strong>
-                    <a href="tel:{phone}">{phone}</a>
+                    <a href="tel:{phone}" aria-label="{translate('contact_phone', lang_data)}: {phone}">{phone}</a>
                 </div>
                 <div class="contact-item">
                     <strong>{translate("contact_email", lang_data)}:</strong>
-                    <a href="mailto:{email}">{email}</a>
+                    <a href="mailto:{email}" aria-label="{translate('contact_email', lang_data)}: {email}">{email}</a>
                 </div>
             </div>
         </div>
@@ -685,6 +756,8 @@ def generate_page(page: Dict[str, Any], config: Dict[str, Any], lang: str, templ
     page_html = page_html.replace('{{META_DESCRIPTION}}', translate('site_description', lang_data))
     page_html = page_html.replace('{{LANG}}', lang)
     page_html = page_html.replace('{{BASE_URL}}', base_url)
+    page_html = page_html.replace('{{SKIP_TO_CONTENT}}', translate('skip_to_content', lang_data))
+    page_html = page_html.replace('{{NAV_HOME_LABEL}}', translate('nav_home_label', lang_data))
     page_html = page_html.replace('{{NAV_LOGO}}', nav_logo_html)
     page_html = page_html.replace('{{NAV_TITLE}}', translate('site_brand', lang_data))
     page_html = page_html.replace('{{NAV_LINKS}}', nav_html)
@@ -724,7 +797,97 @@ def main():
                 (lang_dir / f"{page['slug']}.html").write_text(html, encoding='utf-8')
     
     default_lang = config.get('default_language', list(config['languages'].keys())[0])
-    shutil.copy(dist / default_lang / 'index.html', dist / 'index.html')
+    base_url = config.get('base_url', '')
+    
+    # Generate root index.html with language detection
+    index_html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raylay ERP - Enterprise Resource Planning</title>
+    <style>
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }}
+        .container {{
+            text-align: center;
+            max-width: 600px;
+        }}
+        h1 {{
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }}
+        p {{
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }}
+        .links {{
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }}
+        a {{
+            display: inline-block;
+            padding: 14px 32px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }}
+        a:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }}
+    </style>
+    <script>
+        // Detect browser language and redirect
+        (function() {{
+            var userLang = navigator.language || navigator.userLanguage;
+            var langCode = userLang.split('-')[0].toLowerCase();
+            var availableLanguages = {list(config['languages'].keys())};
+            var baseUrl = '{base_url}';
+            
+            // Check if user's language is supported
+            if (availableLanguages.indexOf(langCode) !== -1) {{
+                window.location.href = baseUrl + '/' + langCode + '/';
+            }} else {{
+                // Fallback to default language
+                window.location.href = baseUrl + '/{default_lang}/';
+            }}
+        }})();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Raylay ERP</h1>
+        <p>Please select your language:</p>
+        <div class="links">'''
+    
+    for lang_code, lang_data in config['languages'].items():
+        lang_name = lang_data['name']
+        index_html += f'\n            <a href="{base_url}/{lang_code}/">{lang_name}</a>'
+    
+    index_html += '''
+        </div>
+    </div>
+</body>
+</html>'''
+    
+    (dist / 'index.html').write_text(index_html, encoding='utf-8')
 
 if __name__ == '__main__':
     main()

@@ -8,12 +8,43 @@
     --font-serif: 'Crimson Pro', Georgia, serif;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-display: 'Playfair Display', Georgia, serif;
+    --focus-color: #667eea;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* Skip to Content Link - Accessibility */
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--focus-color);
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 1000;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* Focus Indicators - Accessibility */
+*:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+a:focus,
+button:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
 }
 
 body {
@@ -57,6 +88,13 @@ main {
     padding-bottom: 20px;
 }
 
+.nav-brand-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
 .nav-brand {
     font-family: var(--font-serif);
     font-size: 22px;
@@ -86,6 +124,7 @@ main {
     color: var(--color-text-light);
     text-decoration: none;
     font-size: 15px;
+    font-weight: 600;
     transition: color 0.2s;
     cursor: pointer;
 }
@@ -464,12 +503,22 @@ main {
 }
 
 .feature-card ul li {
-    padding: 8px 0;
+    padding: 6px 0;
     padding-left: 28px;
     position: relative;
-    color: var(--color-text-light);
-    font-size: 16px;
-    line-height: 1.6;
+    color: var(--color-text);
+    font-size: 17px;
+    line-height: 1.4;
+}
+
+.feature-card ul li strong {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.feature-card.has-gradient ul li,
+.feature-card.has-gradient ul li strong {
+    color: white;
 }
 
 .feature-card ul li:before {
@@ -736,6 +785,13 @@ main {
     margin-bottom: 0;
 }
 
+.faq-item h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: inherit;
+    font-size: inherit;
+}
+
 .faq-section.has-gradient .faq-item {
     border-bottom-color: rgba(255, 255, 255, 0.2);
 }
@@ -753,6 +809,11 @@ main {
     cursor: pointer;
     position: relative;
     transition: color 0.2s;
+}
+
+.faq-question:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
 }
 
 .faq-section.has-gradient .faq-question {

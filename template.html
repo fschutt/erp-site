@@ -11,9 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-to-content">{{SKIP_TO_CONTENT}}</a>
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="container">
-            <div class="nav-brand">{{NAV_LOGO}}</div>
+            <a href="{{BASE_URL}}/{{LANG}}/" class="nav-brand-link" aria-label="{{NAV_HOME_LABEL}}">
+                <div class="nav-brand">{{NAV_LOGO}}</div>
+            </a>
             <div class="nav-right">
                 <div class="nav-links" role="menu">{{NAV_LINKS}}</div>
                 <div class="lang-switcher" role="menu" aria-label="Language switcher">{{LANG_SWITCHER}}</div>
@@ -21,7 +24,7 @@
         </div>
     </nav>
 
-    <main role="main">
+    <main id="main-content" role="main">
         {{CONTENT}}
     </main>
 

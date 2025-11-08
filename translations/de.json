@@ -1,8 +1,10 @@
 {
   "site_title": "Raylay ERP - Enterprise Resource Planning",
   "site_brand": "Raylay ERP",
-  "site_description": "Umfassendes Management für moderne Unternehmen. Raylay ERP integriert jeden Aspekt Ihrer Organisation in eine einheitliche, intelligente Plattform.",
+  "site_description": "Management für moderne Unternehmen. Raylay ERP integriert jeden Aspekt Ihrer Organisation in eine einheitliche, intelligente Plattform.",
   
+  "skip_to_content": "Zum Hauptinhalt springen",
+  "nav_home_label": "Zur Raylay ERP Startseite",
   "nav_home": "Start",
   "nav_why": "Warum Raylay",
   "nav_features": "Funktionen",
@@ -12,7 +14,7 @@
   "nav_about": "Über uns",
   "nav_contact": "Kontakt",
   
-  "hero_title": "Umfassendes Management für moderne Unternehmen",
+  "hero_title": "Management für moderne Unternehmen",
   "hero_subtitle": "Raylay ERP integriert jeden Aspekt Ihrer Organisation – von Kundenbeziehungen und Finanzbuchhaltung bis hin zu Fertigung und Logistik – in eine einheitliche, intelligente Plattform.",
   
   "view_demo": "Online-Demo",
