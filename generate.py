@@ -149,6 +149,8 @@ def render_text_section(section: Dict[str, Any], lang_data: Dict[str, str], lang
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
+    if background:
+        bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
     image_config = section.get('image', {})
@@ -240,14 +242,23 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
     # Create brick pattern: alternate large-small with small-large
     # Items with fewer bullets (1-column) get gradient background
     brick_pattern = []
+    used_indices = set()
+    
     i = 0
     while i < len(items_with_counts):
+        if i in used_indices:
+            i += 1
+            continue
+            
         # Find next large and small items
         large = None
         small = None
         
         # Get two items for a row
-        for j in range(i, min(i + 4, len(items_with_counts))):
+        for j in range(i, len(items_with_counts)):
+            if j in used_indices:
+                continue
+                
             item, count = items_with_counts[j]
             if count >= 3 and large is None:
                 large = (item, count, j)
@@ -260,16 +271,14 @@ def render_features_grid(section: Dict[str, Any], lang_data: Dict[str, str], con
         # If we found both, use them
         if large and small:
             brick_pattern.append((large, small))
-            items_with_counts[large[2]] = None
-            items_with_counts[small[2]] = None
+            used_indices.add(large[2])
+            used_indices.add(small[2])
         # Otherwise just add what we have left
-        elif i < len(items_with_counts) and items_with_counts[i] is not None:
+        elif i not in used_indices:
             brick_pattern.append(((items_with_counts[i][0], items_with_counts[i][1], i), None))
+            used_indices.add(i)
         
         i += 1
-        # Skip items we've already added
-        while i < len(items_with_counts) and items_with_counts[i] is None:
-            i += 1
     
     # Determine if we should use 2/1 grid
     use_2_1_grid = len(items_data) > 2 and any(len(f.get('bullets', [])) > 0 for f in items_data)
@@ -357,38 +366,111 @@ def render_feature_card(feature: Dict[str, Any], lang_data: Dict[str, str], base
             {bullets_html}
         </div>'''
 
-def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
+def render_feature_categories(section: Dict[str, Any], lang_data: Dict[str, str], config: Dict[str, Any]) -> str:
     title = translate(section['title'], lang_data)
-    categories = []
+    categories_data = section.get('categories', [])
+    
+    # Get gradient from section or config
+    gradient = section.get('gradient', config.get('default_gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'))
+    has_section_gradient = bool(section.get('background', ''))
     
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
+    if has_section_gradient:
+        bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
-    for category in section.get('categories', []):
-        cat_title = translate(category['title'], lang_data)
-        features_list = []
-        for feature in category.get('features', []):
-            features_list.append(f'<li>{translate(feature, lang_data)}</li>')
+    # For desktop 2/1 layout: group categories by feature count
+    items_with_counts = []
+    for category in categories_data:
+        feature_count = len(category.get('features', []))
+        items_with_counts.append((category, feature_count))
+    
+    # Create brick pattern: alternate large-small with small-large
+    brick_pattern = []
+    used_indices = set()
+    
+    i = 0
+    while i < len(items_with_counts):
+        if i in used_indices:
+            i += 1
+            continue
+            
+        large = None
+        small = None
         
-        categories.append(f'''
-        <div class="feature-category">
-            <h3>{cat_title}</h3>
-            <ul>
-                {chr(10).join(features_list)}
-            </ul>
-        </div>''')
+        # Get two items for a row
+        for j in range(i, len(items_with_counts)):
+            if j in used_indices:
+                continue
+                
+            item, count = items_with_counts[j]
+            if count >= 6 and large is None:
+                large = (item, count, j)
+            elif count < 6 and small is None:
+                small = (item, count, j)
+            
+            if large and small:
+                break
+        
+        # If we found both, use them
+        if large and small:
+            brick_pattern.append((large, small))
+            used_indices.add(large[2])
+            used_indices.add(small[2])
+        elif i not in used_indices:
+            brick_pattern.append(((items_with_counts[i][0], items_with_counts[i][1], i), None))
+            used_indices.add(i)
+        
+        i += 1
+    
+    # Determine if we should use 2/1 grid
+    use_2_1_grid = len(categories_data) > 2 and any(len(c.get('features', [])) > 0 for c in categories_data)
+    grid_class = 'grid-2-1' if use_2_1_grid else ''
+    
+    categories = []
+    for idx, row in enumerate(brick_pattern):
+        if row[1] is not None:  # We have both large and small
+            large_item, small_item = row
+            # Alternate the order: even rows are large-small, odd rows are small-large
+            if idx % 2 == 0:
+                categories.append(render_feature_category(large_item[0], lang_data, False, gradient))
+                categories.append(render_feature_category(small_item[0], lang_data, True, gradient))
+            else:
+                categories.append(render_feature_category(small_item[0], lang_data, True, gradient))
+                categories.append(render_feature_category(large_item[0], lang_data, False, gradient))
+        else:  # Only one item
+            categories.append(render_feature_category(row[0][0], lang_data, False, gradient))
     
     return f'''
     <section class="feature-categories-section {bg_class}"{bg_style}>
         <div class="container">
             <h2>{title}</h2>
-            <div class="categories-grid">
+            <div class="categories-grid {grid_class}">
                 {chr(10).join(categories)}
             </div>
         </div>
     </section>'''
+
+def render_feature_category(category: Dict[str, Any], lang_data: Dict[str, str], is_small: bool, gradient: str) -> str:
+    """Render a single feature category card."""
+    cat_title = translate(category['title'], lang_data)
+    features_list = []
+    for feature in category.get('features', []):
+        features_list.append(f'<li>{translate(feature, lang_data)}</li>')
+    
+    # Small items (1 column) get gradient background
+    card_class = 'has-gradient' if is_small else ''
+    card_style = f' style="--card-gradient: {gradient};"' if is_small else ''
+    
+    return f'''
+        <div class="feature-category {card_class}"{card_style}>
+            <h3>{cat_title}</h3>
+            <ul>
+                {chr(10).join(features_list)}
+            </ul>
+        </div>'''
 
 def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
     title = translate(section.get('title', ''), lang_data)
@@ -397,6 +479,8 @@ def render_testimonials(section: Dict[str, Any], lang_data: Dict[str, str]) -> s
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
+    if background:
+        bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
     for testimonial in section.get('items', []):
@@ -433,6 +517,8 @@ def render_google_reviews(section: Dict[str, Any], lang_data: Dict[str, str]) ->
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
+    if background:
+        bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
     # Generate star display (filled and empty stars)
@@ -460,10 +546,45 @@ def render_google_reviews(section: Dict[str, Any], lang_data: Dict[str, str]) ->
         <div class="container">
             <div class="google-reviews-content">
                 <div class="google-reviews-stars">
-                    <span class="stars">{stars_html}</span>
+                    <span class="stars" aria-label="{rating} stars">{stars_html}</span>
                     <span class="rating-text">{rating_text}</span>
                 </div>
                 {link_html}
+            </div>
+        </div>
+    </section>'''
+
+def render_faq(section: Dict[str, Any], lang_data: Dict[str, str]) -> str:
+    title = translate(section.get('title', ''), lang_data)
+    
+    # Handle section background
+    background = section.get('background', '')
+    bg_class = 'section-has-background' if background else ''
+    if background:
+        bg_class += ' has-gradient'
+    bg_style = f' style="background: {background};"' if background else ''
+    
+    faq_items = []
+    for idx, item in enumerate(section.get('items', [])):
+        question = translate(item['question'], lang_data)
+        answer = translate(item['answer'], lang_data)
+        
+        faq_items.append(f'''
+        <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')" aria-expanded="false">
+                {question}
+            </button>
+            <div class="faq-answer">
+                <p>{answer}</p>
+            </div>
+        </div>''')
+    
+    return f'''
+    <section class="faq-section {bg_class}"{bg_style}>
+        <div class="container">
+            <h2>{title}</h2>
+            <div class="faq-list">
+                {chr(10).join(faq_items)}
             </div>
         </div>
     </section>'''
@@ -477,6 +598,8 @@ def render_contact_form(section: Dict[str, Any], lang_data: Dict[str, str], conf
     # Handle section background
     background = section.get('background', '')
     bg_class = 'section-has-background' if background else ''
+    if background:
+        bg_class += ' has-gradient'
     bg_style = f' style="background: {background};"' if background else ''
     
     subtitle_html = f'<p class="section-subtitle">{subtitle}</p>' if subtitle else ''
@@ -512,11 +635,13 @@ def render_section(section: Dict[str, Any], lang_data: Dict[str, str], config: D
     elif section_type == 'features_grid':
         return render_features_grid(section, lang_data, config)
     elif section_type == 'feature_categories':
-        return render_feature_categories(section, lang_data)
+        return render_feature_categories(section, lang_data, config)
     elif section_type == 'testimonials':
         return render_testimonials(section, lang_data)
     elif section_type == 'google_reviews':
         return render_google_reviews(section, lang_data)
+    elif section_type == 'faq':
+        return render_faq(section, lang_data)
     elif section_type == 'contact':
         return render_contact_form(section, lang_data, config, lang)
     

@@ -1,7 +1,7 @@
 {
   "site_title": "Raylay ERP - Enterprise Resource Planning",
   "site_brand": "Raylay ERP",
-  "site_description": "Umfassendes Geschäftsmanagement für moderne Unternehmen. Raylay ERP integriert jeden Aspekt Ihrer Organisation in eine einheitliche, intelligente Plattform.",
+  "site_description": "Umfassendes Management für moderne Unternehmen. Raylay ERP integriert jeden Aspekt Ihrer Organisation in eine einheitliche, intelligente Plattform.",
   
   "nav_home": "Start",
   "nav_why": "Warum Raylay",
@@ -10,7 +10,7 @@
   "nav_about": "Über uns",
   "nav_contact": "Kontakt",
   
-  "hero_title": "Umfassendes Geschäftsmanagement für moderne Unternehmen",
+  "hero_title": "Umfassendes Management für moderne Unternehmen",
   "hero_subtitle": "Raylay ERP integriert jeden Aspekt Ihrer Organisation – von Kundenbeziehungen und Finanzbuchhaltung bis hin zu Fertigung und Logistik – in eine einheitliche, intelligente Plattform.",
   
   "view_demo": "Demo ansehen",
@@ -191,6 +191,22 @@
   "contact_subtitle": "Wir würden uns freuen, zu besprechen, wie Raylay ERP die spezifischen Anforderungen Ihrer Organisation unterstützen kann.",
   "contact_phone": "Telefon",
   "contact_email": "E-Mail",
+  
+  "faq_title": "Häufig gestellte Fragen",
+  "faq_q1": "Was ist ein ERP-System?",
+  "faq_a1": "Ein ERP-System (Enterprise Resource Planning) ist eine umfassende Geschäftsmanagementsoftware, die alle Kerngeschäftsprozesse in einer einheitlichen Plattform integriert. Raylay ERP verbindet Vertrieb, Finanzen, Lager, Fertigung, Personalwesen und Logistik – beseitigt Datensilos und manuelle Prozesse und bietet gleichzeitig Echtzeit-Transparenz über Ihre gesamte Organisation.",
+  "faq_q2": "Was unterscheidet Raylay ERP von anderen Lösungen?",
+  "faq_a2": "Raylay ERP bietet ein einzigartig umfassendes Funktionsset mit CRM, Finanzbuchhaltung, Fertigung, Personalwesen, Projektmanagement und Abonnement-Abrechnung – alles auf einem einheitlichen Datenmodell aufgebaut. Im Gegensatz zu modularen Systemen, die teure Integrationen erfordern, funktioniert jede Funktion in Raylay ERP nahtlos zusammen. Unsere Plattform ist zudem hochgradig konfigurierbar ohne individuelle Entwicklung, und wir bieten Funktionen auf Enterprise-Niveau zu einem Bruchteil traditioneller ERP-Kosten.",
+  "faq_q3": "Ist ein ERP-System das Richtige für mein Unternehmen?",
+  "faq_a3": "Wenn Sie mehrere Geschäftsprozesse (Vertrieb, Lager, Buchhaltung, Produktion usw.) über verschiedene Systeme oder Tabellenkalkulationen verwalten, kann ein ERP-System Effizienz und Datengenauigkeit dramatisch verbessern. Unternehmen profitieren typischerweise von einem ERP, wenn sie Wachstumsherausforderungen erleben, bessere finanzielle Transparenz benötigen, mit der Lagerverwaltung kämpfen oder integrierte Berichte über Abteilungen hinweg benötigen.",
+  "faq_q4": "Welche Kosten sind mit der Implementierung von Raylay ERP verbunden?",
+  "faq_a4": "Die Preisgestaltung von Raylay ERP basiert auf der Größe und den spezifischen Anforderungen Ihrer Organisation. Im Gegensatz zu traditionellen ERP-Systemen mit teuren Lizenz- und Implementierungsgebühren bieten wir transparente abonnementbasierte Preise. Die Kosten umfassen Software-Lizenzierung, initiale Einrichtung und Konfiguration, Datenmigration, Benutzerschulung und optionalen fortlaufenden Support. Wir erstellen detaillierte Kostenschätzungen während unseres Beratungsprozesses, die auf Ihre spezifischen Bedürfnisse zugeschnitten sind.",
+  "faq_q5": "Wie lange dauert die Implementierung?",
+  "faq_a5": "Implementierungszeiträume variieren je nach Organisationsgröße und Komplexität. Eine Basis-Implementierung für ein kleines Unternehmen kann in 4-8 Wochen abgeschlossen werden. Mittelständische Organisationen benötigen typischerweise 3-6 Monate für eine umfassende Implementierung. Große Unternehmen mit komplexen Anforderungen benötigen möglicherweise 6-12 Monate. Wir verwenden einen phasenweisen Ansatz, der es Ihnen ermöglicht, Kernmodule schnell zu nutzen, während zusätzliche Funktionen weiter ausgerollt werden.",
+  "faq_q6": "Welche Ressourcen werden während der Umstellung benötigt?",
+  "faq_a6": "Eine erfolgreiche ERP-Implementierung erfordert dedizierte Zeit von wichtigen Stakeholdern in Ihrer Organisation. Sie benötigen Fachexperten aus jeder Abteilung (typischerweise 5-10 Stunden pro Woche während der Implementierung), einen internen Projektmanager, IT-Support für das technische Setup und Executive Sponsorship. Wir bieten umfassende Schulungen und Dokumentation, um die Lernkurve für Ihr Team zu minimieren.",
+  "faq_q7": "Wie sollten wir uns optimal auf eine ERP-Implementierung vorbereiten?",
+  "faq_a7": "Erfolgreiche ERP-Implementierung beginnt mit Vorbereitung: Dokumentieren Sie Ihre aktuellen Geschäftsprozesse, identifizieren Sie Schmerzpunkte und Verbesserungsmöglichkeiten, bereinigen Sie vorhandene Daten (Kundenakten, Lagerlisten usw.), definieren Sie klare Projektziele und Erfolgsmetriken, sichern Sie Executive Buy-in und Budget-Genehmigung, und stellen Sie Ihr Implementierungsteam zusammen. Wir bieten eine detaillierte Vorbereitungs-Checkliste und führen Discovery-Sitzungen durch, um sicherzustellen, dass Ihre Organisation für einen reibungslosen Übergang bereit ist.",
   
   "footer_text": "© 2025 Raylay ERP. Alle Rechte vorbehalten."
 }

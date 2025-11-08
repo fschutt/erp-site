@@ -1,7 +1,7 @@
 {
   "site_title": "Raylay ERP - Enterprise Resource Planning",
   "site_brand": "Raylay ERP",
-  "site_description": "Comprehensive business management for the modern enterprise. Raylay ERP integrates every aspect of your organization into a unified, intelligent platform.",
+  "site_description": "Comprehensive management for the modern enterprise. Raylay ERP integrates every aspect of your organization into a unified, intelligent platform.",
   
   "nav_home": "Home",
   "nav_why": "Why Raylay",
@@ -10,7 +10,7 @@
   "nav_about": "About Us",
   "nav_contact": "Contact",
   
-  "hero_title": "Comprehensive business management for the modern enterprise",
+  "hero_title": "Comprehensive management for the modern enterprise",
   "hero_subtitle": "Raylay ERP integrates every aspect of your organization—from customer relationships and financial accounting to manufacturing and logistics—into a unified, intelligent platform.",
   
   "view_demo": "View Demo",
@@ -191,6 +191,22 @@
   "contact_subtitle": "We would be pleased to discuss how Raylay ERP can support your organization's specific requirements.",
   "contact_phone": "Phone",
   "contact_email": "Email",
+  
+  "faq_title": "Frequently Asked Questions",
+  "faq_q1": "What is an ERP system?",
+  "faq_a1": "An ERP (Enterprise Resource Planning) system is comprehensive business management software that integrates all core business processes into a single unified platform. Raylay ERP connects sales, finance, inventory, manufacturing, HR, and logistics—eliminating data silos and manual processes while providing real-time visibility across your entire organization.",
+  "faq_q2": "How does Raylay ERP differ from other solutions?",
+  "faq_a2": "Raylay ERP offers a uniquely comprehensive feature set spanning CRM, financial accounting, manufacturing, HR, project management, and subscription billing—all built on a unified data model. Unlike modular systems that require expensive integrations, every feature in Raylay ERP works seamlessly together. Our platform is also highly configurable without custom development, and we provide enterprise-grade capabilities at a fraction of traditional ERP costs.",
+  "faq_q3": "Is an ERP system right for my business?",
+  "faq_a3": "If you're managing multiple business processes (sales, inventory, accounting, production, etc.) across different systems or spreadsheets, an ERP system can dramatically improve efficiency and data accuracy. Companies typically benefit from an ERP when they experience growth challenges, need better financial visibility, struggle with inventory management, or require integrated reporting across departments.",
+  "faq_q4": "What are the costs associated with implementing Raylay ERP?",
+  "faq_a4": "Raylay ERP pricing is based on your organization's size and specific requirements. Unlike traditional ERP systems with expensive licensing and implementation fees, we offer transparent subscription-based pricing. Costs include software licensing, initial setup and configuration, data migration, user training, and optional ongoing support. We provide detailed cost estimates during our consultation process tailored to your specific needs.",
+  "faq_q5": "How long does implementation take?",
+  "faq_a5": "Implementation timelines vary based on organization size and complexity. A basic implementation for a small company can be completed in 4-8 weeks. Mid-sized organizations typically require 3-6 months for comprehensive implementation. Large enterprises with complex requirements may need 6-12 months. We use a phased approach, allowing you to start using core modules quickly while continuing to deploy additional functionality.",
+  "faq_q6": "What resources are needed during the transition?",
+  "faq_a6": "A successful ERP implementation requires dedicated time from key stakeholders across your organization. You'll need subject matter experts from each department (typically 5-10 hours per week during implementation), an internal project manager, IT support for technical setup, and executive sponsorship. We provide comprehensive training and documentation to minimize the learning curve for your team.",
+  "faq_q7": "How should we prepare for ERP implementation?",
+  "faq_a7": "Successful ERP implementation starts with preparation: document your current business processes, identify pain points and improvement opportunities, clean up existing data (customer records, inventory lists, etc.), define clear project goals and success metrics, secure executive buy-in and budget approval, and assemble your implementation team. We provide a detailed preparation checklist and conduct discovery sessions to ensure your organization is ready for a smooth transition.",
   
   "footer_text": "© 2025 Raylay ERP. All rights reserved."
 }

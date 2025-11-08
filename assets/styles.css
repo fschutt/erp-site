@@ -23,6 +23,13 @@ body {
     color: var(--color-text);
     background: var(--color-bg);
     -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
 }
 
 .container {
@@ -80,6 +87,7 @@ body {
     text-decoration: none;
     font-size: 15px;
     transition: color 0.2s;
+    cursor: pointer;
 }
 
 .nav-links a:hover,
@@ -98,6 +106,7 @@ body {
     color: var(--color-text-light);
     text-decoration: none;
     transition: color 0.2s;
+    cursor: pointer;
 }
 
 .lang-switcher a:hover {
@@ -205,6 +214,7 @@ body {
     border-radius: 2px;
     transition: all 0.2s;
     letter-spacing: 0.01em;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -239,6 +249,16 @@ body {
 
 .section-has-background {
     border-bottom: none;
+}
+
+.text-section.has-gradient {
+    color: white;
+}
+
+.text-section.has-gradient h2,
+.text-section.has-gradient .prose,
+.text-section.has-gradient .prose p {
+    color: white;
 }
 
 .section-image img,
@@ -448,6 +468,16 @@ body {
     padding: 80px 0;
     background: white;
     border-bottom: 1px solid var(--color-border);
+    position: relative;
+}
+
+.feature-categories-section.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.feature-categories-section.has-gradient h2 {
+    color: white;
 }
 
 .feature-categories-section h2 {
@@ -464,11 +494,34 @@ body {
     gap: 48px;
 }
 
+/* Desktop 2/1 brick pattern layout for feature categories */
+@media (min-width: 1024px) {
+    .categories-grid.grid-2-1 {
+        grid-template-columns: 2fr 1fr;
+        gap: 64px;
+        row-gap: 80px;
+    }
+}
+
 .feature-category {
     padding: 32px;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 2px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-category.has-gradient {
+    background: var(--card-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none;
+}
+
+.feature-category.has-gradient:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .feature-category h3 {
@@ -478,6 +531,10 @@ body {
     margin-bottom: 20px;
     letter-spacing: -0.01em;
     color: var(--color-accent);
+}
+
+.feature-category.has-gradient h3 {
+    color: white;
 }
 
 .feature-category ul {
@@ -493,12 +550,20 @@ body {
     line-height: 1.6;
 }
 
+.feature-category.has-gradient li {
+    color: white;
+}
+
 .feature-category li:before {
     content: "•";
     position: absolute;
     left: 8px;
     color: var(--color-accent);
     font-weight: bold;
+}
+
+.feature-category.has-gradient li:before {
+    color: white;
 }
 
 /* Testimonials */
@@ -538,6 +603,7 @@ body {
     color: var(--color-text);
     margin-bottom: 20px;
     font-style: italic;
+    text-align: left;
 }
 
 .testimonial-card footer {
@@ -545,6 +611,7 @@ body {
     font-size: 15px;
     color: var(--color-text-light);
     font-style: normal;
+    text-align: left;
 }
 
 /* Google Reviews */
@@ -554,6 +621,16 @@ body {
     border-bottom: 1px solid var(--color-border);
     text-align: center;
     position: relative;
+}
+
+.google-reviews-section.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.google-reviews-section.has-gradient .rating-text,
+.google-reviews-section.has-gradient a {
+    color: white;
 }
 
 .google-reviews-content {
@@ -593,11 +670,117 @@ body {
     font-size: 16px;
     font-weight: 500;
     transition: color 0.2s;
+    cursor: pointer;
 }
 
 .google-reviews-link a:hover {
     color: var(--color-accent-hover);
     text-decoration: underline;
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 80px 0;
+    background: white;
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+}
+
+.faq-section.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.faq-section.has-gradient h2 {
+    color: white;
+}
+
+.faq-section h2 {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 56px;
+    text-align: center;
+}
+
+.faq-list {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0;
+}
+
+.faq-section.has-gradient .faq-item {
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.faq-question {
+    width: 100%;
+    padding: 24px 48px 24px 0;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.faq-section.has-gradient .faq-question {
+    color: white;
+}
+
+.faq-question:hover {
+    color: var(--color-accent);
+}
+
+.faq-section.has-gradient .faq-question:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    font-weight: 400;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 1000px;
+    padding: 0 0 24px 0;
+}
+
+.faq-answer p {
+    color: var(--color-text-light);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.faq-section.has-gradient .faq-answer p {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Contact */
@@ -606,6 +789,26 @@ body {
     background: white;
     border-bottom: 1px solid var(--color-border);
     position: relative;
+}
+
+.contact-section.has-gradient {
+    color: white;
+    border-bottom: none;
+}
+
+.contact-section.has-gradient h2,
+.contact-section.has-gradient .section-subtitle,
+.contact-section.has-gradient .contact-item,
+.contact-section.has-gradient .contact-item strong {
+    color: white;
+}
+
+.contact-section.has-gradient .contact-item a {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.contact-section.has-gradient .contact-item a:hover {
+    color: white;
 }
 
 .contact-section h2 {
@@ -638,6 +841,7 @@ body {
     color: var(--color-accent);
     text-decoration: none;
     transition: color 0.2s;
+    cursor: pointer;
 }
 
 .contact-item a:hover {
@@ -711,6 +915,10 @@ footer {
     .categories-grid {
         grid-template-columns: 1fr;
         gap: 32px;
+    }
+    
+    .categories-grid.grid-2-1 {
+        grid-template-columns: 1fr;
     }
     
     .testimonials-grid {
