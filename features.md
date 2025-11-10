@@ -100,6 +100,7 @@
 *   **Unified Inbox:** Manage communications from various channels (e.g., email) in one central inbox. Assign messages to team members and link them to relevant records like customers or sales orders.
 *   **Notifications:** Receive in-app notifications for important events, such as when a task is assigned to you or a document requires your approval.
 
+test 
 ### **Support & Helpdesk**
 
 *   **Ticket Management:** Manage customer support requests through a complete ticketing system. Track ticket status, priority, and assignments.
